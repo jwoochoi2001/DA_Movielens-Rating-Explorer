@@ -1,0 +1,13 @@
+# 영화탐색 실습 파이프라인 의존성
+# 설치: pip install -r requirements.txt
+# 개발/검증에 사용한 버전 (그 이상이면 대체로 호환)
+pandas>=2.2,<3
+numpy>=2.0,<3
+matplotlib>=3.8,<4
+
+# streamlit_app.py (영화 추천 탐색기)
+streamlit>=1.30
+
+# (선택) analysis/capture_dashboard.py 대시보드 스크린샷용
+# pip install playwright && playwright install chromium
+# playwright>=1.40

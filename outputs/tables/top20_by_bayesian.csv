@@ -1,0 +1,21 @@
+movieId,title,release_year,genres,n_ratings,mean_rating,rating_std,bayesian_rating
+318,"Shawshank Redemption, The",1994,Crime|Drama,317,4.429,0.713,4.4007
+858,"Godfather, The",1972,Crime|Drama,192,4.2891,0.9043,4.2501
+2959,Fight Club,1999,Action|Crime|Drama|Thriller,218,4.2729,0.8614,4.2391
+1221,"Godfather: Part II, The",1974,Crime|Drama,129,4.2597,0.8031,4.2051
+50,"Usual Suspects, The",1995,Crime|Mystery|Thriller,204,4.2377,0.8009,4.2033
+260,Star Wars: Episode IV - A New Hope,1977,Action|Adventure|Sci-Fi,251,4.2311,0.872,4.2031
+750,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,1964,Comedy|War,97,4.268,0.8071,4.1964
+1213,Goodfellas,1990,Crime|Drama,126,4.25,0.6834,4.195
+527,Schindler's List,1993,Drama|War,220,4.225,0.976,4.1935
+58559,"Dark Knight, The",2008,Action|Crime|Drama|IMAX,149,4.2383,0.725,4.1919
+48516,"Departed, The",2006,Crime|Drama|Thriller,107,4.2523,0.6915,4.1882
+1197,"Princess Bride, The",1987,Action|Adventure|Comedy|Fantasy|Romance,142,4.2324,0.8136,4.1843
+1196,Star Wars: Episode V - The Empire Strikes Back,1980,Action|Adventure|Sci-Fi,211,4.2156,0.8422,4.1833
+904,Rear Window,1954,Mystery|Thriller,84,4.2619,0.7857,4.181
+296,Pulp Fiction,1994,Comedy|Crime|Drama|Thriller,307,4.1971,0.952,4.1751
+1198,Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark),1981,Action|Adventure,200,4.2075,0.7946,4.1739
+912,Casablanca,1942,Drama|Romance,100,4.24,0.9003,4.1729
+2571,"Matrix, The",1999,Action|Sci-Fi|Thriller,278,4.1924,0.9752,4.1685
+2329,American History X,1998,Crime|Drama,129,4.2171,0.643,4.1656
+1208,Apocalypse Now,1979,Action|Drama|War,107,4.2196,0.8332,4.1583

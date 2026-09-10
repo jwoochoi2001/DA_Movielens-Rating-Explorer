@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 가공 데이터는 `python run_all.py` 로 재생성 가능 (analysis_table.csv 는 약 12MB).
+# 원본(data/raw/)과 outputs/ 는 커밋한다 — README 이미지가 outputs/figures/ 를 참조.
+data/processed/

@@ -1,0 +1,75 @@
+"""streamlit_app.py 를 띄워 대시보드 스크린샷을 outputs/screenshots/ 에 저장.
+
+streamlit 서버를 직접 실행하고, playwright(chromium)로 화면을 캡처한 뒤 종료한다.
+
+실행: 프로젝트 루트에서
+    python analysis/capture_dashboard.py
+필요 패키지: streamlit, playwright (+ `playwright install chromium`)
+"""
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "outputs" / "screenshots"
+PORT = 8577
+URL = f"http://localhost:{PORT}"
+
+
+def wait_idle(page, ms=1500):
+    page.wait_for_timeout(ms)
+
+
+def main() -> None:
+    OUT.mkdir(parents=True, exist_ok=True)
+    srv = subprocess.Popen(
+        [sys.executable, "-m", "streamlit", "run", "streamlit_app.py",
+         "--server.port", str(PORT), "--server.headless", "true",
+         "--browser.gatherUsageStats", "false"],
+        cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    try:
+        time.sleep(9)
+        with sync_playwright() as p:
+            browser = p.chromium.launch()
+            page = browser.new_page(viewport={"width": 1440, "height": 1000})
+            page.goto(URL, wait_until="networkidle")
+            wait_idle(page, 2500)
+
+            search = page.get_by_role("textbox", name="제목 또는 장르")
+            search.click()
+            search.fill("matrix")
+            page.keyboard.press("Enter")
+            wait_idle(page, 2500)
+            page.screenshot(path=OUT / "app_01_search.png")
+            print("  ", OUT / "app_01_search.png")
+
+            page.get_by_role("button", name="Matrix, The (1999)").click()
+            wait_idle(page, 2500)
+            page.screenshot(path=OUT / "app_02_detail.png", full_page=True)
+            print("  ", OUT / "app_02_detail.png")
+
+            search.click()
+            search.fill("Film-Noir")
+            page.keyboard.press("Enter")
+            wait_idle(page, 2000)
+            page.get_by_role("button", name="Chinatown (1974)").click()
+            wait_idle(page, 2500)
+            page.screenshot(path=OUT / "app_03_genre_search.png", full_page=True)
+            print("  ", OUT / "app_03_genre_search.png")
+
+            browser.close()
+    finally:
+        srv.terminate()
+        try:
+            srv.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            srv.kill()
+
+
+if __name__ == "__main__":
+    print("screenshots:")
+    main()

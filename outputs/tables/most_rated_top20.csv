@@ -1,0 +1,21 @@
+movieId,title,release_year,genres,n_ratings,mean_rating,rating_std,bayesian_rating
+356,Forrest Gump,1994,Comedy|Drama|Romance|War,329,4.1641,0.8312,4.1446
+318,"Shawshank Redemption, The",1994,Crime|Drama,317,4.429,0.713,4.4007
+296,Pulp Fiction,1994,Comedy|Crime|Drama|Thriller,307,4.1971,0.952,4.1751
+593,"Silence of the Lambs, The",1991,Crime|Horror|Thriller,279,4.1613,0.854,4.1385
+2571,"Matrix, The",1999,Action|Sci-Fi|Thriller,278,4.1924,0.9752,4.1685
+260,Star Wars: Episode IV - A New Hope,1977,Action|Adventure|Sci-Fi,251,4.2311,0.872,4.2031
+480,Jurassic Park,1993,Action|Adventure|Sci-Fi|Thriller,238,3.75,0.8553,3.74
+110,Braveheart,1995,Action|Drama|War,237,4.0316,0.9677,4.0102
+589,Terminator 2: Judgment Day,1991,Action|Sci-Fi,224,3.971,0.9268,3.9509
+527,Schindler's List,1993,Drama|War,220,4.225,0.976,4.1935
+2959,Fight Club,1999,Action|Crime|Drama|Thriller,218,4.2729,0.8614,4.2391
+1,Toy Story,1995,Adventure|Animation|Children|Comedy|Fantasy,215,3.9209,0.8349,3.9023
+1196,Star Wars: Episode V - The Empire Strikes Back,1980,Action|Adventure|Sci-Fi,211,4.2156,0.8422,4.1833
+50,"Usual Suspects, The",1995,Crime|Mystery|Thriller,204,4.2377,0.8009,4.2033
+2858,American Beauty,1999,Drama|Romance,204,4.0564,0.9703,4.0304
+47,Seven (a.k.a. Se7en),1995,Mystery|Thriller,203,3.9754,0.9224,3.9531
+780,Independence Day (a.k.a. ID4),1996,Action|Adventure|Sci-Fi|Thriller,202,3.4455,0.996,3.4482
+150,Apollo 13,1995,Adventure|Drama|IMAX,201,3.8458,0.8767,3.8295
+1198,Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark),1981,Action|Adventure,200,4.2075,0.7946,4.1739
+4993,"Lord of the Rings: The Fellowship of the Ring, The",2001,Adventure|Fantasy,198,4.1061,0.9351,4.077

@@ -1,0 +1,21 @@
+movieId,title,release_year,genres,n_ratings,mean_rating,rating_std,bayesian_rating
+1276,Cool Hand Luke,1967,Drama,57,4.2719,0.6201,4.157
+2329,American History X,1998,Crime|Drama,129,4.2171,0.643,4.1656
+2692,Run Lola Run (Lola rennt),1998,Action|Crime,75,4.0,0.6524,3.9414
+81845,"King's Speech, The",2010,Drama,58,4.0431,0.6641,3.9635
+1213,Goodfellas,1990,Crime|Drama,126,4.25,0.6834,4.195
+48516,"Departed, The",2006,Crime|Drama|Thriller,107,4.2523,0.6915,4.1882
+318,"Shawshank Redemption, The",1994,Crime|Drama,317,4.429,0.713,4.4007
+1259,Stand by Me,1986,Adventure|Drama,91,4.0055,0.7207,3.9556
+58559,"Dark Knight, The",2008,Action|Crime|Drama|IMAX,149,4.2383,0.725,4.1919
+116797,The Imitation Game,2014,Drama|Thriller|War,50,4.02,0.7282,3.9336
+3147,"Green Mile, The",1999,Crime|Drama,111,4.1486,0.7342,4.0952
+1225,Amadeus,1984,Drama,76,4.1842,0.7521,4.1048
+1288,This Is Spinal Tap,1984,Comedy,66,4.0152,0.7543,3.9476
+1193,One Flew Over the Cuckoo's Nest,1975,Drama,133,4.203,0.7589,4.154
+1258,"Shining, The",1980,Horror,109,4.0826,0.7623,4.0337
+78499,Toy Story 3,2010,Adventure|Animation|Children|Comedy|Fantasy|IMAX,55,4.1091,0.7679,4.0156
+6016,City of God (Cidade de Deus),2002,Action|Adventure|Crime|Drama|Thriller,75,4.1467,0.7701,4.0708
+4995,"Beautiful Mind, A",2001,Drama|Romance,123,4.0,0.7709,3.9625
+7361,Eternal Sunshine of the Spotless Mind,2004,Drama|Romance|Sci-Fi,131,4.1603,0.7753,4.1136
+908,North by Northwest,1959,Action|Adventure|Mystery|Romance|Thriller,57,4.1842,0.7771,4.0823

@@ -1,0 +1,21 @@
+movieId,title,release_year,genres,n_ratings,mean_rating,rating_std,bayesian_rating
+2710,"Blair Witch Project, The",1999,Drama|Horror|Thriller,64,2.7969,1.3736,2.8921
+168,First Knight,1995,Action|Drama|Romance,54,3.0833,1.2986,3.1487
+2683,Austin Powers: The Spy Who Shagged Me,1999,Action|Adventure|Comedy,121,3.1983,1.2153,3.2215
+4308,Moulin Rouge,2001,Drama|Musical|Romance,55,3.5909,1.1983,3.5772
+1407,Scream,1996,Comedy|Horror|Mystery|Thriller,70,3.2,1.196,3.2377
+1391,Mars Attacks!,1996,Action|Comedy|Sci-Fi,86,3.093,1.1795,3.1356
+784,"Cable Guy, The",1996,Comedy|Thriller,54,2.8056,1.1753,2.9143
+788,"Nutty Professor, The",1996,Comedy|Fantasy|Romance|Sci-Fi,82,2.7317,1.1738,2.8154
+3785,Scary Movie,2000,Comedy|Horror,50,2.92,1.1709,3.0169
+2395,Rushmore,1998,Comedy|Drama,56,3.5446,1.1571,3.5381
+17,Sense and Sensibility,1995,Drama|Romance,67,3.7761,1.1458,3.7405
+6934,"Matrix Revolutions, The",2003,Action|Adventure|Sci-Fi|Thriller|IMAX,79,3.1519,1.1445,3.1912
+2617,"Mummy, The",1999,Action|Adventure|Comedy|Fantasy|Horror|Thriller,87,3.1207,1.1437,3.16
+48385,Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,2006,Comedy,65,3.3462,1.142,3.3669
+1732,"Big Lebowski, The",1998,Comedy|Crime,106,3.9245,1.1377,3.8881
+5378,Star Wars: Episode II - Attack of the Clones,2002,Action|Adventure|Sci-Fi|IMAX,92,3.1576,1.1337,3.1913
+673,Space Jam,1996,Adventure|Animation|Children|Comedy|Fantasy|Sci-Fi,53,2.7075,1.1285,2.8336
+1380,Grease,1978,Comedy|Musical|Romance,68,3.1397,1.1258,3.1861
+288,Natural Born Killers,1994,Action|Crime|Thriller,92,3.2337,1.1253,3.26
+2628,Star Wars: Episode I - The Phantom Menace,1999,Action|Adventure|Sci-Fi,140,3.1071,1.1217,3.1334
