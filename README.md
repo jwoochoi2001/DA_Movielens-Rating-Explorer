@@ -48,7 +48,9 @@ streamlit run streamlit_app.py    # 영화 추천 탐색기 대시보드
 ```bash
 python analysis/merge_duplicate_movies.py
 python analysis/enrich_movies.py
+python analysis/genre_encode.py
 python analysis/merge_movies_ratings.py
+python analysis/merge_plot_overview.py
 python analysis/bayesian_rating.py
 python analysis/build_analysis_table.py
 python analysis/eda_figures.py
@@ -64,37 +66,45 @@ python analysis/capture_dashboard.py   # (선택) 대시보드 스크린샷, pla
 
 ```mermaid
 flowchart TD
-    RAW["data/raw/<br/>movies.csv · ratings.csv"]
+    RAW["data/raw/<br/>movies.csv · ratings.csv · movie_text_metadata.csv"]
     S1["1. merge_duplicate_movies.py<br/>동일 제목 중복 영화 병합"]
     S2["2. enrich_movies.py<br/>release_year 분리 · 결측 연도/장르 보강"]
-    S3["3. merge_movies_ratings.py<br/>영화 단위 집계 + rating_label(추천지수)"]
-    S4["4. bayesian_rating.py<br/>n_ratings · mean_rating · rating_std · bayesian_rating"]
-    S5["5. build_analysis_table.py<br/>평점 1건 = 1행 최종 테이블 + 시간/장르 파생"]
-    S6["6. eda_figures.py<br/>그림 9 + 표 5"]
+    S3["3. genre_encode.py<br/>장르 원-핫 인코딩 (열 순서 고정)"]
+    S4["4. merge_movies_ratings.py<br/>영화 단위 집계 + rating_label(추천지수)"]
+    S5["5. merge_plot_overview.py<br/>TMDB 줄거리(overview) 병합"]
+    S6["6. bayesian_rating.py<br/>n_ratings · mean_rating · rating_std · bayesian_rating"]
+    S7["7. build_analysis_table.py<br/>평점 1건 = 1행 최종 테이블 + 시간/장르 파생"]
+    S8["8. eda_figures.py<br/>그림 9 + 표 5"]
     APP["streamlit_app.py<br/>검색 · 추천 · 상세 대시보드"]
 
     RAW --> S1 --> P1["processed/movies.csv<br/>processed/ratings.csv"]
     P1 --> S2 --> P2["processed/movies_enriched.csv"]
-    P2 --> S3
-    P1 --> S3 --> P3["processed/movies_with_ratings.csv<br/>processed/label_text.txt"]
+    P2 --> S3 --> P3["processed/movies_genre_onehot.csv"]
     P2 --> S4
-    P1 --> S4 --> P4["processed/movie_scores.csv"]
-    P1 --> S5
-    P4 --> S5 --> P5["processed/analysis_table.csv"]
-    P5 --> S6 --> OUT["outputs/figures/*.png<br/>outputs/tables/*.csv"]
-    P4 --> S6
+    P1 --> S4 --> P4["processed/movies_with_ratings.csv<br/>processed/label_text.txt"]
+    RAW --> S5
+    P4 --> S5 --> P4
+    P2 --> S6
+    P1 --> S6 --> P6["processed/movie_scores.csv"]
+    P1 --> S7
+    P6 --> S7 --> P7["processed/analysis_table.csv"]
+    P7 --> S8 --> OUT["outputs/figures/*.png<br/>outputs/tables/*.csv"]
+    P6 --> S8
     P3 --> APP
+    P4 --> APP
 ```
 
 | 단계 | 스크립트 | 입력 → 출력 |
 |---|---|---|
 | 1 | `merge_duplicate_movies.py` | raw → `movies.csv`, `ratings.csv` |
 | 2 | `enrich_movies.py` | `movies.csv` → `movies_enriched.csv` |
-| 3 | `merge_movies_ratings.py` | `movies_enriched.csv` + `ratings.csv` → `movies_with_ratings.csv`, `label_text.txt` |
-| 4 | `bayesian_rating.py` | `ratings.csv` + `movies_enriched.csv` → `movie_scores.csv` |
-| 5 | `build_analysis_table.py` | `ratings.csv` + `movie_scores.csv` → `analysis_table.csv` |
-| 6 | `eda_figures.py` | `analysis_table.csv` + `movie_scores.csv` → `outputs/` |
-| 앱 | `streamlit_app.py` | `movies_with_ratings.csv` + `ratings.csv` + `label_text.txt` |
+| 3 | `genre_encode.py` | `movies_enriched.csv` → `movies_genre_onehot.csv` |
+| 4 | `merge_movies_ratings.py` | `movies_enriched.csv` + `ratings.csv` → `movies_with_ratings.csv`, `label_text.txt` |
+| 5 | `merge_plot_overview.py` | `movies_with_ratings.csv` + raw `movie_text_metadata.csv` → `movies_with_ratings.csv`(+overview) |
+| 6 | `bayesian_rating.py` | `ratings.csv` + `movies_enriched.csv` → `movie_scores.csv` |
+| 7 | `build_analysis_table.py` | `ratings.csv` + `movie_scores.csv` → `analysis_table.csv` |
+| 8 | `eda_figures.py` | `analysis_table.csv` + `movie_scores.csv` → `outputs/` |
+| 앱 | `streamlit_app.py` | `movies_with_ratings.csv` + `movies_genre_onehot.csv` + `ratings.csv` + `label_text.txt` |
 
 ---
 
@@ -110,18 +120,23 @@ DA_Movielens-Rating-Explorer/
 ├── analysis/
 │   ├── merge_duplicate_movies.py
 │   ├── enrich_movies.py
+│   ├── genre_encode.py              # 장르 원-핫 인코딩
 │   ├── merge_movies_ratings.py
+│   ├── merge_plot_overview.py       # TMDB 줄거리(overview) 병합
+│   ├── genre_similarity.py          # 장르 코사인 유사도 CLI
 │   ├── bayesian_rating.py
 │   ├── build_analysis_table.py
 │   ├── eda_figures.py
 │   └── capture_dashboard.py         # 대시보드 스크린샷 (playwright)
 ├── data/
 │   ├── raw/                         # 원본 (수정 금지)
+│   │   ├── movies.csv, ratings.csv, README.txt        (MovieLens ml-latest-small)
+│   │   └── movie_text_metadata.csv, SOURCES.txt, …    (TMDB 줄거리/출연진, 강의 추가자료)
 │   └── processed/                   # 가공본 (run_all.py 로 재생성, git 미포함)
 └── outputs/
     ├── figures/                     # EDA 그림 9종
     ├── tables/                      # 표 5종
-    └── screenshots/                 # 대시보드 캡처 3종
+    └── screenshots/                 # 대시보드 캡처 7종
 ```
 
 ---
@@ -160,6 +175,20 @@ ratings: 100836 -> 100832
 ```
 
 보강 내역과 근거는 `analysis/enrich_movies.py` 의 `ESTIMATED_YEAR` / `GENRE_FILL` 주석 참고.
+
+### 4-4. TMDB 줄거리 병합 전 중복 점검 (`merge_plot_overview.py`)
+
+`data/raw/movie_text_metadata.csv`(TMDB, 3,537편 커버)를 붙이기 전, 4-2에서 병합했던 동일-제목
+중복 5쌍이 이 메타데이터에도 남아 있는지 확인했다.
+
+| drop → keep | 메타데이터에 존재? | 조치 |
+|---|---|---|
+| 6003 → 144606 | **둘 다 존재**, 내용 동일(`tmdbId 4912`) | LEFT JOIN 특성상 기준 테이블에 없는 `6003`은 자동 무시 — 별도 remap 불필요 |
+| 26958 → 838 / 32600 → 147002 / 168358 → 2851 | 둘 다 없음 | 해당 없음 |
+| 64997 → 34048 | `34048`만 존재 | 해당 없음(충돌 없음) |
+
+메타데이터 자체를 제목 기준으로 전수조사해도 이 한 쌍 외 추가 중복은 없다. 즉 **새로운 병합 작업은
+필요 없고**, `movieId` 기준 LEFT JOIN만으로 안전하게 붙일 수 있다.
 
 ---
 
@@ -224,7 +253,8 @@ $$
 | `movies.csv` | 9,737 × 3 | 483 KB | movieId, title, genres |
 | `ratings.csv` | 100,832 × 4 | 2.4 MB | userId, movieId, rating, timestamp |
 | `movies_enriched.csv` | 9,737 × 6 | 578 KB | + release_year, year_estimated, genres_filled |
-| `movies_with_ratings.csv` | 9,737 × 10 | 709 KB | + mean_rating, rating_count, rating_std, bayesian_rating, pos_ratio, **rating_label** |
+| `movies_genre_onehot.csv` | 9,737 × 23 | 825 KB | movieId, title, release_year, genres + 장르 19개 원-핫(0/1, 열 순서 고정) |
+| `movies_with_ratings.csv` | 9,737 × 11 | 1.7 MB | + mean_rating, rating_count, rating_std, bayesian_rating, pos_ratio, **rating_label**, **overview**(TMDB 줄거리, 3,536편만 존재) |
 | `movie_scores.csv` | 9,737 × 8 | 643 KB | + n_ratings, mean_rating, rating_std, bayesian_rating |
 | `analysis_table.csv` | 100,832 × 16 | 12.7 MB | 평점 1건 = 1행. 위 전부 + rating_dt/rating_year/movie_age/n_genres/primary_genre |
 

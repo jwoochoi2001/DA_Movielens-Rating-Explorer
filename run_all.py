@@ -20,13 +20,17 @@ data/raw/{movies,ratings}.csv 를 입력으로 다음 순서를 실행한다.
         -> data/processed/movies_with_ratings.csv , data/processed/label_text.txt
         (영화 단위: mean_rating, rating_count, rating_std, bayesian_rating(m=10),
          pos_ratio(4점 이상 비율), rating_label(추천지수 0~5))
-  5) analysis/bayesian_rating.py
+  5) analysis/merge_plot_overview.py
+        processed/movies_with_ratings.csv + raw/movie_text_metadata.csv
+        -> data/processed/movies_with_ratings.csv (같은 파일에 overview 열 추가)
+        (TMDB 줄거리 병합, movieId 기준 LEFT JOIN — 3,537편만 존재, 나머지는 결측)
+  6) analysis/bayesian_rating.py
         processed/ratings.csv + movies_enriched.csv -> data/processed/movie_scores.csv
         (영화별 n_ratings, mean_rating, rating_std, bayesian_rating(m=10))
-  6) analysis/build_analysis_table.py
+  7) analysis/build_analysis_table.py
         processed/ratings.csv + movie_scores.csv -> data/processed/analysis_table.csv
         (평점 1건 = 1행 최종 분석 테이블 + 시간/장르 파생)
-  7) analysis/eda_figures.py
+  8) analysis/eda_figures.py
         analysis_table.csv + movie_scores.csv -> outputs/figures/*.png, outputs/tables/*.csv
 
 필요 패키지: requirements.txt 참조 (pandas, numpy, matplotlib)
@@ -42,6 +46,7 @@ STEPS = [
     "analysis/enrich_movies.py",
     "analysis/genre_encode.py",
     "analysis/merge_movies_ratings.py",
+    "analysis/merge_plot_overview.py",
     "analysis/bayesian_rating.py",
     "analysis/build_analysis_table.py",
     "analysis/eda_figures.py",
