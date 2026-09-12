@@ -3,24 +3,30 @@
 data/processed/ 산출물을 바탕으로
   1) 제목·장르로 영화 검색 (평가 수와 무관하게 전부 검색)
   2) 검색한 영화와 같은 장르에서 보정 평점(bayesian_rating) 높은 영화 추천
-  3) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
-  4) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
+  3) 장르 원-핫 벡터의 코사인 유사도로 "비슷한 장르의 영화" 순위 (유사도 높은 순,
+     동점이면 보정 평점 순 / 겹치는 장르가 없거나 장르 정보가 없는 영화는 제외)
+  4) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
+  5) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
      (세션에만 저장 — 브라우저 새로고침/재시작 시 초기화됨)
 
 실행: 프로젝트 루트에서
     streamlit run streamlit_app.py
 
 먼저 `python run_all.py` 로 data/processed/ 를 생성해야 한다.
-필요 패키지: streamlit, pandas
+필요 패키지: streamlit, pandas, numpy
 """
+from __future__ import annotations
+
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent
 PROC = ROOT / "data" / "processed"
 MOVIES_CSV = PROC / "movies_with_ratings.csv"
+GENRE_ONEHOT_CSV = PROC / "movies_genre_onehot.csv"
 RATINGS_CSV = PROC / "ratings.csv"
 RAW_RATINGS_CSV = ROOT / "data" / "raw" / "ratings.csv"
 LABEL_TXT = PROC / "label_text.txt"
@@ -51,6 +57,30 @@ def load_rating_hist() -> pd.DataFrame:
 
 
 @st.cache_data
+def load_genre_matrix() -> pd.DataFrame:
+    """movieId 를 인덱스로 하는 장르 원-핫 매트릭스 (열 순서 고정, 값 0/1)."""
+    df = pd.read_csv(GENRE_ONEHOT_CSV)
+    meta_cols = {"title", "release_year", "genres"}
+    genre_cols = [c for c in df.columns if c not in meta_cols and c != "movieId"]
+    return df.set_index("movieId")[genre_cols]
+
+
+def cosine_similarity_to(mid: int, matrix: pd.DataFrame) -> pd.Series | None:
+    """mid 의 장르 벡터와 matrix 의 모든 행 사이의 코사인 유사도.
+    mid 가 없거나 장르 정보가 전부 0(장르 없음)이면 None."""
+    if mid not in matrix.index:
+        return None
+    vec = matrix.loc[mid].to_numpy(dtype=float)
+    if vec.sum() == 0:
+        return None
+    mat = matrix.to_numpy(dtype=float)
+    dot = mat @ vec
+    norms = np.linalg.norm(mat, axis=1) * np.linalg.norm(vec)
+    sim = np.divide(dot, norms, out=np.zeros_like(dot, dtype=float), where=norms > 0)
+    return pd.Series(sim, index=matrix.index, name="cosine_sim")
+
+
+@st.cache_data
 def load_labels() -> dict:
     labels = {}
     if LABEL_TXT.exists():
@@ -71,6 +101,7 @@ if not MOVIES_CSV.exists():
 movies = load_movies()
 hist = load_rating_hist()
 LABELS = load_labels()
+genre_matrix = load_genre_matrix() if GENRE_ONEHOT_CSV.exists() else None
 
 LABEL_HELP = {
     0: "평가가 하나도 없는 영화",
@@ -262,3 +293,66 @@ else:
             f"<sub>공통 장르: {', '.join(row['shared'])}</sub>",
             unsafe_allow_html=True,
         )
+
+st.markdown("---")
+
+# ---- 비슷한 장르의 영화 (코사인 유사도) ----
+st.subheader("비슷한 장르의 영화")
+st.caption(
+    "장르를 원-핫 벡터로 바꿔 코사인 유사도를 계산합니다. "
+    "겹치는 장르가 하나도 없거나 장르 정보가 없는 영화는 제외하고, "
+    "유사도가 높은 순으로 나열합니다(동점이면 보정 평점 순)."
+)
+
+if genre_matrix is None:
+    st.info(f"`{GENRE_ONEHOT_CSV.relative_to(ROOT)}` 가 없습니다. `python run_all.py` 로 생성하세요.")
+elif not target_genres:
+    st.info("이 영화는 장르 정보가 없어 유사도 기반 추천을 만들 수 없습니다.")
+else:
+    sims = cosine_similarity_to(mid, genre_matrix)
+    if sims is None:
+        st.info("이 영화는 장르 정보가 없어 유사도 기반 추천을 만들 수 없습니다.")
+    else:
+        sims = sims.drop(index=mid, errors="ignore")
+        sims = sims[sims > 0]  # 겹치는 장르가 하나도 없으면(장르 없음 포함) 제외
+
+        sim_df = pd.DataFrame({"movieId": sims.index, "cosine_sim": sims.to_numpy()})
+        sim_df = sim_df.merge(movies, on="movieId", how="left")
+        sim_df["shared"] = sim_df["genre_list"].apply(
+            lambda gs: sorted(target_genres.intersection(gs))
+        )
+        sim_df = sim_df.sort_values(
+            ["cosine_sim", "bayesian_rating"], ascending=[False, False]
+        )
+
+        topn_sim = st.slider("표시 개수", 5, 30, 10, key="sim_topn")
+        st.caption(f"장르 겹치는 영화 {len(sim_df)}편 중 상위 {min(topn_sim, len(sim_df))}편")
+
+        for _, row in sim_df.head(topn_sim).iterrows():
+            yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
+            lab = int(row["rating_label"])
+            rid = row["movieId"]
+            is_fav = rid in st.session_state.favorites
+            col_fav, col_btn, col_info = st.columns([1, 3, 2])
+            col_fav.button(
+                "❤️" if is_fav else "🤍",
+                key=f"fav_sim_{rid}",
+                use_container_width=True,
+                on_click=toggle_favorite, args=(rid,),
+                help="선호 영화에서 제거" if is_fav else "선호 영화에 추가",
+            )
+            col_btn.button(
+                f"▶  {row['title']}{yr}",
+                key=f"sim_{rid}",
+                use_container_width=True,
+                on_click=select_movie,
+                args=(rid,),
+            )
+            col_info.markdown(
+                f"유사도 **{row['cosine_sim']:.3f}** · 보정 {row['bayesian_rating']:.2f} · 평균 "
+                f"{'-' if pd.isna(row['mean_rating']) else format(row['mean_rating'], '.2f')} · "
+                f"평가 {int(row['rating_count'])} · "
+                f":{LABEL_COLOR.get(lab,'gray')}[{LABELS.get(lab, lab)}]  \n"
+                f"<sub>공통 장르: {', '.join(row['shared'])}</sub>",
+                unsafe_allow_html=True,
+            )

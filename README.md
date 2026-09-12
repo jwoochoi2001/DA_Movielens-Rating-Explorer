@@ -327,6 +327,18 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 목록의 각 항목을 클릭하면 그 영화 상세로 바로 이동하고, `✕`로 개별 제거할 수 있다.
 `st.session_state` 로만 저장되는 세션 한정 기능이라 새로고침/재시작하면 초기화된다.
 
+### 8-5. 비슷한 장르의 영화 (코사인 유사도)
+![대시보드 유사 장르](outputs/screenshots/app_05_similar_genre.png)
+`movies_genre_onehot.csv` 의 장르 원-핫 벡터로 선택한 영화와 다른 모든 영화의 **코사인 유사도**를 계산해
+높은 순으로 나열한다 (`analysis/genre_similarity.py` CLI와 같은 계산을 앱에 내장한 것).
+
+- **제외 규칙**: 겹치는 장르가 하나도 없는 영화(코사인 유사도 = 0)와 장르 정보가 없는 영화는 목록에서 뺀다.
+- **동점 처리**: 유사도가 같으면(예: 장르 조합이 완전히 동일) `bayesian_rating` 내림차순으로 정렬한다.
+- 위 8-2 절의 "같은 장르에서 추천"이 *장르가 하나라도 겹치면* `bayesian_rating` 순으로 보여주는 반면,
+  이 섹션은 *장르 벡터가 얼마나 닮았는지*(코사인 유사도)를 1차 기준으로 삼는다는 점이 다르다.
+- 예: Matrix, The(Action\|Sci-Fi\|Thriller) → 정확히 같은 3장르 조합인 Blade Runner·Terminator·Equilibrium 등이
+  전부 유사도 1.000으로 묶이고, 그중 보정 평점이 가장 높은 **Blade Runner(4.06)** 가 1위로 온다.
+
 ---
 
 ## 9. 표 (`outputs/tables/`)

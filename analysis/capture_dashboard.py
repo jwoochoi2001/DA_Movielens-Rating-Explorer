@@ -73,6 +73,19 @@ def main() -> None:
             page.screenshot(path=OUT / "app_04_favorites.png", full_page=True)
             print("  ", OUT / "app_04_favorites.png")
 
+            # 비슷한 장르의 영화 (코사인 유사도) 섹션까지 스크롤해서 캡처
+            # (Streamlit 앱 컨테이너가 자체 스크롤이라 full_page 캡처가 뷰포트로 제한됨)
+            search.click()
+            search.fill("matrix")
+            page.keyboard.press("Enter")
+            wait_idle(page, 1500)
+            page.get_by_role("button", name="Matrix, The (1999)").click()
+            wait_idle(page, 1500)
+            page.get_by_text("비슷한 장르의 영화", exact=True).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_05_similar_genre.png")
+            print("  ", OUT / "app_05_similar_genre.png")
+
             browser.close()
     finally:
         srv.terminate()
