@@ -11,4 +11,6 @@ Thumbs.db
 
 # 가공 데이터는 `python run_all.py` 로 재생성 가능 (analysis_table.csv 는 약 12MB).
 # 원본(data/raw/)과 outputs/ 는 커밋한다 — README 이미지가 outputs/figures/ 를 참조.
+# data/processed/favorites.json 은 streamlit_app.py 가 만드는 개인 선호 영화 목록(로컬 전용) —
+# 재생성 대상은 아니지만 개인 데이터라 같은 이유로 커밋하지 않는다.
 data/processed/

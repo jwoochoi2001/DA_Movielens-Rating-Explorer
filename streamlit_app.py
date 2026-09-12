@@ -7,7 +7,8 @@ data/processed/ 산출물을 바탕으로
      동점이면 보정 평점 순 / 겹치는 장르가 없거나 장르 정보가 없는 영화는 제외)
   4) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
   5) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
-     (세션에만 저장 — 브라우저 새로고침/재시작 시 초기화됨)
+     — data/processed/favorites.json 파일에 저장되어 브라우저를 새로고침하거나
+     앱을 재시작해도 유지된다 (로컬 실행 전제; 이 파일은 git에는 올리지 않는다)
   6) 선호 영화가 여러 편이면, 그 영화들의 장르 원-핫 벡터를 합산한 뒤 선호 영화 수로
      나눈 "선호 장르 프로필" 벡터를 만들어 별도로 추천 ("내 선호 영화 프로필 기반 추천")
 
@@ -19,6 +20,8 @@ data/processed/ 산출물을 바탕으로
 """
 from __future__ import annotations
 
+import json
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -32,6 +35,7 @@ GENRE_ONEHOT_CSV = PROC / "movies_genre_onehot.csv"
 RATINGS_CSV = PROC / "ratings.csv"
 RAW_RATINGS_CSV = ROOT / "data" / "raw" / "ratings.csv"
 LABEL_TXT = PROC / "label_text.txt"
+FAVORITES_JSON = PROC / "favorites.json"
 
 RATING_BINS = [x / 2 for x in range(1, 11)]  # 0.5, 1.0, ... 5.0
 
@@ -96,6 +100,30 @@ def build_favorite_profile(fav_ids, matrix: pd.DataFrame) -> np.ndarray | None:
     return vecs.sum(axis=0) / len(ids)
 
 
+def load_favorites_from_disk() -> set:
+    """favorites.json 에서 선호 movieId 목록을 읽는다. 없거나 손상됐으면 빈 집합."""
+    if not FAVORITES_JSON.exists():
+        return set()
+    try:
+        data = json.loads(FAVORITES_JSON.read_text(encoding="utf-8"))
+        return {int(row["movieId"]) for row in data.get("favorites", [])}
+    except (json.JSONDecodeError, KeyError, TypeError, ValueError):
+        return set()
+
+
+def save_favorites_to_disk(fav_ids: set) -> None:
+    """선호 movieId 집합을 favorites.json 에 저장 (제목은 가독성을 위해 함께 기록)."""
+    rows = []
+    for fid in sorted(fav_ids):
+        hit = movies.loc[movies["movieId"] == fid, "title"]
+        rows.append({"movieId": int(fid), "title": hit.iloc[0] if not hit.empty else ""})
+    payload = {"updated_at": datetime.now().isoformat(timespec="seconds"), "favorites": rows}
+    FAVORITES_JSON.parent.mkdir(parents=True, exist_ok=True)
+    FAVORITES_JSON.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+
+
 @st.cache_data
 def load_labels() -> dict:
     labels = {}
@@ -134,7 +162,7 @@ LABEL_COLOR = {0: "gray", 1: "gray", 2: "green", 3: "orange", 4: "blue", 5: "red
 if "movie_id" not in st.session_state:
     st.session_state.movie_id = None
 if "favorites" not in st.session_state:
-    st.session_state.favorites = set()  # 선호 영화 movieId 집합 (세션 한정)
+    st.session_state.favorites = load_favorites_from_disk()  # 파일에서 복원
 
 
 def select_movie(mid: int):
@@ -148,6 +176,7 @@ def toggle_favorite(mid: int):
         favs.discard(mid)
     else:
         favs.add(mid)
+    save_favorites_to_disk(favs)
 
 
 def render_movie_row(row: pd.Series, key_prefix: str) -> None:
