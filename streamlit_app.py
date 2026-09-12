@@ -11,6 +11,8 @@ data/processed/ 산출물을 바탕으로
      앱을 재시작해도 유지된다 (로컬 실행 전제; 이 파일은 git에는 올리지 않는다)
   6) 선호 영화가 여러 편이면, 그 영화들의 장르 원-핫 벡터를 합산한 뒤 선호 영화 수로
      나눈 "선호 장르 프로필" 벡터를 만들어 별도로 추천 ("내 선호 영화 프로필 기반 추천")
+  7) 그 프로필을 장르별 10점 만점 점수(장르 비율 × 10)로 바꿔 막대그래프로
+     화면 맨 위에 항상 표시 ("내 선호 장르 프로필 (10점 만점)")
 
 실행: 프로젝트 루트에서
     streamlit run streamlit_app.py
@@ -215,6 +217,39 @@ def render_movie_row(row: pd.Series, key_prefix: str) -> None:
     col_info.markdown(line, unsafe_allow_html=True)
 
 
+def render_profile_score() -> None:
+    """선호 장르 프로필을 10점 만점 점수로 바꿔 화면 최상단에 시각화."""
+    st.subheader("🎯 내 선호 장르 프로필 (10점 만점)")
+    fav_ids = st.session_state.favorites
+
+    if not fav_ids:
+        st.caption("❤️ 선호 영화를 담으면 장르별 선호 점수(10점 만점)를 여기에 보여줍니다.")
+        return
+    if genre_matrix is None:
+        st.info(f"`{GENRE_ONEHOT_CSV.relative_to(ROOT)}` 가 없습니다. `python run_all.py` 로 생성하세요.")
+        return
+
+    profile = build_favorite_profile(fav_ids, genre_matrix)
+    if profile is None:
+        st.info("선호한 영화들에 장르 정보가 없어 프로필을 만들 수 없습니다.")
+        return
+
+    # 프로필 값(0~1, 그 장르를 가진 선호작의 비율)을 10점 만점으로 환산
+    scores = (pd.Series(profile, index=genre_matrix.columns) * 10).round(1)
+    scores = scores[scores > 0].sort_values(ascending=False)
+    if scores.empty:
+        st.info("선호한 영화들에 장르 정보가 없어 점수를 계산할 수 없습니다.")
+        return
+
+    chart_df = pd.DataFrame({"점수": scores.to_numpy()}, index=pd.Index(scores.index, name="장르"))
+    st.bar_chart(chart_df, y="점수", color="#E4572E", height=260)
+    st.caption(
+        f"선호 영화 {len(fav_ids)}편 기준 · 장르별 (선호작 중 그 장르 비율) × 10점 "
+        f"— 10.0 = 선호작 전부가 이 장르, 5.0 = 절반. 최고점: "
+        + ", ".join(f"{g} {v:.1f}점" for g, v in scores.head(3).items())
+    )
+
+
 def render_profile_section() -> None:
     """선호 영화들의 평균 장르 벡터(프로필)로 만드는 추천 — 어느 화면에서든 표시."""
     fav_ids = st.session_state.favorites
@@ -235,13 +270,6 @@ def render_profile_section() -> None:
     if sims is None:
         st.info("선호한 영화들에 장르 정보가 없어 프로필을 만들 수 없습니다.")
         return
-
-    prof = pd.Series(profile, index=genre_matrix.columns)
-    prof = prof[prof > 0].sort_values(ascending=False)
-    st.caption(
-        f"선호 영화 {len(fav_ids)}편의 장르 평균(비율): "
-        + ", ".join(f"{g} {v:.0%}" for g, v in prof.items())
-    )
 
     sims = sims.drop(index=[i for i in fav_ids if i in sims.index], errors="ignore")
     sims = sims[sims > 0]  # 겹치는 장르가 하나도 없거나 장르 정보 없는 영화 제외
@@ -316,6 +344,9 @@ else:
 
 
 # ----------------------------- 본문 -----------------------------
+render_profile_score()
+st.markdown("---")
+
 mid = st.session_state.movie_id
 
 if mid is None or mid not in set(movies["movieId"]):

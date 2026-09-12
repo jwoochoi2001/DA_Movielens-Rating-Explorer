@@ -92,6 +92,12 @@ def main() -> None:
             page.screenshot(path=OUT / "app_06_profile.png")
             print("  ", OUT / "app_06_profile.png")
 
+            # 내 선호 장르 프로필 (10점 만점) — 화면 최상단 시각화
+            page.get_by_text("내 선호 장르 프로필 (10점 만점)").scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_07_profile_score.png")
+            print("  ", OUT / "app_07_profile_score.png")
+
             browser.close()
     finally:
         srv.terminate()

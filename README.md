@@ -301,6 +301,7 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 ## 8. 대시보드 — 영화 추천 탐색기 (`streamlit_app.py`)
 
 `streamlit run streamlit_app.py` 로 실행. 왼쪽에서 검색 → 영화 선택 → 상세와 추천을 본다.
+페이지 맨 위에는 선호 장르를 10점 만점으로 점수화한 그래프(8-7)가 항상 떠 있다.
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
@@ -368,6 +369,16 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
   프로필은 `Crime 100%, Drama/Film-Noir/Mystery/Thriller 각 50%`가 되고, 이 조합과 가장 가까운
   `Mulholland Drive`(Crime·Drama·Mystery·Thriller, 유사도 0.949)가 1위로 추천된다.
 - 선호 영화 0편이면 프로필을 만들 수 없다는 안내만 표시한다.
+
+### 8-7. 내 선호 장르 프로필 (10점 만점) — 화면 최상단
+![대시보드 프로필 점수](outputs/screenshots/app_07_profile_score.png)
+8-6의 프로필 벡터(장르별 0~1 비율)를 **10점 만점 점수(비율 × 10)** 로 바꿔 막대그래프로 보여준다.
+어떤 화면에 있든(첫 화면이든 특정 영화 상세든) **페이지 맨 위에 항상 고정 표시**된다.
+
+- 점수 = (그 장르를 가진 선호작 수 ÷ 선호 영화 수) × 10. 10.0 = 선호작 전부가 그 장르, 5.0 = 절반.
+- 예: `Chinatown`(Crime·Film-Noir·Mystery·Thriller) + `Shawshank Redemption`(Crime·Drama) 선호 시
+  `Crime 10.0점`, `Drama·Film-Noir·Mystery·Thriller 각 5.0점`.
+- 선호 영화가 없으면 담아보라는 안내만 표시하고 차트는 그리지 않는다.
 
 ---
 
