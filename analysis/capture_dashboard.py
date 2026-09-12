@@ -61,6 +61,18 @@ def main() -> None:
             page.screenshot(path=OUT / "app_03_genre_search.png", full_page=True)
             print("  ", OUT / "app_03_genre_search.png")
 
+            # 선호 영화 담기: 검색창을 비워 사이드바 여백을 확보한 뒤
+            # Chinatown(상세) + 첫 추천작 하트를 클릭
+            search.fill("")
+            page.keyboard.press("Enter")
+            wait_idle(page, 1200)
+            page.get_by_role("button", name="🤍 선호 추가").click()
+            wait_idle(page, 1200)
+            page.locator("button:visible").filter(has_text="🤍").first.click()
+            wait_idle(page, 1200)
+            page.screenshot(path=OUT / "app_04_favorites.png", full_page=True)
+            print("  ", OUT / "app_04_favorites.png")
+
             browser.close()
     finally:
         srv.terminate()

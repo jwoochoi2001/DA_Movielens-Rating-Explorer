@@ -12,18 +12,21 @@ data/raw/{movies,ratings}.csv 를 입력으로 다음 순서를 실행한다.
   2) analysis/enrich_movies.py
         processed/movies.csv -> data/processed/movies_enriched.csv
         (제목에서 release_year 분리, 결측 연도/장르 보강)
-  3) analysis/merge_movies_ratings.py
+  3) analysis/genre_encode.py
+        processed/movies_enriched.csv -> data/processed/movies_genre_onehot.csv
+        (장르 원-핫 인코딩 — 열 순서 고정, 장르 유사도 추천의 기준 테이블)
+  4) analysis/merge_movies_ratings.py
         processed/movies_enriched.csv + processed/ratings.csv
         -> data/processed/movies_with_ratings.csv , data/processed/label_text.txt
         (영화 단위: mean_rating, rating_count, rating_std, bayesian_rating(m=10),
          pos_ratio(4점 이상 비율), rating_label(추천지수 0~5))
-  4) analysis/bayesian_rating.py
+  5) analysis/bayesian_rating.py
         processed/ratings.csv + movies_enriched.csv -> data/processed/movie_scores.csv
         (영화별 n_ratings, mean_rating, rating_std, bayesian_rating(m=10))
-  5) analysis/build_analysis_table.py
+  6) analysis/build_analysis_table.py
         processed/ratings.csv + movie_scores.csv -> data/processed/analysis_table.csv
         (평점 1건 = 1행 최종 분석 테이블 + 시간/장르 파생)
-  6) analysis/eda_figures.py
+  7) analysis/eda_figures.py
         analysis_table.csv + movie_scores.csv -> outputs/figures/*.png, outputs/tables/*.csv
 
 필요 패키지: requirements.txt 참조 (pandas, numpy, matplotlib)
@@ -37,6 +40,7 @@ ROOT = Path(__file__).resolve().parent
 STEPS = [
     "analysis/merge_duplicate_movies.py",
     "analysis/enrich_movies.py",
+    "analysis/genre_encode.py",
     "analysis/merge_movies_ratings.py",
     "analysis/bayesian_rating.py",
     "analysis/build_analysis_table.py",

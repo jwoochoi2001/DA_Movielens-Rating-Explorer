@@ -25,7 +25,7 @@ MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610�
 - "평균은 비슷한데 사람마다 평이 갈리는" 영화 구분
   → **평점 표준편차(`rating_std`)** 를 호불호(양극화) 지표로 사용.
 - 최종적으로 각 영화에 **추천 라벨(`rating_label`, 0~5)** 을 부여하고,
-  대시보드에서 제목·장르로 검색 → 같은 장르 추천 → 상세(평점 분포·평균·라벨)를 제공.
+  대시보드에서 제목·장르로 검색 → 같은 장르 추천 → 상세(평점 분포·평균·라벨) → **선호 영화 담기**까지 제공.
 
 > 이 데이터셋은 GroupLens의 *development* 데이터셋으로 공유 연구 결과용이 아니다(`data/raw/README.txt`).
 
@@ -319,6 +319,13 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 ![대시보드 장르 검색](outputs/screenshots/app_03_genre_search.png)
 `Film-Noir` 로 검색하면 그 장르의 영화 87편이 나오고, Chinatown 선택 시 같은 장르(Crime·Film-Noir·Mystery·Thriller)에서
 Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
+
+### 8-4. 선호 영화 담기
+![대시보드 선호 영화](outputs/screenshots/app_04_favorites.png)
+상세 화면 제목 옆과 추천 리스트 각 항목 왼쪽에 하트 버튼(🤍/❤️)이 있다. 누르면 그 영화가
+**선호 영화**로 담기고, 왼쪽 사이드바 "❤️ 내가 선호한 영화 (N)"에 실시간으로 쌓인다.
+목록의 각 항목을 클릭하면 그 영화 상세로 바로 이동하고, `✕`로 개별 제거할 수 있다.
+`st.session_state` 로만 저장되는 세션 한정 기능이라 새로고침/재시작하면 초기화된다.
 
 ---
 

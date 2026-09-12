@@ -4,6 +4,8 @@ data/processed/ 산출물을 바탕으로
   1) 제목·장르로 영화 검색 (평가 수와 무관하게 전부 검색)
   2) 검색한 영화와 같은 장르에서 보정 평점(bayesian_rating) 높은 영화 추천
   3) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
+  4) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
+     (세션에만 저장 — 브라우저 새로고침/재시작 시 초기화됨)
 
 실행: 프로젝트 루트에서
     streamlit run streamlit_app.py
@@ -84,10 +86,21 @@ LABEL_COLOR = {0: "gray", 1: "gray", 2: "green", 3: "orange", 4: "blue", 5: "red
 # ----------------------------- 상태 -----------------------------
 if "movie_id" not in st.session_state:
     st.session_state.movie_id = None
+if "favorites" not in st.session_state:
+    st.session_state.favorites = set()  # 선호 영화 movieId 집합 (세션 한정)
 
 
 def select_movie(mid: int):
     st.session_state.movie_id = int(mid)
+
+
+def toggle_favorite(mid: int):
+    mid = int(mid)
+    favs = st.session_state.favorites
+    if mid in favs:
+        favs.discard(mid)
+    else:
+        favs.add(mid)
 
 
 # ----------------------------- 사이드바: 검색 -----------------------------
@@ -118,6 +131,32 @@ if query:
 else:
     st.sidebar.info("검색어를 입력하세요.")
 
+st.sidebar.markdown("---")
+
+# ----------------------------- 사이드바: 내가 선호한 영화 -----------------------------
+fav_ids = st.session_state.favorites
+st.sidebar.subheader(f"❤️ 내가 선호한 영화 ({len(fav_ids)})")
+
+if not fav_ids:
+    st.sidebar.caption("추천 목록이나 상세 화면에서 🤍 버튼을 눌러 담아보세요.")
+else:
+    fav_df = movies[movies["movieId"].isin(fav_ids)].sort_values("title")
+    for _, row in fav_df.iterrows():
+        yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
+        c_title, c_remove = st.sidebar.columns([4, 1])
+        c_title.button(
+            f"{row['title']}{yr}",
+            key=f"fav_go_{row['movieId']}",
+            use_container_width=True,
+            on_click=select_movie,
+            args=(row["movieId"],),
+        )
+        c_remove.button(
+            "✕", key=f"fav_rm_{row['movieId']}",
+            on_click=toggle_favorite, args=(row["movieId"],),
+            help="선호 목록에서 제거",
+        )
+
 
 # ----------------------------- 본문 -----------------------------
 mid = st.session_state.movie_id
@@ -140,7 +179,14 @@ left, right = st.columns([3, 2])
 
 with left:
     yr = "연도 미상" if pd.isna(m["release_year"]) else int(m["release_year"])
-    st.title(m["title"])
+    t_col, fav_col = st.columns([5, 1])
+    t_col.title(m["title"])
+    is_fav = mid in st.session_state.favorites
+    fav_col.button(
+        "❤️ 선호함" if is_fav else "🤍 선호 추가",
+        key=f"fav_detail_{mid}",
+        on_click=toggle_favorite, args=(mid,),
+    )
     st.markdown(f"**개봉년도** {yr}  ·  **장르** {m['genres']}")
 
     lab = int(m["rating_label"])
@@ -191,13 +237,22 @@ else:
     for _, row in same.iterrows():
         yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
         lab = int(row["rating_label"])
-        col_btn, col_info = st.columns([3, 2])
+        rid = row["movieId"]
+        is_fav = rid in st.session_state.favorites
+        col_fav, col_btn, col_info = st.columns([1, 3, 2])
+        col_fav.button(
+            "❤️" if is_fav else "🤍",
+            key=f"fav_r_{rid}",
+            use_container_width=True,
+            on_click=toggle_favorite, args=(rid,),
+            help="선호 영화에서 제거" if is_fav else "선호 영화에 추가",
+        )
         col_btn.button(
             f"▶  {row['title']}{yr}",
-            key=f"r_{row['movieId']}",
+            key=f"r_{rid}",
             use_container_width=True,
             on_click=select_movie,
-            args=(row["movieId"],),
+            args=(rid,),
         )
         col_info.markdown(
             f"보정 **{row['bayesian_rating']:.2f}** · 평균 "

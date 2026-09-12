@@ -1,0 +1,6 @@
+영화 정보 출처
+TMDB 5000 Movie Dataset: https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata
+CSV mirror: https://github.com/harshitcodes/tmdb_movie_data_analysis/tree/master/tmdb-5000-movie-dataset
+MovieLens ID mapping: https://grouplens.org/datasets/movielens/latest/
+Movie information originates from TMDB. This educational dataset is not endorsed or certified by TMDB. This file was derived from a historical dataset mirror, not a live API request.
+Retrieved 2026-09-12. Retrieval date is not information update date. English overviews retained without rewriting. Cast includes first five entries in source order; directors includes all crew entries labelled Director. Names/credits/plots are not newly inferred. MovieLens IDs joined through official links.csv tmdbId. No new permission or license is granted by this file; consult source terms for use and redistribution.
