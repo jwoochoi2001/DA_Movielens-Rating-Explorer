@@ -34,16 +34,38 @@ MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610�
 
 ## 1. 실행 방법
 
+순수 Python(pandas/streamlit) + `pathlib`로만 작성돼 있어 **Windows·macOS·Linux 어디서든 동일하게** 돌아간다.
+가상환경(venv) 사용을 권장한다 — macOS는 시스템 Python에 `pip install`이 직접 안 먹는 경우
+(`externally-managed-environment` 오류)가 많아서 venv를 쓰는 편이 속 편하다.
+
+**macOS / Linux**
 ```bash
 git clone https://github.com/jwoochoi2001/DA_Movielens-Rating-Explorer.git
 cd DA_Movielens-Rating-Explorer
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 
-python run_all.py                 # data/raw/ -> data/processed/ + outputs/ 전체 재생성 (약 12초)
+python3 run_all.py                # data/raw/ -> data/processed/ + outputs/ 전체 재생성 (약 12초)
 streamlit run streamlit_app.py    # 영화 추천 탐색기 대시보드
 ```
 
-개별 단계만 실행할 수도 있다 (프로젝트 루트 기준).
+**Windows (PowerShell)**
+```powershell
+git clone https://github.com/jwoochoi2001/DA_Movielens-Rating-Explorer.git
+cd DA_Movielens-Rating-Explorer
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+python run_all.py
+streamlit run streamlit_app.py
+```
+
+`streamlit run`이 브라우저를 자동으로 안 열면 터미널에 뜨는 Local URL(기본 `http://localhost:8501`)로
+직접 접속한다. 다 쓰면 `deactivate`로 가상환경을 나간다.
+
+개별 단계만 실행할 수도 있다 (프로젝트 루트 기준. macOS/Linux는 `python` 대신 `python3`).
 
 ```bash
 python analysis/merge_duplicate_movies.py
@@ -57,7 +79,7 @@ python analysis/eda_figures.py
 python analysis/capture_dashboard.py   # (선택) 대시보드 스크린샷, playwright 필요
 ```
 
-필요 패키지: `pandas`, `numpy`, `matplotlib`, `streamlit` (`requirements.txt`).
+필요 패키지: `pandas`, `numpy`, `matplotlib`, `streamlit` (`requirements.txt`). Python 3.9 이상이면 OS 무관하게 동작한다.
 대시보드 스크린샷 재생성은 `playwright` + `playwright install chromium` 필요(선택).
 
 ---
