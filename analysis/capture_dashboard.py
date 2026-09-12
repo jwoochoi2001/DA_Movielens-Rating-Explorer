@@ -86,6 +86,12 @@ def main() -> None:
             page.screenshot(path=OUT / "app_05_similar_genre.png")
             print("  ", OUT / "app_05_similar_genre.png")
 
+            # 내 선호 영화 프로필 기반 추천 (Chinatown + Shawshank Redemption 2편 기준)
+            page.get_by_text("내 선호 영화 프로필 기반 추천", exact=True).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_06_profile.png")
+            print("  ", OUT / "app_06_profile.png")
+
             browser.close()
     finally:
         srv.terminate()

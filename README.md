@@ -25,7 +25,8 @@ MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610�
 - "평균은 비슷한데 사람마다 평이 갈리는" 영화 구분
   → **평점 표준편차(`rating_std`)** 를 호불호(양극화) 지표로 사용.
 - 최종적으로 각 영화에 **추천 라벨(`rating_label`, 0~5)** 을 부여하고,
-  대시보드에서 제목·장르로 검색 → 같은 장르 추천 → 상세(평점 분포·평균·라벨) → **선호 영화 담기**까지 제공.
+  대시보드에서 제목·장르로 검색 → 같은 장르 추천 → 상세(평점 분포·평균·라벨) → **선호 영화 담기**
+  → **선호 영화들의 장르를 평균 낸 프로필 기반 추천**까지 제공.
 
 > 이 데이터셋은 GroupLens의 *development* 데이터셋으로 공유 연구 결과용이 아니다(`data/raw/README.txt`).
 
@@ -338,6 +339,21 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
   이 섹션은 *장르 벡터가 얼마나 닮았는지*(코사인 유사도)를 1차 기준으로 삼는다는 점이 다르다.
 - 예: Matrix, The(Action\|Sci-Fi\|Thriller) → 정확히 같은 3장르 조합인 Blade Runner·Terminator·Equilibrium 등이
   전부 유사도 1.000으로 묶이고, 그중 보정 평점이 가장 높은 **Blade Runner(4.06)** 가 1위로 온다.
+
+### 8-6. 내 선호 영화 프로필 기반 추천
+![대시보드 프로필 추천](outputs/screenshots/app_06_profile.png)
+선호 영화가 **여러 편**이면 개별 영화 하나로는 대표할 수 없으므로, 선호작들의 장르 원-핫 벡터를
+**전부 합산한 뒤 선호 영화 수로 나눠** "선호 장르 프로필" 벡터를 만든다 — 각 장르 열은
+"그 장르를 가진 선호작의 비율"이 된다(예: 선호작 2편 중 1편만 Drama면 Drama = 0.5).
+이 프로필 벡터로 전체 영화와 코사인 유사도를 계산해 순위를 매긴다.
+
+- **적용 대상**: 특정 영화를 보고 있지 않아도(첫 화면) 항상 표시되며, 상세 화면 맨 아래에도 다시 나온다.
+- **제외 규칙**: 8-5와 동일 — 유사도 0(겹치는 장르 없음/장르 정보 없음) 제외 + **이미 선호한 영화 자신은 목록에서 제외**.
+- **동점 처리**: `bayesian_rating` 내림차순.
+- 예: `Chinatown`(Crime·Film-Noir·Mystery·Thriller) + `Shawshank Redemption`(Crime·Drama)을 선호하면
+  프로필은 `Crime 100%, Drama/Film-Noir/Mystery/Thriller 각 50%`가 되고, 이 조합과 가장 가까운
+  `Mulholland Drive`(Crime·Drama·Mystery·Thriller, 유사도 0.949)가 1위로 추천된다.
+- 선호 영화 0편이면 프로필을 만들 수 없다는 안내만 표시한다.
 
 ---
 

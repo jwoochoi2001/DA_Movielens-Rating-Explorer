@@ -8,6 +8,8 @@ data/processed/ 산출물을 바탕으로
   4) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
   5) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
      (세션에만 저장 — 브라우저 새로고침/재시작 시 초기화됨)
+  6) 선호 영화가 여러 편이면, 그 영화들의 장르 원-핫 벡터를 합산한 뒤 선호 영화 수로
+     나눈 "선호 장르 프로필" 벡터를 만들어 별도로 추천 ("내 선호 영화 프로필 기반 추천")
 
 실행: 프로젝트 루트에서
     streamlit run streamlit_app.py
@@ -65,19 +67,33 @@ def load_genre_matrix() -> pd.DataFrame:
     return df.set_index("movieId")[genre_cols]
 
 
-def cosine_similarity_to(mid: int, matrix: pd.DataFrame) -> pd.Series | None:
-    """mid 의 장르 벡터와 matrix 의 모든 행 사이의 코사인 유사도.
-    mid 가 없거나 장르 정보가 전부 0(장르 없음)이면 None."""
-    if mid not in matrix.index:
-        return None
-    vec = matrix.loc[mid].to_numpy(dtype=float)
-    if vec.sum() == 0:
+def cosine_similarity_vec(vec, matrix: pd.DataFrame) -> pd.Series | None:
+    """vec(장르 원-핫/프로필 벡터) 와 matrix 의 모든 행 사이 코사인 유사도.
+    vec 이 전부 0(장르 정보 없음)이면 None."""
+    if vec is None or np.sum(vec) == 0:
         return None
     mat = matrix.to_numpy(dtype=float)
     dot = mat @ vec
     norms = np.linalg.norm(mat, axis=1) * np.linalg.norm(vec)
     sim = np.divide(dot, norms, out=np.zeros_like(dot, dtype=float), where=norms > 0)
     return pd.Series(sim, index=matrix.index, name="cosine_sim")
+
+
+def cosine_similarity_to(mid: int, matrix: pd.DataFrame) -> pd.Series | None:
+    """mid 영화의 장르 벡터 기준 코사인 유사도. mid 가 없으면 None."""
+    if mid not in matrix.index:
+        return None
+    return cosine_similarity_vec(matrix.loc[mid].to_numpy(dtype=float), matrix)
+
+
+def build_favorite_profile(fav_ids, matrix: pd.DataFrame) -> np.ndarray | None:
+    """선호 영화들의 장르 원-핫 벡터를 합산한 뒤 선호 영화 수로 나눈 평균 벡터.
+    (열별로 '이 장르를 가진 선호작의 비율'이 된다.) 유효한 선호작이 없으면 None."""
+    ids = [i for i in fav_ids if i in matrix.index]
+    if not ids:
+        return None
+    vecs = matrix.loc[ids].to_numpy(dtype=float)
+    return vecs.sum(axis=0) / len(ids)
 
 
 @st.cache_data
@@ -132,6 +148,87 @@ def toggle_favorite(mid: int):
         favs.discard(mid)
     else:
         favs.add(mid)
+
+
+def render_movie_row(row: pd.Series, key_prefix: str) -> None:
+    """하트 버튼 + 이동 버튼 + 요약 정보 한 줄. 여러 추천 리스트에서 공통으로 쓴다."""
+    yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
+    lab = int(row["rating_label"])
+    rid = row["movieId"]
+    is_fav = rid in st.session_state.favorites
+
+    col_fav, col_btn, col_info = st.columns([1, 3, 2])
+    col_fav.button(
+        "❤️" if is_fav else "🤍",
+        key=f"fav_{key_prefix}_{rid}",
+        use_container_width=True,
+        on_click=toggle_favorite, args=(rid,),
+        help="선호 영화에서 제거" if is_fav else "선호 영화에 추가",
+    )
+    col_btn.button(
+        f"▶  {row['title']}{yr}",
+        key=f"go_{key_prefix}_{rid}",
+        use_container_width=True,
+        on_click=select_movie,
+        args=(rid,),
+    )
+
+    bits = []
+    if "cosine_sim" in row.index and pd.notna(row["cosine_sim"]):
+        bits.append(f"유사도 **{row['cosine_sim']:.3f}**")
+    bits.append(f"보정 {row['bayesian_rating']:.2f}")
+    bits.append(f"평균 {'-' if pd.isna(row['mean_rating']) else format(row['mean_rating'], '.2f')}")
+    bits.append(f"평가 {int(row['rating_count'])}")
+    bits.append(f":{LABEL_COLOR.get(lab, 'gray')}[{LABELS.get(lab, lab)}]")
+    line = " · ".join(bits)
+    if "shared" in row.index and row["shared"]:
+        line += f"  \n<sub>공통 장르: {', '.join(row['shared'])}</sub>"
+    col_info.markdown(line, unsafe_allow_html=True)
+
+
+def render_profile_section() -> None:
+    """선호 영화들의 평균 장르 벡터(프로필)로 만드는 추천 — 어느 화면에서든 표시."""
+    fav_ids = st.session_state.favorites
+    st.subheader("내 선호 영화 프로필 기반 추천")
+
+    if not fav_ids:
+        st.caption(
+            "❤️ 선호 영화를 1편 이상 담으면, 선호작들의 장르를 (합산 ÷ 선호 영화 수)로 "
+            "평균 낸 '선호 장르 프로필' 벡터로 추천을 만들어 보여줍니다."
+        )
+        return
+    if genre_matrix is None:
+        st.info(f"`{GENRE_ONEHOT_CSV.relative_to(ROOT)}` 가 없습니다. `python run_all.py` 로 생성하세요.")
+        return
+
+    profile = build_favorite_profile(fav_ids, genre_matrix)
+    sims = cosine_similarity_vec(profile, genre_matrix)
+    if sims is None:
+        st.info("선호한 영화들에 장르 정보가 없어 프로필을 만들 수 없습니다.")
+        return
+
+    prof = pd.Series(profile, index=genre_matrix.columns)
+    prof = prof[prof > 0].sort_values(ascending=False)
+    st.caption(
+        f"선호 영화 {len(fav_ids)}편의 장르 평균(비율): "
+        + ", ".join(f"{g} {v:.0%}" for g, v in prof.items())
+    )
+
+    sims = sims.drop(index=[i for i in fav_ids if i in sims.index], errors="ignore")
+    sims = sims[sims > 0]  # 겹치는 장르가 하나도 없거나 장르 정보 없는 영화 제외
+
+    prof_df = pd.DataFrame({"movieId": sims.index, "cosine_sim": sims.to_numpy()})
+    prof_df = prof_df.merge(movies, on="movieId", how="left")
+    prof_df = prof_df.sort_values(
+        ["cosine_sim", "bayesian_rating"], ascending=[False, False]
+    )
+
+    topn_prof = st.slider("표시 개수", 5, 30, 10, key="profile_topn")
+    st.caption(f"프로필과 겹치는 영화 {len(prof_df)}편 중 상위 {min(topn_prof, len(prof_df))}편 "
+               "(선호 영화 자신은 제외)")
+
+    for _, row in prof_df.head(topn_prof).iterrows():
+        render_movie_row(row, "profile")
 
 
 # ----------------------------- 사이드바: 검색 -----------------------------
@@ -198,8 +295,11 @@ if mid is None or mid not in set(movies["movieId"]):
         "왼쪽에서 영화를 검색하고 선택하세요.\n\n"
         "- **검색**: 제목·장르로 찾기 (평가 수 무관)\n"
         "- **추천**: 선택한 영화와 같은 장르에서 보정 평점이 높은 영화\n"
-        "- **상세**: 제목·장르·개봉년도·평점 분포·평균 평점·추천 라벨"
+        "- **상세**: 제목·장르·개봉년도·평점 분포·평균 평점·추천 라벨\n"
+        "- **프로필 추천**: 선호 영화를 담을수록 아래 프로필 추천이 정교해집니다."
     )
+    st.markdown("---")
+    render_profile_section()
     st.stop()
 
 m = movies[movies["movieId"] == mid].iloc[0]
@@ -266,33 +366,7 @@ else:
     st.caption(f"기준 장르: {', '.join(sorted(target_genres))}  ·  {len(same)}편")
 
     for _, row in same.iterrows():
-        yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
-        lab = int(row["rating_label"])
-        rid = row["movieId"]
-        is_fav = rid in st.session_state.favorites
-        col_fav, col_btn, col_info = st.columns([1, 3, 2])
-        col_fav.button(
-            "❤️" if is_fav else "🤍",
-            key=f"fav_r_{rid}",
-            use_container_width=True,
-            on_click=toggle_favorite, args=(rid,),
-            help="선호 영화에서 제거" if is_fav else "선호 영화에 추가",
-        )
-        col_btn.button(
-            f"▶  {row['title']}{yr}",
-            key=f"r_{rid}",
-            use_container_width=True,
-            on_click=select_movie,
-            args=(rid,),
-        )
-        col_info.markdown(
-            f"보정 **{row['bayesian_rating']:.2f}** · 평균 "
-            f"{'-' if pd.isna(row['mean_rating']) else format(row['mean_rating'], '.2f')} · "
-            f"평가 {int(row['rating_count'])} · "
-            f":{LABEL_COLOR.get(lab,'gray')}[{LABELS.get(lab, lab)}]  \n"
-            f"<sub>공통 장르: {', '.join(row['shared'])}</sub>",
-            unsafe_allow_html=True,
-        )
+        render_movie_row(row, "genre")
 
 st.markdown("---")
 
@@ -329,30 +403,9 @@ else:
         st.caption(f"장르 겹치는 영화 {len(sim_df)}편 중 상위 {min(topn_sim, len(sim_df))}편")
 
         for _, row in sim_df.head(topn_sim).iterrows():
-            yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
-            lab = int(row["rating_label"])
-            rid = row["movieId"]
-            is_fav = rid in st.session_state.favorites
-            col_fav, col_btn, col_info = st.columns([1, 3, 2])
-            col_fav.button(
-                "❤️" if is_fav else "🤍",
-                key=f"fav_sim_{rid}",
-                use_container_width=True,
-                on_click=toggle_favorite, args=(rid,),
-                help="선호 영화에서 제거" if is_fav else "선호 영화에 추가",
-            )
-            col_btn.button(
-                f"▶  {row['title']}{yr}",
-                key=f"sim_{rid}",
-                use_container_width=True,
-                on_click=select_movie,
-                args=(rid,),
-            )
-            col_info.markdown(
-                f"유사도 **{row['cosine_sim']:.3f}** · 보정 {row['bayesian_rating']:.2f} · 평균 "
-                f"{'-' if pd.isna(row['mean_rating']) else format(row['mean_rating'], '.2f')} · "
-                f"평가 {int(row['rating_count'])} · "
-                f":{LABEL_COLOR.get(lab,'gray')}[{LABELS.get(lab, lab)}]  \n"
-                f"<sub>공통 장르: {', '.join(row['shared'])}</sub>",
-                unsafe_allow_html=True,
-            )
+            render_movie_row(row, "sim")
+
+st.markdown("---")
+
+# ---- 내 선호 영화 프로필 기반 추천 ----
+render_profile_section()
