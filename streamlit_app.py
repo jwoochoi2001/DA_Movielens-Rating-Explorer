@@ -1,24 +1,33 @@
 """영화 추천 탐색기 (Streamlit).
 
-data/processed/ 산출물을 바탕으로
-  1) 제목·장르로 영화 검색 (평가 수와 무관하게 전부 검색)
-  2) 검색한 영화와 같은 장르에서 보정 평점(bayesian_rating) 높은 영화 추천
-  3) 장르 원-핫 벡터의 코사인 유사도로 "비슷한 장르의 영화" 순위 (유사도 높은 순,
-     동점이면 보정 평점 순 / 겹치는 장르가 없거나 장르 정보가 없는 영화는 제외)
-  4) 영화 선택 시 상세: 제목·장르·개봉년도·평점 분포 막대그래프·평균 평점·추천 라벨
-  5) 추천 리스트(및 상세)에서 하트 버튼으로 "선호 영화"에 담고, 사이드바에서 목록 확인
-     — data/processed/favorites.json 파일에 저장되어 브라우저를 새로고침하거나
-     앱을 재시작해도 유지된다 (로컬 실행 전제; 이 파일은 git에는 올리지 않는다)
-  6) 선호 영화가 여러 편이면, 그 영화들의 장르 원-핫 벡터를 합산한 뒤 선호 영화 수로
-     나눈 "선호 장르 프로필" 벡터를 만들어 별도로 추천 ("내 선호 영화 프로필 기반 추천")
-  7) 그 프로필을 장르별 10점 만점 점수(장르 비율 × 10)로 바꿔 막대그래프로
-     화면 맨 위에 항상 표시 ("내 선호 장르 프로필 (10점 만점)")
+data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 추천 영역**으로 나눠 보여준다.
+
+  🔸 개인화 추천 영역 (화면 최상단, 어떤 영화를 보고 있든 항상 표시 — 선호 영화 기반이라
+     사용자마다 결과가 다르다)
+    - 내 선호 장르 프로필 (10점 만점): 선호작 장르 비율 × 10 을 막대그래프로
+    - 장르 벡터 기반 추천: 선호작들의 장르 원-핫 벡터를 (합산 ÷ 선호 영화 수)한 프로필로
+      전체 영화와 코사인 유사도 계산
+    - 비슷한 줄거리의 영화(TF-IDF 기반): 선호작들의 TF-IDF 벡터를 평균 낸 프로필로
+      전체 영화와 코사인 유사도 계산
+
+  🔹 비개인화 추천 영역 (영화를 선택했을 때만, 그 영화를 기준으로 — 누가 봐도 같은 결과)
+    - 이 영화와 같은 장르에서 추천할 만한 영화: 장르 겹침 + 보정 평점(bayesian_rating) 순
+    - 비슷한 장르의 영화: 장르 원-핫 벡터 코사인 유사도 순(동점은 보정 평점 순)
+
+그 외
+  - 제목·장르 검색 (평가 수와 무관하게 전부 검색), 영화 상세(평점 분포·평균·추천 라벨)
+  - 하트 버튼으로 "선호 영화"에 담기 — data/processed/favorites.json 에 저장되어
+    새로고침/재시작해도 유지된다 (로컬 실행 전제, git에는 올리지 않는다)
+  - TF-IDF 는 전체 영화 overview 로 **앱 실행 중 단 한 번만** 계산해 캐시한다
+    (build_tfidf, @st.cache_data). 목록 필터링·추천 목록 갱신으로는 재계산되지 않고,
+    movies_with_ratings.csv 가 실제로 바뀌었을 때(= 새 영화/줄거리 추가, 앱 재시작)만
+    다시 계산된다.
 
 실행: 프로젝트 루트에서
     streamlit run streamlit_app.py
 
 먼저 `python run_all.py` 로 data/processed/ 를 생성해야 한다.
-필요 패키지: streamlit, pandas, numpy
+필요 패키지: streamlit, pandas, numpy, scikit-learn
 """
 from __future__ import annotations
 
@@ -29,6 +38,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import streamlit as st
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 ROOT = Path(__file__).resolve().parent
 PROC = ROOT / "data" / "processed"
@@ -73,6 +83,30 @@ def load_genre_matrix() -> pd.DataFrame:
     return df.set_index("movieId")[genre_cols]
 
 
+@st.cache_data
+def build_tfidf(movies_df: pd.DataFrame):
+    """전체 영화 overview 로 TF-IDF 행렬을 **딱 한 번** 계산해 캐시한다.
+
+    - 영어 불용어 제외(stop_words="english").
+    - 동일한 overview 텍스트가 여러 movieId 에 걸쳐 있으면 한 번만 코퍼스에 넣는다
+      (IDF 왜곡 방지) — movie_to_row 로 movieId -> 행 인덱스를 매핑해 준다.
+    - @st.cache_data 는 인자로 받은 movies_df 의 내용을 해시해 캐시 키로 쓰므로,
+      overview 데이터가 실제로 바뀔 때(=새 영화/줄거리 추가)만 재계산되고, 화면에서
+      필터링하거나 추천 목록을 다시 그릴 때는 절대 재계산되지 않는다.
+    """
+    have = movies_df.loc[movies_df["overview"].notna(), ["movieId", "overview"]]
+    if have.empty:
+        return None, {}
+
+    corpus = have.drop_duplicates(subset="overview", keep="first").reset_index(drop=True)
+    vectorizer = TfidfVectorizer(stop_words="english")
+    tfidf = vectorizer.fit_transform(corpus["overview"])  # 행마다 L2 정규화됨(단위벡터)
+
+    text_to_row = {text: i for i, text in enumerate(corpus["overview"])}
+    movie_to_row = {int(mid): text_to_row[txt] for mid, txt in zip(have["movieId"], have["overview"])}
+    return tfidf, movie_to_row
+
+
 def cosine_similarity_vec(vec, matrix: pd.DataFrame) -> pd.Series | None:
     """vec(장르 원-핫/프로필 벡터) 와 matrix 의 모든 행 사이 코사인 유사도.
     vec 이 전부 0(장르 정보 없음)이면 None."""
@@ -100,6 +134,28 @@ def build_favorite_profile(fav_ids, matrix: pd.DataFrame) -> np.ndarray | None:
         return None
     vecs = matrix.loc[ids].to_numpy(dtype=float)
     return vecs.sum(axis=0) / len(ids)
+
+
+def build_favorite_plot_profile(fav_ids, movie_to_row: dict, tfidf):
+    """선호 영화들의 TF-IDF 벡터를 합산한 뒤 선호 영화 수로 나눈 평균 벡터.
+    (장르 프로필과 같은 방식 — 평균이 곧 합산÷개수다.) 반환: (벡터 또는 None, 사용된 편수)."""
+    rows = [movie_to_row[i] for i in fav_ids if i in movie_to_row]
+    if not rows:
+        return None, 0
+    vec = np.asarray(tfidf[rows].mean(axis=0)).ravel()
+    return vec, len(rows)
+
+
+def cosine_sim_tfidf(vec, tfidf) -> np.ndarray | None:
+    """vec 과 tfidf 의 모든 행 사이 코사인 유사도. tfidf 행은 이미 단위벡터(L2 정규화)라
+    분모는 vec 의 노름만 계산하면 된다."""
+    if vec is None or not np.any(vec):
+        return None
+    vec_norm = np.linalg.norm(vec)
+    if vec_norm == 0:
+        return None
+    dot = np.asarray(tfidf @ vec).ravel()
+    return dot / vec_norm
 
 
 def load_favorites_from_disk() -> set:
@@ -148,6 +204,8 @@ movies = load_movies()
 hist = load_rating_hist()
 LABELS = load_labels()
 genre_matrix = load_genre_matrix() if GENRE_ONEHOT_CSV.exists() else None
+# 캐시 키 해시가 단순하도록 movieId·overview 두 열만 넘긴다(다른 열엔 리스트형 genre_list 가 있어 해시 불가).
+tfidf_matrix, movie_to_row = build_tfidf(movies[["movieId", "overview"]])  # 전체 영화 기준 1회 계산(캐시)
 
 LABEL_HELP = {
     0: "평가가 하나도 없는 영화",
@@ -218,7 +276,7 @@ def render_movie_row(row: pd.Series, key_prefix: str) -> None:
 
 
 def render_profile_score() -> None:
-    """선호 장르 프로필을 10점 만점 점수로 바꿔 화면 최상단에 시각화."""
+    """선호 장르 프로필을 10점 만점 점수로 바꿔 시각화."""
     st.subheader("🎯 내 선호 장르 프로필 (10점 만점)")
     fav_ids = st.session_state.favorites
 
@@ -250,10 +308,10 @@ def render_profile_score() -> None:
     )
 
 
-def render_profile_section() -> None:
-    """선호 영화들의 평균 장르 벡터(프로필)로 만드는 추천 — 어느 화면에서든 표시."""
+def render_genre_profile_recs() -> None:
+    """[개인화] 선호작들의 평균 장르 벡터(프로필)로 만드는 추천."""
     fav_ids = st.session_state.favorites
-    st.subheader("내 선호 영화 프로필 기반 추천")
+    st.subheader("장르 벡터 기반 추천")
 
     if not fav_ids:
         st.caption(
@@ -285,7 +343,48 @@ def render_profile_section() -> None:
                "(선호 영화 자신은 제외)")
 
     for _, row in prof_df.head(topn_prof).iterrows():
-        render_movie_row(row, "profile")
+        render_movie_row(row, "genreprofile")
+
+
+def render_plot_profile_recs() -> None:
+    """[개인화] 선호작들의 평균 TF-IDF 벡터(줄거리 프로필)로 만드는 추천.
+    TF-IDF 행렬 자체는 build_tfidf() 캐시를 그대로 재사용 — 여기서 다시 계산하지 않는다."""
+    fav_ids = st.session_state.favorites
+    st.subheader("비슷한 줄거리의 영화 (TF-IDF 기반)")
+
+    if not fav_ids:
+        st.caption(
+            "❤️ 선호 영화를 1편 이상 담으면, 선호작 줄거리들의 TF-IDF 벡터를 "
+            "(합산 ÷ 선호 영화 수)로 평균 낸 '선호 줄거리 프로필'로 추천을 보여줍니다."
+        )
+        return
+    if tfidf_matrix is None:
+        st.info("overview(줄거리) 데이터가 없어 줄거리 기반 추천을 만들 수 없습니다.")
+        return
+
+    vec, n_used = build_favorite_plot_profile(fav_ids, movie_to_row, tfidf_matrix)
+    if vec is None:
+        st.info("선호한 영화들에 줄거리(overview) 정보가 없어 프로필을 만들 수 없습니다.")
+        return
+
+    sims = cosine_sim_tfidf(vec, tfidf_matrix)
+    sims_by_movie = {mid_: sims[row] for mid_, row in movie_to_row.items()}
+    sim_series = pd.Series(sims_by_movie, name="cosine_sim")
+    sim_series = sim_series.drop(index=[i for i in fav_ids if i in sim_series.index], errors="ignore")
+    sim_series = sim_series[sim_series > 0]  # 줄거리가 하나도 안 겹치거나 정보 없는 영화 제외
+
+    plot_df = pd.DataFrame({"movieId": sim_series.index, "cosine_sim": sim_series.to_numpy()})
+    plot_df = plot_df.merge(movies, on="movieId", how="left")
+    plot_df = plot_df.sort_values(["cosine_sim", "bayesian_rating"], ascending=[False, False])
+
+    topn_plot = st.slider("표시 개수", 5, 30, 10, key="plot_topn")
+    st.caption(
+        f"선호 영화 중 줄거리 있는 {n_used}편 기준 · 줄거리 겹치는 영화 {len(plot_df)}편 중 "
+        f"상위 {min(topn_plot, len(plot_df))}편 (선호 영화 자신은 제외)"
+    )
+
+    for _, row in plot_df.head(topn_plot).iterrows():
+        render_movie_row(row, "plotprofile")
 
 
 # ----------------------------- 사이드바: 검색 -----------------------------
@@ -343,10 +442,20 @@ else:
         )
 
 
-# ----------------------------- 본문 -----------------------------
+# ============================= 🔸 개인화 추천 영역 =============================
+# 선호 영화(favorites)를 기반으로 계산 — 화면 최상단, 어떤 영화를 보든 항상 표시.
+# 사용자(선호 목록)에 따라 결과가 달라진다.
+st.header("🔸 개인화 추천")
+st.caption("내가 담은 선호 영화들을 바탕으로 계산 — 사람마다 결과가 다릅니다.")
+
 render_profile_score()
+render_genre_profile_recs()
+render_plot_profile_recs()
+
 st.markdown("---")
 
+
+# ============================= 본문: 영화 상세 =============================
 mid = st.session_state.movie_id
 
 if mid is None or mid not in set(movies["movieId"]):
@@ -354,18 +463,15 @@ if mid is None or mid not in set(movies["movieId"]):
     st.markdown(
         "왼쪽에서 영화를 검색하고 선택하세요.\n\n"
         "- **검색**: 제목·장르로 찾기 (평가 수 무관)\n"
-        "- **추천**: 선택한 영화와 같은 장르에서 보정 평점이 높은 영화\n"
-        "- **상세**: 제목·장르·개봉년도·평점 분포·평균 평점·추천 라벨\n"
-        "- **프로필 추천**: 선호 영화를 담을수록 아래 프로필 추천이 정교해집니다."
+        "- **🔸 개인화 추천**(위): 선호 영화를 담을수록 정교해지는 추천\n"
+        "- **🔹 비개인화 추천**(영화 선택 시): 평점·인기도·보정 평점 기반 추천\n"
+        "- **상세**: 제목·장르·개봉년도·평점 분포·평균 평점·추천 라벨"
     )
-    st.markdown("---")
-    render_profile_section()
     st.stop()
 
 m = movies[movies["movieId"] == mid].iloc[0]
 target_genres = set(g for g in m["genre_list"] if g and g != "(no genres listed)")
 
-# ---- 상세 정보 ----
 left, right = st.columns([3, 2])
 
 with left:
@@ -405,7 +511,13 @@ with right:
 
 st.markdown("---")
 
-# ---- 같은 장르 추천 ----
+
+# ============================= 🔹 비개인화 추천 영역 =============================
+# 지금 보고 있는 영화 하나만 기준 — 평점/인기도/보정 평점 기반. 누가 봐도 같은 결과.
+st.header("🔹 비개인화 추천")
+st.caption(f"「{m['title']}」 기준 — 평점·인기도(평가 수)·보정 평점만으로 계산, 선호 목록과 무관합니다.")
+
+# ---- 같은 장르 추천 (평점/인기도/보정 평점 기반) ----
 st.subheader("이 영화와 같은 장르에서 추천할 만한 영화")
 
 if not target_genres:
@@ -423,14 +535,15 @@ else:
         same = same[same["rating_count"] >= 30]
     same = same.sort_values("bayesian_rating", ascending=False).head(topn)
 
-    st.caption(f"기준 장르: {', '.join(sorted(target_genres))}  ·  {len(same)}편")
+    st.caption(f"기준 장르: {', '.join(sorted(target_genres))}  ·  {len(same)}편  ·  "
+               "정렬: 보정 평점(bayesian_rating) 내림차순")
 
     for _, row in same.iterrows():
         render_movie_row(row, "genre")
 
 st.markdown("---")
 
-# ---- 비슷한 장르의 영화 (코사인 유사도) ----
+# ---- 비슷한 장르의 영화 (코사인 유사도, 동점은 보정 평점) ----
 st.subheader("비슷한 장르의 영화")
 st.caption(
     "장르를 원-핫 벡터로 바꿔 코사인 유사도를 계산합니다. "
@@ -464,8 +577,3 @@ else:
 
         for _, row in sim_df.head(topn_sim).iterrows():
             render_movie_row(row, "sim")
-
-st.markdown("---")
-
-# ---- 내 선호 영화 프로필 기반 추천 ----
-render_profile_section()

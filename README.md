@@ -4,6 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![pandas](https://img.shields.io/badge/pandas-2.x-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
 [![matplotlib](https://img.shields.io/badge/matplotlib-3.x-11557C)](https://matplotlib.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-TF--IDF-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-app-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Dataset](https://img.shields.io/badge/dataset-MovieLens%20ml--latest--small-E87B00)](https://grouplens.org/datasets/movielens/)
 
@@ -24,9 +25,9 @@ MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610�
   → **베이지안 보정 평점(`bayesian_rating`)** 으로 표본이 적은 영화를 전역 평균 쪽으로 축소.
 - "평균은 비슷한데 사람마다 평이 갈리는" 영화 구분
   → **평점 표준편차(`rating_std`)** 를 호불호(양극화) 지표로 사용.
-- 최종적으로 각 영화에 **추천 라벨(`rating_label`, 0~5)** 을 부여하고,
-  대시보드에서 제목·장르로 검색 → 같은 장르 추천 → 상세(평점 분포·평균·라벨) → **선호 영화 담기**
-  → **선호 영화들의 장르를 평균 낸 프로필 기반 추천**까지 제공.
+- 최종적으로 각 영화에 **추천 라벨(`rating_label`, 0~5)** 을 부여하고, 대시보드는 추천을
+  **🔸 개인화**(내 선호 영화 기반 — 장르 벡터·TF-IDF 줄거리 벡터)와 **🔹 비개인화**(지금 보는 영화 기준
+  — 평점·인기도·보정평점)로 나눠 보여준다.
 
 > 이 데이터셋은 GroupLens의 *development* 데이터셋으로 공유 연구 결과용이 아니다(`data/raw/README.txt`).
 
@@ -79,7 +80,7 @@ python analysis/eda_figures.py
 python analysis/capture_dashboard.py   # (선택) 대시보드 스크린샷, playwright 필요
 ```
 
-필요 패키지: `pandas`, `numpy`, `matplotlib`, `streamlit` (`requirements.txt`). Python 3.9 이상이면 OS 무관하게 동작한다.
+필요 패키지: `pandas`, `numpy`, `matplotlib`, `scikit-learn`, `streamlit` (`requirements.txt`). Python 3.9 이상이면 OS 무관하게 동작한다.
 대시보드 스크린샷 재생성은 `playwright` + `playwright install chromium` 필요(선택).
 
 ---
@@ -146,6 +147,8 @@ DA_Movielens-Rating-Explorer/
 │   ├── merge_movies_ratings.py
 │   ├── merge_plot_overview.py       # TMDB 줄거리(overview) 병합
 │   ├── genre_similarity.py          # 장르 코사인 유사도 CLI
+│   ├── tfidf_overview.py            # 줄거리 TF-IDF 단어 점수 CLI
+│   ├── tfidf_similarity.py          # TF-IDF vs 장르 벡터 유사도 비교 CLI
 │   ├── bayesian_rating.py
 │   ├── build_analysis_table.py
 │   ├── eda_figures.py
@@ -155,10 +158,11 @@ DA_Movielens-Rating-Explorer/
 │   │   ├── movies.csv, ratings.csv, README.txt        (MovieLens ml-latest-small)
 │   │   └── movie_text_metadata.csv, SOURCES.txt, …    (TMDB 줄거리/출연진, 강의 추가자료)
 │   └── processed/                   # 가공본 (run_all.py 로 재생성, git 미포함)
+│       └── favorites.json                              (개인 선호 목록, git 미포함)
 └── outputs/
     ├── figures/                     # EDA 그림 9종
     ├── tables/                      # 표 5종
-    └── screenshots/                 # 대시보드 캡처 7종
+    └── screenshots/                 # 대시보드 캡처 8종
 ```
 
 ---
@@ -352,19 +356,27 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 
 ## 8. 대시보드 — 영화 추천 탐색기 (`streamlit_app.py`)
 
-`streamlit run streamlit_app.py` 로 실행. 왼쪽에서 검색 → 영화 선택 → 상세와 추천을 본다.
-페이지 맨 위에는 선호 장르를 10점 만점으로 점수화한 그래프(8-7)가 항상 떠 있다.
+`streamlit run streamlit_app.py` 로 실행. 화면은 **🔸 개인화 추천**과 **🔹 비개인화 추천**
+두 영역으로 명확히 나뉜다.
+
+| | 🔸 개인화 추천 | 🔹 비개인화 추천 |
+|---|---|---|
+| 위치 | 페이지 맨 위, 항상 표시(영화 선택 여부 무관) | 영화를 선택했을 때, 상세 화면 아래 |
+| 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화 하나 |
+| 특징 | 선호 목록이 다르면 결과도 다름(사람마다 다름) | 같은 영화를 보면 누구에게나 같은 결과 |
+| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
 검색어를 **제목과 장르(genres) 양쪽에 부분일치**로 찾는다. 평가 수와 무관하게 전체 9,737편이 대상이다.
 `matrix` → Matrix / Reloaded / Revolutions / Animatrix. 결과는 버튼 목록으로 뜨고 클릭하면 선택된다.
 
-### 8-2. 영화 상세 + 같은 장르 추천
+### 8-2. 영화 상세 + 🔹 비개인화: 같은 장르 추천
 ![대시보드 상세](outputs/screenshots/app_02_detail.png)
 - **상세**: 제목 · 개봉년도 · 장르, 평균 평점 / 평점 수 / 보정 평점, 추천 라벨(색상 + 근거 설명),
   그리고 **평점 분포 막대그래프 (0.5 ~ 5.0)** — 해당 영화가 받은 평점의 히스토그램.
-- **추천**: 선택한 영화와 장르가 하나라도 겹치는 영화를 `bayesian_rating` 내림차순으로 나열.
+- **🔹 같은 장르에서 추천할 만한 영화**(비개인화): 선택한 영화와 장르가 하나라도 겹치는 영화를
+  `bayesian_rating`(보정 평점) 내림차순으로 나열 — 평점·인기도·보정평점만 쓰고 선호 목록은 안 쓴다.
   각 항목에 보정평점·평균·평가수·`rating_label`·공통 장르를 표시하고, 클릭하면 그 영화로 이동해 연쇄 탐색이 가능하다.
   옵션으로 "평가 30건 이상만 보기", 표시 개수(5~30)를 조절.
   예: Matrix, The → Fight Club, Usual Suspects, Star Wars IV, Dark Knight …
@@ -377,8 +389,9 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 ### 8-4. 선호 영화 담기
 ![대시보드 선호 영화](outputs/screenshots/app_04_favorites.png)
 상세 화면 제목 옆과 추천 리스트 각 항목 왼쪽에 하트 버튼(🤍/❤️)이 있다. 누르면 그 영화가
-**선호 영화**로 담기고, 왼쪽 사이드바 "❤️ 내가 선호한 영화 (N)"에 실시간으로 쌓인다.
-목록의 각 항목을 클릭하면 그 영화 상세로 바로 이동하고, `✕`로 개별 제거할 수 있다.
+**선호 영화**로 담기고, 왼쪽 사이드바 "❤️ 내가 선호한 영화 (N)"에 실시간으로 쌓이며, 위쪽
+**🔸 개인화 추천 영역**이 그 선호 목록을 기준으로 다시 계산된다. 목록의 각 항목을 클릭하면
+그 영화 상세로 바로 이동하고, `✕`로 개별 제거할 수 있다.
 
 **저장**: 하트를 누를 때마다 `data/processed/favorites.json` 에 즉시 기록되어,
 브라우저를 새로고침하거나 앱(서버)을 재시작해도 목록이 유지된다.
@@ -395,26 +408,28 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 방문자별로 격리되는 브라우저 저장(localStorage)이 필요하다.
 `favorites.json`은 개인 데이터라 `.gitignore`로 제외해 저장소에는 올라가지 않는다.
 
-### 8-5. 비슷한 장르의 영화 (코사인 유사도)
+### 8-5. 🔹 비개인화: 비슷한 장르의 영화 (코사인 유사도)
 ![대시보드 유사 장르](outputs/screenshots/app_05_similar_genre.png)
-`movies_genre_onehot.csv` 의 장르 원-핫 벡터로 선택한 영화와 다른 모든 영화의 **코사인 유사도**를 계산해
-높은 순으로 나열한다 (`analysis/genre_similarity.py` CLI와 같은 계산을 앱에 내장한 것).
+`movies_genre_onehot.csv` 의 장르 원-핫 벡터로 **지금 선택한 영화**와 다른 모든 영화의 **코사인 유사도**를
+계산해 높은 순으로 나열한다 (`analysis/genre_similarity.py` CLI와 같은 계산을 앱에 내장한 것). 선호 목록을
+전혀 쓰지 않으므로 비개인화 영역에 속한다.
 
 - **제외 규칙**: 겹치는 장르가 하나도 없는 영화(코사인 유사도 = 0)와 장르 정보가 없는 영화는 목록에서 뺀다.
 - **동점 처리**: 유사도가 같으면(예: 장르 조합이 완전히 동일) `bayesian_rating` 내림차순으로 정렬한다.
-- 위 8-2 절의 "같은 장르에서 추천"이 *장르가 하나라도 겹치면* `bayesian_rating` 순으로 보여주는 반면,
+- 8-2 절의 "같은 장르에서 추천"이 *장르가 하나라도 겹치면* `bayesian_rating` 순으로 보여주는 반면,
   이 섹션은 *장르 벡터가 얼마나 닮았는지*(코사인 유사도)를 1차 기준으로 삼는다는 점이 다르다.
 - 예: Matrix, The(Action\|Sci-Fi\|Thriller) → 정확히 같은 3장르 조합인 Blade Runner·Terminator·Equilibrium 등이
   전부 유사도 1.000으로 묶이고, 그중 보정 평점이 가장 높은 **Blade Runner(4.06)** 가 1위로 온다.
 
-### 8-6. 내 선호 영화 프로필 기반 추천
-![대시보드 프로필 추천](outputs/screenshots/app_06_profile.png)
+### 8-6. 🔸 개인화: 장르 벡터 기반 추천
+![대시보드 장르 프로필 추천](outputs/screenshots/app_06_genre_profile.png)
 선호 영화가 **여러 편**이면 개별 영화 하나로는 대표할 수 없으므로, 선호작들의 장르 원-핫 벡터를
 **전부 합산한 뒤 선호 영화 수로 나눠** "선호 장르 프로필" 벡터를 만든다 — 각 장르 열은
 "그 장르를 가진 선호작의 비율"이 된다(예: 선호작 2편 중 1편만 Drama면 Drama = 0.5).
-이 프로필 벡터로 전체 영화와 코사인 유사도를 계산해 순위를 매긴다.
+이 프로필 벡터로 전체 영화와 코사인 유사도를 계산해 순위를 매긴다. 지금 어떤 영화를 보고 있는지와
+무관하게 **선호 목록만으로** 계산되므로 개인화 영역에 속한다.
 
-- **적용 대상**: 특정 영화를 보고 있지 않아도(첫 화면) 항상 표시되며, 상세 화면 맨 아래에도 다시 나온다.
+- **적용 대상**: 특정 영화를 보고 있지 않아도(첫 화면) 항상 표시되며, 영화 상세 위쪽에도 동일하게 나온다.
 - **제외 규칙**: 8-5와 동일 — 유사도 0(겹치는 장르 없음/장르 정보 없음) 제외 + **이미 선호한 영화 자신은 목록에서 제외**.
 - **동점 처리**: `bayesian_rating` 내림차순.
 - 예: `Chinatown`(Crime·Film-Noir·Mystery·Thriller) + `Shawshank Redemption`(Crime·Drama)을 선호하면
@@ -422,10 +437,26 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
   `Mulholland Drive`(Crime·Drama·Mystery·Thriller, 유사도 0.949)가 1위로 추천된다.
 - 선호 영화 0편이면 프로필을 만들 수 없다는 안내만 표시한다.
 
-### 8-7. 내 선호 장르 프로필 (10점 만점) — 화면 최상단
-![대시보드 프로필 점수](outputs/screenshots/app_07_profile_score.png)
+### 8-7. 🔸 개인화: 비슷한 줄거리의 영화 (TF-IDF 기반)
+![대시보드 줄거리 프로필 추천](outputs/screenshots/app_07_plot_profile.png)
+장르 대신 **줄거리(overview)** 로 만드는 개인화 추천. 선호작들의 TF-IDF 벡터를 (장르 프로필과 똑같은 방식으로)
+합산 후 선호 영화 수로 나눠 "선호 줄거리 프로필"을 만들고, 전체 영화와 코사인 유사도를 계산한다.
+
+- **제외 규칙**: 8-6과 동일 — 줄거리가 하나도 안 겹치는 영화(유사도 0), 줄거리 정보가 없는 영화, 선호 영화
+  자신은 제외. 선호작 중 줄거리가 없는 편은 프로필 계산에서 자동으로 빠지고 몇 편이 쓰였는지 캡션에 표시한다.
+- **동점 처리**: `bayesian_rating` 내림차순.
+- **TF-IDF 계산은 앱 실행 중 단 한 번만 한다.** `build_tfidf()` 가 `@st.cache_data` 로 캐시되어,
+  표시 개수를 바꾸거나 다른 영화를 보거나 추천 목록을 다시 그려도 **재계산되지 않는다** — 캐시는
+  `movies_with_ratings.csv`(movieId·overview) 내용이 실제로 바뀔 때(=새 영화/줄거리 추가, 곧 앱 재시작)만
+  갱신된다. 영어 불용어는 제외하고(`TfidfVectorizer(stop_words="english")`), 동일한 overview 텍스트가
+  여러 movieId 에 걸쳐 있으면 IDF 왜곡을 막기 위해 한 번만 코퍼스에 넣는다.
+- 예: `Chinatown` + `L.A. Confidential` 선호 시 Mulholland Drive·Usual Suspects·Reservoir Dogs·Third Man
+  같은 범죄/느와르 작품이 유사도 0.86~0.89 로 상위에 온다.
+
+### 8-8. 🔸 개인화: 내 선호 장르 프로필 (10점 만점)
+![대시보드 프로필 점수](outputs/screenshots/app_08_profile_score.png)
 8-6의 프로필 벡터(장르별 0~1 비율)를 **10점 만점 점수(비율 × 10)** 로 바꿔 막대그래프로 보여준다.
-어떤 화면에 있든(첫 화면이든 특정 영화 상세든) **페이지 맨 위에 항상 고정 표시**된다.
+🔸 개인화 추천 영역의 맨 위, 즉 페이지 최상단에 항상 표시된다.
 
 - 점수 = (그 장르를 가진 선호작 수 ÷ 선호 영화 수) × 10. 10.0 = 선호작 전부가 그 장르, 5.0 = 절반.
 - 예: `Chinatown`(Crime·Film-Noir·Mystery·Thriller) + `Shawshank Redemption`(Crime·Drama) 선호 시

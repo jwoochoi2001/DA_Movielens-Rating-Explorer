@@ -1,6 +1,7 @@
 """streamlit_app.py 를 띄워 대시보드 스크린샷을 outputs/screenshots/ 에 저장.
 
 streamlit 서버를 직접 실행하고, playwright(chromium)로 화면을 캡처한 뒤 종료한다.
+🔸 개인화 추천 / 🔹 비개인화 추천 두 영역을 모두 보여주도록 순서를 짰다.
 
 실행: 프로젝트 루트에서
     python analysis/capture_dashboard.py
@@ -62,7 +63,8 @@ def main() -> None:
             print("  ", OUT / "app_03_genre_search.png")
 
             # 선호 영화 담기: 검색창을 비워 사이드바 여백을 확보한 뒤
-            # Chinatown(상세) + 첫 추천작 하트를 클릭
+            # Chinatown(상세) + 첫 추천작 하트를 클릭 -> 이후로는 🔸 개인화 추천 영역이
+            # 항상 이 2편(Chinatown, Shawshank Redemption) 기준으로 채워져 보인다.
             search.fill("")
             page.keyboard.press("Enter")
             wait_idle(page, 1200)
@@ -73,7 +75,7 @@ def main() -> None:
             page.screenshot(path=OUT / "app_04_favorites.png", full_page=True)
             print("  ", OUT / "app_04_favorites.png")
 
-            # 비슷한 장르의 영화 (코사인 유사도) 섹션까지 스크롤해서 캡처
+            # Matrix 로 다시 이동 -> 🔹 비개인화 추천의 "비슷한 장르의 영화" 섹션까지 스크롤
             # (Streamlit 앱 컨테이너가 자체 스크롤이라 full_page 캡처가 뷰포트로 제한됨)
             search.click()
             search.fill("matrix")
@@ -86,17 +88,23 @@ def main() -> None:
             page.screenshot(path=OUT / "app_05_similar_genre.png")
             print("  ", OUT / "app_05_similar_genre.png")
 
-            # 내 선호 영화 프로필 기반 추천 (Chinatown + Shawshank Redemption 2편 기준)
-            page.get_by_text("내 선호 영화 프로필 기반 추천", exact=True).scroll_into_view_if_needed()
+            # 🔸 개인화: 장르 벡터 기반 추천 (Chinatown + Shawshank Redemption 2편 기준)
+            page.get_by_text("장르 벡터 기반 추천", exact=True).scroll_into_view_if_needed()
             wait_idle(page, 1000)
-            page.screenshot(path=OUT / "app_06_profile.png")
-            print("  ", OUT / "app_06_profile.png")
+            page.screenshot(path=OUT / "app_06_genre_profile.png")
+            print("  ", OUT / "app_06_genre_profile.png")
 
-            # 내 선호 장르 프로필 (10점 만점) — 화면 최상단 시각화
+            # 🔸 개인화: 비슷한 줄거리의 영화 (TF-IDF 기반)
+            page.get_by_text("비슷한 줄거리의 영화", exact=False).first.scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_07_plot_profile.png")
+            print("  ", OUT / "app_07_plot_profile.png")
+
+            # 🔸 개인화: 내 선호 장르 프로필 (10점 만점) — 화면 최상단
             page.get_by_text("내 선호 장르 프로필 (10점 만점)").scroll_into_view_if_needed()
             wait_idle(page, 1000)
-            page.screenshot(path=OUT / "app_07_profile_score.png")
-            print("  ", OUT / "app_07_profile_score.png")
+            page.screenshot(path=OUT / "app_08_profile_score.png")
+            print("  ", OUT / "app_08_profile_score.png")
 
             browser.close()
     finally:
