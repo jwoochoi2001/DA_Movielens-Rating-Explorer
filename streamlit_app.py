@@ -16,9 +16,10 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
 
   🎬 감독·출연진 기반 추천 (영화를 선택했을 때만, 검색 결과 하단) — 위 두 영역과는 완전히
      별개로 장르/평점/선호 목록을 전혀 쓰지 않는다. data/raw/movie_text_metadata.csv(TMDB) 기준.
-    - 같은 감독의 다른 영화: 감독이 한 명이라도 겹치는 영화
-    - 출연진이 겹치는 영화: 대상 영화의 1번 배우(첫 번째로 표기된 배우)가 있는 영화 후보 중,
-      그 배우 말고 다른 배우도 한 명 더 겹치는 — 즉 배우가 2명 이상 겹치는 영화만 추천
+    - 같은 감독의 다른 영화: 감독이 한 명이라도 겹치는 영화, 보정 평점 순
+    - 출연진이 겹치는 영화: 영화 x 배우 희소행렬(scipy.sparse, 원-핫)을 만들어
+      코사인 유사도가 높은 순으로 추천(동점이면 보정 평점 순), 겹치는 배우가
+      하나도 없는 영화는 제외
 
 그 외
   - 제목·장르 검색 (평가 수와 무관하게 전부 검색), 영화 상세(평점 분포·평균·추천 라벨)
@@ -44,7 +45,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import streamlit as st
+from scipy.sparse import csr_matrix
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity as sk_cosine_similarity
 
 ROOT = Path(__file__).resolve().parent
 PROC = ROOT / "data" / "processed"
@@ -209,6 +212,27 @@ def load_credits():
 
 
 @st.cache_data
+def build_cast_matrix(cast_dict: dict):
+    """movieId × 배우 **희소행렬**(scipy.sparse.csr_matrix, 원-핫 0/1).
+    배우 수(열)가 매우 많고 영화 하나당 배우는 몇 명뿐이라 대부분 0인 희소 행렬로 구성한다
+    — "출연진이 겹치는 영화" 추천에서 코사인 유사도 계산에 쓴다."""
+    if not cast_dict:
+        return None, {}
+    movie_ids = sorted(cast_dict.keys())
+    vocab: dict[str, int] = {}
+    rows, cols = [], []
+    for i, mid in enumerate(movie_ids):
+        for actor in cast_dict[mid]:
+            j = vocab.setdefault(actor, len(vocab))
+            rows.append(i)
+            cols.append(j)
+    data = np.ones(len(rows), dtype=float)
+    mat = csr_matrix((data, (rows, cols)), shape=(len(movie_ids), len(vocab)))
+    movie_to_row = {mid: i for i, mid in enumerate(movie_ids)}
+    return mat, movie_to_row
+
+
+@st.cache_data
 def load_labels() -> dict:
     labels = {}
     if LABEL_TXT.exists():
@@ -233,6 +257,7 @@ genre_matrix = load_genre_matrix() if GENRE_ONEHOT_CSV.exists() else None
 # 캐시 키 해시가 단순하도록 movieId·overview 두 열만 넘긴다(다른 열엔 리스트형 genre_list 가 있어 해시 불가).
 tfidf_matrix, movie_to_row = build_tfidf(movies[["movieId", "overview"]])  # 전체 영화 기준 1회 계산(캐시)
 directors_by_movie, cast_by_movie = load_credits()  # 감독·출연진 (다른 추천 영역과는 별개로 사용)
+cast_matrix, cast_movie_to_row = build_cast_matrix(cast_by_movie)  # 배우 희소행렬, 1회 계산(캐시)
 
 LABEL_HELP = {
     0: "평가가 하나도 없는 영화",
@@ -454,47 +479,39 @@ def render_same_director_section(mid: int) -> None:
 
 def render_cast_overlap_section(mid: int) -> None:
     """[감독·출연진 — 다른 추천 영역과 무관] 출연진이 겹치는 영화.
-    대상 영화의 1번 배우(첫 번째로 표기된 배우)가 있는 영화 후보 중에서, 그 배우 말고
-    다른 배우도 한 명 더(=순서대로 다음 후보들과 대조) 겹치는 — 즉 배우가 2명 이상
-    겹치는 영화만 추천한다."""
+    영화 × 배우 희소행렬(build_cast_matrix, 앱 실행 중 1회만 계산)에서 대상 영화의
+    배우 원-핫 벡터와 다른 모든 영화의 코사인 유사도를 계산해 높은 순으로 추천한다.
+    겹치는 배우가 하나도 없는 영화(유사도 0)는 제외하고, 동점이면 보정 평점 순."""
     st.subheader("출연진이 겹치는 영화")
-    cast = cast_by_movie.get(mid, [])
 
-    if not cast_by_movie:
-        st.info(f"`{CREDITS_CSV.relative_to(ROOT)}` 가 없습니다.")
-        return
-    if len(cast) < 2:
-        st.caption("이 영화는 출연진 정보(TMDB)가 없거나 2명 미만이라 이 섹션을 만들 수 없습니다.")
+    if cast_matrix is None or mid not in cast_movie_to_row:
+        st.caption("이 영화는 출연진 정보(TMDB)가 없어 이 섹션을 만들 수 없습니다.")
         return
 
-    lead = cast[0]  # 1번 배우
-    target_order = {name: i for i, name in enumerate(cast)}  # 대상 영화 표기 순서
+    row_idx = cast_movie_to_row[mid]
+    sims = sk_cosine_similarity(cast_matrix[row_idx], cast_matrix).ravel()
+    target_cast = set(cast_by_movie.get(mid, []))
 
     rows = []
-    for other_mid, other_cast in cast_by_movie.items():
+    for other_mid, other_row in cast_movie_to_row.items():
         if other_mid == mid:
             continue
-        other_set = set(other_cast)
-        if lead not in other_set:
-            continue  # 1번 배우가 없는 영화는 애초에 후보에서 제외
-        shared = other_set & set(cast)
-        if len(shared) >= 2:  # 1번 배우 + 다음 순번 배우 중 최소 1명 더 겹침
-            rows.append({
-                "movieId": other_mid,
-                "shared": sorted(shared, key=lambda n: target_order[n]),  # 대상 영화 표기 순
-            })
+        sim = sims[other_row]
+        if sim <= 0:
+            continue  # 겹치는 배우가 하나도 없으면 제외
+        shared = target_cast & set(cast_by_movie.get(other_mid, []))
+        rows.append({"movieId": other_mid, "cosine_sim": float(sim), "shared": sorted(shared)})
 
     if not rows:
-        st.caption(f"1번 배우: {lead} — 그 외 배우도 함께 겹치는 영화를 찾지 못했습니다.")
+        st.caption("출연진이 겹치는 영화를 찾지 못했습니다.")
         return
 
     df = pd.DataFrame(rows).merge(movies, on="movieId", how="inner")
-    df["n_shared"] = df["shared"].apply(len)
-    df = df.sort_values(["n_shared", "bayesian_rating"], ascending=[False, False])
+    df = df.sort_values(["cosine_sim", "bayesian_rating"], ascending=[False, False])
 
     topn = st.slider("표시 개수", 5, 30, 10, key="cast_topn")
-    st.caption(f"1번 배우(기준): {lead} · 배우 2명 이상 겹치는 영화 {len(df)}편 중 상위 {min(topn, len(df))}편"
-               " (정렬: 겹치는 배우 수 → 보정 평점)")
+    st.caption(f"배우 희소행렬 코사인 유사도 기준 · 겹치는 영화 {len(df)}편 중 상위 {min(topn, len(df))}편"
+               " (동점은 보정 평점 순)")
 
     for _, row in df.head(topn).iterrows():
         render_movie_row(row, "cast", shared_label="공통 배우")

@@ -475,16 +475,17 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 정렬한다. 예: Matrix, The(감독: Lilly & Lana Wachowski) → Bound·Cloud Atlas·Speed Racer·
 Matrix Reloaded·Jupiter Ascending·Matrix Revolutions 6편.
 
-**출연진이 겹치는 영화**: 단순히 배우가 한 명만 겹쳐도 추천하면 동명이인 수준의 우연한 조연 한 명만
-겹쳐도 걸리므로, 기준을 이렇게 좁혔다 —
-1. 대상 영화의 **1번 배우**(TMDB cast 배열의 첫 번째, 보통 주연)가 출연한 영화만 1차 후보로 삼는다.
-2. 그 후보들 중에서 대상 영화의 **다른 출연진과도 최소 한 명 더** 겹치는 영화만 남긴다
-   (= 대상 영화와 배우를 **2명 이상** 공유하는 영화만).
-3. 정렬은 겹치는 배우 수 내림차순 → 동점이면 `bayesian_rating` 내림차순.
+**출연진이 겹치는 영화**: 영화 × 배우 **희소행렬**(`build_cast_matrix`, `scipy.sparse.csr_matrix`,
+원-핫 0/1)을 앱 실행 중 한 번만 만들고(`@st.cache_data`), 대상 영화의 배우 벡터와 다른 모든 영화의
+**코사인 유사도**를 계산해 높은 순으로 추천한다. 배우 수(열)가 수천 개에 달하고 영화 한 편당 배우는
+몇 명뿐이라 대부분이 0인 행렬이라 희소행렬로 구성했다. 겹치는 배우가 하나도 없으면(유사도 0) 제외하고,
+동점이면 `bayesian_rating` 내림차순.
 
-예: Matrix, The(1번 배우 Keanu Reeves, 그 외 Laurence Fishburne·Carrie-Anne Moss·Hugo Weaving·
-Gloria Foster) → Keanu Reeves 가 나온 영화는 많지만, 그중 Matrix 출연진을 2명 이상 공유하는 건
-**Matrix Reloaded·Matrix Revolutions 두 편뿐**이라 이 둘만 추천된다(존 윅 등은 제외).
+예: Matrix, The(배우: Keanu Reeves·Laurence Fishburne·Carrie-Anne Moss·Hugo Weaving·Gloria Foster,
+총 5명) → 4명이 겹치는 **Matrix Reloaded·Matrix Revolutions**가 유사도 0.800 으로 압도적 1·2위,
+그 뒤로 배우 1명만 겹치는 Memento(Carrie-Anne Moss)·Speed(Keanu Reeves) 등이 유사도 0.200 으로
+이어진다 — 겹치는 배우 수에 비례해 순위가 자연스럽게 갈린다(예전의 "1번 배우 + 2명 이상만" 같은
+고정 규칙 없이, 유사도 자체가 그 역할을 대신한다).
 
 ---
 
