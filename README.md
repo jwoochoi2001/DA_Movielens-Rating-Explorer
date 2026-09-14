@@ -162,7 +162,7 @@ DA_Movielens-Rating-Explorer/
 └── outputs/
     ├── figures/                     # EDA 그림 9종
     ├── tables/                      # 표 5종
-    └── screenshots/                 # 대시보드 캡처 9종
+    └── screenshots/                 # 대시보드 캡처 10종
 ```
 
 ---
@@ -366,7 +366,7 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 | 위치 | 페이지 맨 위, 항상 표시 | 영화 선택 시, 상세 바로 아래 | 영화 선택 시, 🎬 영역 아래 |
 | 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화의 감독·출연진(TMDB) | 지금 보고 있는 영화 하나 |
 | 특징 | 사람마다 결과가 다름 | 같은 영화면 누구에게나 같음 | 같은 영화면 누구에게나 같음 |
-| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천 | 같은 감독의 다른 영화, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
+| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천 | 같은 감독의 다른 영화, 배우 클릭 시 그 배우 출연작, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
@@ -474,6 +474,15 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 **같은 감독의 다른 영화**: 감독이 한 명이라도 겹치면 후보에 넣고, `bayesian_rating` 내림차순으로
 정렬한다. 예: Matrix, The(감독: Lilly & Lana Wachowski) → Bound·Cloud Atlas·Speed Racer·
 Matrix Reloaded·Jupiter Ascending·Matrix Revolutions 6편.
+
+**출연 — 배우를 누르면 그 배우의 출연작**
+![대시보드 배우 출연작](outputs/screenshots/app_10_actor_filmography.png)
+대상 영화의 출연진을 배우 이름 버튼으로 한 줄에 나열한다. 배우 하나를 누르면 바로 아래에
+**"🎭 그 배우 출연작"**이 뜬다 — `cast_by_movie` 에서 그 배우가 들어간 영화를 전부 모아
+`bayesian_rating` 내림차순으로 보여준다(장르·유사도 계산 없이 단순 필터 + 정렬).
+예: Matrix, The 출연진 버튼 중 **Keanu Reeves** 를 누르면 그의 출연작 24편이 뜨고,
+1위는 Matrix, The 자신(보정 4.17), 이어서 Dangerous Liaisons·Much Ado About Nothing·
+Speed 순으로 나열된다. `✕ 배우 선택 닫기`로 접을 수 있고, 다른 배우를 다시 누르면 목록이 바뀐다.
 
 **출연진이 겹치는 영화**: 영화 × 배우 **희소행렬**(`build_cast_matrix`, `scipy.sparse.csr_matrix`,
 원-핫 0/1)을 앱 실행 중 한 번만 만들고(`@st.cache_data`), 대상 영화의 배우 벡터와 다른 모든 영화의

@@ -112,6 +112,14 @@ def main() -> None:
             page.screenshot(path=OUT / "app_09_director_cast.png")
             print("  ", OUT / "app_09_director_cast.png")
 
+            # 배우 버튼 클릭 -> 그 배우의 출연작 목록
+            page.get_by_role("button", name="Keanu Reeves", exact=True).click()
+            wait_idle(page, 1500)
+            page.get_by_text("Keanu Reeves 출연작", exact=False).first.scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_10_actor_filmography.png")
+            print("  ", OUT / "app_10_actor_filmography.png")
+
             browser.close()
     finally:
         srv.terminate()

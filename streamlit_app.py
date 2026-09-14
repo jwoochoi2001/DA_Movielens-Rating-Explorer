@@ -17,6 +17,8 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
   🎬 감독·출연진 기반 추천 (영화를 선택했을 때만, 검색 결과 하단) — 위 두 영역과는 완전히
      별개로 장르/평점/선호 목록을 전혀 쓰지 않는다. data/raw/movie_text_metadata.csv(TMDB) 기준.
     - 같은 감독의 다른 영화: 감독이 한 명이라도 겹치는 영화, 보정 평점 순
+    - 출연: 대상 영화의 배우를 버튼으로 나열 — 배우를 누르면 그 배우의 출연작을
+      보정 평점 순으로 바로 아래에 보여준다
     - 출연진이 겹치는 영화: 영화 x 배우 희소행렬(scipy.sparse, 원-핫)을 만들어
       코사인 유사도가 높은 순으로 추천(동점이면 보정 평점 순), 겹치는 배우가
       하나도 없는 영화는 제외
@@ -275,6 +277,8 @@ if "movie_id" not in st.session_state:
     st.session_state.movie_id = None
 if "favorites" not in st.session_state:
     st.session_state.favorites = load_favorites_from_disk()  # 파일에서 복원
+if "selected_actor" not in st.session_state:
+    st.session_state.selected_actor = None
 
 
 def select_movie(mid: int):
@@ -289,6 +293,10 @@ def toggle_favorite(mid: int):
     else:
         favs.add(mid)
     save_favorites_to_disk(favs)
+
+
+def select_actor(name: str):
+    st.session_state.selected_actor = name
 
 
 def render_movie_row(row: pd.Series, key_prefix: str, shared_label: str = "공통 장르") -> None:
@@ -477,6 +485,35 @@ def render_same_director_section(mid: int) -> None:
         render_movie_row(row, "director", shared_label="공통 감독")
 
 
+def render_cast_section(mid: int) -> None:
+    """대상 영화의 출연진을 배우별 버튼으로 보여준다. 배우 이름을 누르면 아래에
+    그 배우가 출연한 영화 목록을 보정 평점 순으로 보여준다(다른 추천 영역과 무관)."""
+    cast = cast_by_movie.get(mid, [])
+    if not cast:
+        return  # 정보 없으면 표시 생략 — 아래 '출연진이 겹치는 영화'에서 안내 문구가 뜬다
+
+    st.markdown("**출연** (배우를 누르면 그 배우의 출연작을 보여줍니다)")
+    cols = st.columns(len(cast))
+    for col, actor in zip(cols, cast):
+        col.button(actor, key=f"actor_{mid}_{actor}", use_container_width=True,
+                   on_click=select_actor, args=(actor,))
+
+    actor = st.session_state.selected_actor
+    if not actor:
+        return
+
+    movie_ids = [m for m, c in cast_by_movie.items() if actor in c]
+    df = movies[movies["movieId"].isin(movie_ids)].sort_values("bayesian_rating", ascending=False)
+
+    st.markdown(f"##### 🎭 {actor} 출연작")
+    topn = st.slider("표시 개수", 5, 30, 10, key="actor_topn")
+    st.caption(f"{actor} 출연작 {len(df)}편 중 상위 {min(topn, len(df))}편 (정렬: 보정 평점)")
+    for _, row in df.head(topn).iterrows():
+        render_movie_row(row, "actorfilmo")
+    st.button("✕ 배우 선택 닫기", key="close_actor",
+              on_click=select_actor, args=(None,))
+
+
 def render_cast_overlap_section(mid: int) -> None:
     """[감독·출연진 — 다른 추천 영역과 무관] 출연진이 겹치는 영화.
     영화 × 배우 희소행렬(build_cast_matrix, 앱 실행 중 1회만 계산)에서 대상 영화의
@@ -649,6 +686,7 @@ st.header("🎬 감독·출연진 기반 추천")
 st.caption(f"「{m['title']}」 검색 결과 하단 — 감독·출연진(TMDB)만 사용, 장르·평점·선호 목록은 쓰지 않습니다.")
 
 render_same_director_section(mid)
+render_cast_section(mid)
 render_cast_overlap_section(mid)
 
 st.markdown("---")
