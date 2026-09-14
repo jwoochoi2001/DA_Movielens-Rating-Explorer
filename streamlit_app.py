@@ -9,6 +9,9 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
       전체 영화와 코사인 유사도 계산
     - 비슷한 줄거리의 영화(TF-IDF 기반): 선호작들의 TF-IDF 벡터를 평균 낸 프로필로
       전체 영화와 코사인 유사도 계산
+    - 나랑 비슷한 사람들이 좋아하는 영화 (사용자 기반 협업 필터링): MovieLens 사용자 ID를
+      입력하면, 평점 패턴이 코사인 유사도로 가장 비슷한 이웃들(공통 평가 영화 수 최소치 이상,
+      최대 이웃 수 제한)이 높게 평가한 미평가 영화를 이웃 유사도 가중 평균으로 예측해 추천
 
   🔹 비개인화 추천 영역 (영화를 선택했을 때만, 그 영화를 기준으로 — 누가 봐도 같은 결과)
     - 이 영화와 같은 장르에서 추천할 만한 영화: 장르 겹침 + 보정 평점(bayesian_rating) 순
@@ -93,6 +96,13 @@ def load_genre_matrix() -> pd.DataFrame:
     meta_cols = {"title", "release_year", "genres"}
     genre_cols = [c for c in df.columns if c not in meta_cols and c != "movieId"]
     return df.set_index("movieId")[genre_cols]
+
+
+@st.cache_data
+def load_user_ratings() -> pd.DataFrame:
+    """userId, movieId, rating 원본 평점 (사용자 기반 협업 필터링용)."""
+    path = RATINGS_CSV if RATINGS_CSV.exists() else RAW_RATINGS_CSV
+    return pd.read_csv(path, usecols=["userId", "movieId", "rating"])
 
 
 @st.cache_data
@@ -235,6 +245,70 @@ def build_cast_matrix(cast_dict: dict):
 
 
 @st.cache_data
+def build_user_item_matrix(ratings_df: pd.DataFrame):
+    """userId × movieId **희소 평점 행렬**(scipy.sparse.csr_matrix, 값=평점, 미평가=0).
+    사용자 기반 협업 필터링(이웃 탐색·평점 예측)의 기반 — 앱 실행 중 한 번만 계산된다."""
+    user_ids = np.sort(ratings_df["userId"].unique())
+    movie_ids = np.sort(ratings_df["movieId"].unique())
+    user_idx = {u: i for i, u in enumerate(user_ids)}
+    rows = ratings_df["userId"].map(user_idx).to_numpy()
+    cols = ratings_df["movieId"].map({m: i for i, m in enumerate(movie_ids)}).to_numpy()
+    data = ratings_df["rating"].to_numpy(dtype=float)
+    mat = csr_matrix((data, (rows, cols)), shape=(len(user_ids), len(movie_ids)))
+    return mat, user_idx, user_ids
+
+
+@st.cache_data
+def find_cf_neighbors(ratings_df: pd.DataFrame, target_user: int,
+                       min_common: int, k: int) -> pd.DataFrame:
+    """target_user 의 이웃을 코사인 유사도로 찾는다(analysis/user_cf_neighbors.py 와 동일 방식).
+    공통으로 평가한 영화가 min_common편 미만인 사용자는 제외하고, 유사도 상위 k명만 남긴다."""
+    mat, user_idx, user_ids = build_user_item_matrix(ratings_df)
+    if target_user not in user_idx:
+        return pd.DataFrame(columns=["neighbor_userId", "cosine_sim", "n_common"])
+
+    u_i = user_idx[target_user]
+    target_vec = mat[u_i]
+    sims = sk_cosine_similarity(target_vec, mat).ravel()
+
+    binary = mat.copy()
+    binary.data = np.ones_like(binary.data)
+    common_counts = np.asarray((binary[u_i] @ binary.T).todense()).ravel()
+
+    cand = pd.DataFrame({"neighbor_userId": user_ids, "cosine_sim": sims, "n_common": common_counts})
+    cand = cand[cand["neighbor_userId"] != target_user]
+    cand = cand[cand["n_common"] >= min_common]
+    cand = cand.sort_values(["cosine_sim", "n_common"], ascending=[False, False]).head(k)
+    return cand.reset_index(drop=True)
+
+
+@st.cache_data
+def predict_cf_ratings(ratings_df: pd.DataFrame, target_user: int,
+                        neighbors: pd.DataFrame) -> pd.DataFrame:
+    """이웃의 유사도 가중 평균으로, target_user 가 아직 평가하지 않은 영화의 평점을 예측한다.
+    pred(m) = Σ sim(v)·rating(v,m) / Σ|sim(v)|  (그 영화를 평가한 이웃만 사용)."""
+    if neighbors.empty:
+        return pd.DataFrame(columns=["movieId", "predicted_rating", "n_neighbor_votes"])
+
+    seen = set(ratings_df.loc[ratings_df["userId"] == target_user, "movieId"])
+    nb = ratings_df[ratings_df["userId"].isin(neighbors["neighbor_userId"])]
+    nb = nb.merge(neighbors, left_on="userId", right_on="neighbor_userId", how="left")
+    nb = nb[~nb["movieId"].isin(seen)]  # 이미 평가한 영화는 추천 후보에서 제외
+
+    def weighted_pred(g: pd.DataFrame) -> pd.Series:
+        w = g["cosine_sim"].to_numpy()
+        r = g["rating"].to_numpy()
+        return pd.Series({
+            "predicted_rating": float(np.dot(w, r) / np.abs(w).sum()),
+            "n_neighbor_votes": len(g),
+        })
+
+    pred = nb.groupby("movieId").apply(weighted_pred, include_groups=False).reset_index()
+    pred["predicted_rating"] = pred["predicted_rating"].round(3)
+    return pred
+
+
+@st.cache_data
 def load_labels() -> dict:
     labels = {}
     if LABEL_TXT.exists():
@@ -325,6 +399,10 @@ def render_movie_row(row: pd.Series, key_prefix: str, shared_label: str = "공�
     )
 
     bits = []
+    if "predicted_rating" in row.index and pd.notna(row["predicted_rating"]):
+        bits.append(f"이웃 예측 평점 **{row['predicted_rating']:.2f}**")
+        if "n_neighbor_votes" in row.index and pd.notna(row["n_neighbor_votes"]):
+            bits.append(f"이웃 {int(row['n_neighbor_votes'])}명 투표")
     if "cosine_sim" in row.index and pd.notna(row["cosine_sim"]):
         bits.append(f"유사도 **{row['cosine_sim']:.3f}**")
     bits.append(f"보정 {row['bayesian_rating']:.2f}")
@@ -447,6 +525,61 @@ def render_plot_profile_recs() -> None:
 
     for _, row in plot_df.head(topn_plot).iterrows():
         render_movie_row(row, "plotprofile")
+
+
+def render_cf_section() -> None:
+    """[개인화 — 사용자 기반 협업 필터링] MovieLens 사용자 ID를 입력하면, 평점 패턴이
+    코사인 유사도로 가장 비슷한 이웃들이 높게 평가한 미평가 영화를 이웃 가중 평균으로
+    예측해 추천한다. '선호 영화' 프로필과는 다른, 실제 평점 이력 기반 개인화다."""
+    st.subheader("나랑 비슷한 사람들이 좋아하는 영화")
+    st.caption(
+        "MovieLens 사용자 ID를 입력하면, 그 사용자와 평점 패턴이 비슷한 이웃(코사인 유사도)을 "
+        "찾아 이웃이 높게 평가한 영화를 예측해 보여줍니다 (사용자 기반 협업 필터링)."
+    )
+
+    uid = st.number_input(
+        "MovieLens 사용자 ID (1~610, 0=사용 안 함)", min_value=0, max_value=610, value=0, step=1,
+        key="cf_user_id", help="예: 414",
+    )
+    if uid == 0:
+        st.caption("사용자 ID를 입력하면 결과가 나타납니다.")
+        return
+
+    c1, c2, c3 = st.columns(3)
+    min_common = c1.slider("최소 공통 평가 영화 수", 5, 100, 5, key="cf_min_common")
+    k = c2.slider("이웃 수(최대)", 5, 100, 10, key="cf_k")
+    min_votes = c3.slider("추천에 필요한 최소 이웃 투표 수", 1, 10, 2, key="cf_min_votes")
+
+    ratings_all = load_user_ratings()
+    if uid not in set(ratings_all["userId"]):
+        st.info(f"사용자 {uid} 는 데이터에 없습니다.")
+        return
+
+    neighbors = find_cf_neighbors(ratings_all, int(uid), min_common, k)
+    if neighbors.empty:
+        st.info("조건을 만족하는 이웃을 찾지 못했습니다 — 최소 공통 평가 영화 수를 낮춰보세요.")
+        return
+
+    st.caption(
+        f"이웃 {len(neighbors)}명 (공통 평가 영화 {min_common}편 이상, 코사인 유사도 상위 {k}명) "
+        f"· 유사도 {neighbors['cosine_sim'].min():.3f} ~ {neighbors['cosine_sim'].max():.3f}"
+    )
+
+    pred = predict_cf_ratings(ratings_all, int(uid), neighbors)
+    pred = pred[pred["n_neighbor_votes"] >= min_votes]
+    if pred.empty:
+        st.info(f"이웃 {min_votes}명 이상이 함께 평가한 미평가 영화가 없습니다 — 조건을 낮춰보세요.")
+        return
+
+    pred = pred.merge(movies, on="movieId", how="left")
+    pred = pred.sort_values(["predicted_rating", "n_neighbor_votes"], ascending=[False, False])
+
+    topn = st.slider("표시 개수", 5, 30, 10, key="cf_topn")
+    st.caption(f"이웃 {min_votes}명 이상이 평가한 미평가 영화 {len(pred)}편 중 예측 평점 상위 "
+               f"{min(topn, len(pred))}편")
+
+    for _, row in pred.head(topn).iterrows():
+        render_movie_row(row, "cf")
 
 
 def render_same_director_section(mid: int) -> None:
@@ -618,6 +751,7 @@ st.caption("내가 담은 선호 영화들을 바탕으로 계산 — 사람마�
 render_profile_score()
 render_genre_profile_recs()
 render_plot_profile_recs()
+render_cf_section()
 
 st.markdown("---")
 

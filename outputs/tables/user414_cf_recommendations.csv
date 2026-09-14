@@ -1,0 +1,16 @@
+movieId,predicted_rating,n_neighbor_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+1227,5.0,2.0,Once Upon a Time in America,Crime|Drama,1984,4.0625,16,3.8468
+3030,4.678,3.0,Yojimbo,Action|Adventure,1961,4.2308,13,3.9137
+954,4.656,3.0,Mr. Smith Goes to Washington,Drama,1939,4.0833,18,3.8756
+2565,4.521,2.0,"King and I, The",Drama|Musical|Romance,1956,4.1667,12,3.8643
+2295,4.513,2.0,"Impostors, The",Comedy,1998,4.5,2,3.668
+534,4.505,2.0,Shadowlands,Drama|Romance,1993,3.6071,14,3.5632
+307,4.5,2.0,Three Colors: Blue (Trois couleurs: Bleu),Drama,1993,3.8958,24,3.7799
+3451,4.5,2.0,Guess Who's Coming to Dinner,Drama,1967,4.5455,11,4.0484
+3462,4.5,2.0,Modern Times,Comedy|Drama|Romance,1936,3.72,25,3.6576
+7387,4.5,2.0,Dawn of the Dead,Action|Drama|Horror,1978,3.975,20,3.8172
+8132,4.5,2.0,Gladiator,Action|Drama,1992,4.3333,9,3.8956
+3494,4.493,2.0,True Grit,Adventure|Drama|Western,1969,4.0,6,3.6885
+1230,4.478,4.0,Annie Hall,Comedy|Romance,1977,3.8707,58,3.8164
+3435,4.375,3.0,Double Indemnity,Crime|Drama|Film-Noir,1944,4.3235,17,4.0191
+1203,4.372,4.0,12 Angry Men,Drama,1957,4.1491,57,4.0525

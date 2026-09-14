@@ -1,0 +1,948 @@
+movieId,predicted_rating,n_neighbor_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+5490,5.0,1.0,The Big Bus,Action|Comedy,1976,5.0,1,3.6378
+8235,5.0,1.0,Safety Last!,Action|Comedy|Romance,1923,4.0,2,3.5846
+26169,5.0,1.0,Branded to Kill (Koroshi no rakuin),Action|Crime|Drama,1967,5.0,1,3.6378
+26401,5.0,1.0,Last Hurrah for Chivalry (Hao xia),Action|Drama,1979,5.0,1,3.6378
+26681,5.0,1.0,Bullet in the Head,Action|Drama|War,1990,4.0,2,3.5846
+72142,5.0,1.0,Love Exposure (Ai No Mukidashi),Action|Comedy|Drama|Romance,2008,5.0,1,3.6378
+82744,5.0,1.0,Faster,Action|Crime|Drama,2010,5.0,1,3.6378
+95149,5.0,1.0,Superman/Batman: Public Enemies,Action|Animation|Fantasy,2009,5.0,1,3.6378
+100906,5.0,1.0,Maniac Cop 2,Action|Horror|Thriller,1990,5.0,1,3.6378
+102084,5.0,1.0,Justice League: Doom,Action|Animation|Fantasy,2012,5.0,1,3.6378
+108795,5.0,1.0,Wonder Woman,Action|Adventure|Animation|Fantasy,2009,5.0,1,3.6378
+109968,5.0,1.0,Why Don't You Play In Hell? (Jigoku de naze warui),Action|Drama,2013,4.25,2,3.6263
+115727,5.0,1.0,Crippled Avengers (Can que) (Return of the 5 Deadly Venoms),Action|Adventure,1981,5.0,1,3.6378
+138632,5.0,1.0,Tokyo Tribe,Action|Crime|Drama|Sci-Fi,2014,5.0,1,3.6378
+173145,5.0,1.0,War for the Planet of the Apes,Action|Adventure|Drama|Sci-Fi,2017,2.875,4,3.3225
+5915,4.784,2.0,Victory (a.k.a. Escape to Victory),Action|Drama|War,1981,4.75,2,3.7096
+122912,4.674,3.0,Avengers: Infinity War - Part I,Action|Adventure|Sci-Fi,2018,4.0,13,3.7833
+5833,4.639,3.0,Dog Soldiers,Action|Horror,2002,4.6667,3,3.7704
+6300,4.513,3.0,Flickering Lights (Blinkende lygter),Action|Comedy|Crime,2000,4.5,3,3.732
+167746,4.506,2.0,The Lego Batman Movie,Action|Animation|Comedy,2017,3.7143,7,3.5892
+2568,4.5,1.0,"Mod Squad, The",Action|Crime,1999,3.1875,8,3.362
+5155,4.5,1.0,"Big Bird Cage, The",Action,1972,4.5,1,3.5923
+8795,4.5,1.0,Musa the Warrior (Musa),Action|Adventure|Drama|War,2001,4.5,1,3.5923
+26736,4.5,1.0,Riki-Oh: The Story of Ricky (Lik Wong),Action|Crime|Thriller,1991,4.5,1,3.5923
+26985,4.5,1.0,Nirvana,Action|Sci-Fi,1997,4.5,1,3.5923
+27480,4.5,1.0,Dead or Alive 2: Tôbôsha,Action|Crime|Thriller,2000,4.5,1,3.5923
+27869,4.5,1.0,Tae Guk Gi: The Brotherhood of War (Taegukgi hwinalrimyeo),Action|Drama|War,2004,4.5,1,3.5923
+34450,4.5,1.0,Miracles - Mr. Canton and Lady Rose,Action|Comedy|Crime|Drama,1989,4.5,1,3.5923
+72308,4.5,1.0,Battlestar Galactica: The Plan,Action|Adventure|Drama|Sci-Fi,2009,4.25,2,3.6263
+72554,4.5,1.0,Cell 211 (Celda 211),Action|Drama,2009,4.5,1,3.5923
+96004,4.5,1.0,Dragon Ball Z: The History of Trunks (Doragon bôru Z: Zetsubô e no hankô!! Nokosareta chô senshi - Gohan to Torankusu),Action|Adventure|Animation,1993,3.25,2,3.4596
+102338,4.5,1.0,Shaolin Temple (Shao Lin si),Action|Adventure|Drama,1976,4.5,1,3.5923
+107462,4.5,1.0,Ninja: Shadow of a Tear,Action|Crime|Thriller,2013,4.5,1,3.5923
+116668,4.5,1.0,Dead Snow 2: Red vs. Dead,Action|Comedy|Horror,2014,4.0,2,3.5846
+160527,4.5,1.0,Sympathy for the Underdog,Action|Crime|Drama,1971,4.5,1,3.5923
+160565,4.5,1.0,The Purge: Election Year,Action|Horror|Sci-Fi,2016,2.75,2,3.3763
+93838,4.492,5.0,The Raid: Redemption,Action|Crime,2011,4.3333,9,3.8956
+7387,4.353,9.0,Dawn of the Dead,Action|Drama|Horror,1978,3.975,20,3.8172
+27156,4.345,3.0,"Neon Genesis Evangelion: The End of Evangelion (Shin seiki Evangelion Gekijô-ban: Air/Magokoro wo, kimi ni)",Action|Animation|Drama|Fantasy|Sci-Fi,1997,4.3,5,3.7677
+69275,4.31,3.0,Dead Snow (Død snø),Action|Adventure|Comedy|Horror,2009,4.25,4,3.7154
+187593,4.305,3.0,Deadpool 2,Action|Comedy|Sci-Fi,2018,3.875,12,3.7053
+69524,4.277,2.0,Raiders of the Lost Ark: The Adaptation,Action|Adventure|Thriller,1989,4.3333,3,3.6935
+4826,4.27,2.0,"Big Red One, The",Action|Adventure|Drama|War,1980,4.25,2,3.6263
+5965,4.266,2.0,"Duellists, The",Action|War,1977,4.1667,3,3.6551
+82242,4.251,2.0,Rare Exports: A Christmas Tale (Rare Exports),Action|Comedy,2010,4.25,2,3.6263
+3062,4.242,4.0,"Longest Day, The",Action|Drama|War,1962,4.0,11,3.7627
+3030,4.236,8.0,Yojimbo,Action|Adventure,1961,4.2308,13,3.9137
+73323,4.219,4.0,"Girl Who Kicked the Hornet's Nest, The (Luftslottet som sprängdes)",Action|Crime|Mystery,2009,4.2,5,3.7344
+74510,4.217,4.0,"Girl Who Played with Fire, The (Flickan som lekte med elden)",Action|Crime|Drama|Mystery|Thriller,2009,4.25,4,3.7154
+2288,4.213,16.0,"Thing, The",Action|Horror|Sci-Fi|Thriller,1982,3.9333,45,3.8548
+55167,4.206,2.0,Tekkonkinkreet (Tekkon kinkurîto),Action|Adventure|Animation|Crime|Fantasy,2006,4.625,4,3.8225
+8132,4.198,5.0,Gladiator,Action|Drama,1992,4.3333,9,3.8956
+168248,4.195,3.0,John Wick: Chapter Two,Action|Crime|Thriller,2017,4.1429,7,3.7656
+72489,4.193,3.0,Ninja Assassin,Action|Crime|Drama|Thriller,2009,4.1667,3,3.6551
+8142,4.189,2.0,Dead or Alive: Hanzaisha,Action|Crime,1999,4.25,2,3.6263
+1209,4.164,9.0,Once Upon a Time in the West (C'era una volta il West),Action|Drama|Western,1968,4.3056,18,4.0184
+84414,4.153,2.0,All-Star Superman,Action|Adventure|Animation|Sci-Fi,2011,4.25,2,3.6263
+2905,4.147,3.0,Sanjuro (Tsubaki Sanjûrô),Action|Adventure|Drama,1962,4.25,4,3.7154
+55721,4.14,4.0,Elite Squad (Tropa de Elite),Action|Crime|Drama|Thriller,2007,4.3,10,3.9008
+26547,4.124,2.0,Police Story (Ging chaat goo si),Action|Comedy|Crime|Thriller,1985,4.25,2,3.6263
+98124,4.112,3.0,"Batman: The Dark Knight Returns, Part 1",Action|Animation|Sci-Fi,2012,3.9286,7,3.6774
+112175,4.104,5.0,How to Train Your Dragon 2,Action|Adventure|Animation,2014,3.7667,15,3.6606
+1287,4.099,12.0,Ben-Hur,Action|Adventure|Drama,1959,3.9412,34,3.8413
+38095,4.09,3.0,"Bittersweet Life, A (Dalkomhan insaeng)",Action|Crime|Drama,2005,4.1667,3,3.6551
+68945,4.087,2.0,Neon Genesis Evangelion: Death & Rebirth (Shin seiki Evangelion Gekijô-ban: Shito shinsei),Action|Animation|Mystery|Sci-Fi,1997,4.0,2,3.5846
+104913,4.023,4.0,Rush,Action|Drama,2013,3.8182,11,3.6674
+7022,4.012,16.0,Battle Royale (Batoru rowaiaru),Action|Drama|Horror|Thriller,2000,3.9333,30,3.8254
+8253,4.009,3.0,Lupin III: The Castle Of Cagliostro (Rupan sansei: Kariosutoro no shiro),Action|Adventure|Animation|Comedy|Crime|Mystery,1979,3.4,5,3.4677
+8016,4.006,2.0,"Getaway, The",Action|Crime|Drama|Thriller,1972,4.0,2,3.5846
+2041,4.0,2.0,Condorman,Action|Adventure|Children|Comedy,1981,3.3333,3,3.4627
+3384,4.0,2.0,"Taking of Pelham One Two Three, The",Action|Crime,1974,4.5,4,3.7868
+6448,4.0,2.0,"Flight of the Phoenix, The",Action|Adventure|Drama,1965,4.0,2,3.5846
+7766,4.0,2.0,Throne of Blood (Kumonosu jô),Action|Drama|Thriller|War,1957,4.0,4,3.644
+8167,4.0,2.0,Captain Blood,Action|Adventure|Romance,1935,4.0,2,3.5846
+31923,4.0,2.0,"Three Musketeers, The",Action|Adventure|Comedy,1973,4.0,3,3.6166
+95475,4.0,2.0,Dragon Ball Z: Cooler's Revenge (Doragon bôru Z 5: Tobikkiri no saikyô tai saikyô),Action|Adventure|Animation,1991,4.0,2,3.5846
+105653,4.0,2.0,Escape Plan,Action|Mystery|Thriller,2013,4.0,4,3.644
+107953,4.0,2.0,Dragon Ball Z: Battle of Gods,Action|Animation|Fantasy|IMAX,2013,4.0,2,3.5846
+168254,4.0,2.0,Kong: Skull Island,Action|Adventure|Fantasy,2017,3.125,4,3.394
+600,4.0,1.0,Love and a .45,Action|Comedy|Crime,1994,4.0,1,3.5469
+1112,4.0,1.0,Palookaville,Action|Comedy|Drama,1996,4.5,2,3.668
+2475,4.0,1.0,52 Pick-Up,Action|Mystery|Thriller,1986,3.6667,3,3.5397
+3029,4.0,1.0,Nighthawks,Action|Drama,1981,3.25,6,3.4072
+3372,4.0,1.0,"Bridge at Remagen, The",Action|War,1969,4.0,2,3.5846
+3628,4.0,1.0,Flying Tigers,Action|Drama|Romance|War,1942,3.0,2,3.418
+3643,4.0,1.0,"Fighting Seabees, The",Action|Drama|War,1944,3.5,2,3.5013
+3761,4.0,1.0,"Blood In, Blood Out",Action|Crime|Drama|Thriller,1993,4.0,1,3.5469
+4444,4.0,1.0,"Way of the Dragon, The (a.k.a. Return of the Dragon) (Meng long guo jiang)",Action|Crime,1972,4.1667,3,3.6551
+6583,4.0,1.0,"Blood of Heroes, The (Salute of the Jugger, The)",Action|Sci-Fi,1989,4.0,1,3.5469
+6946,4.0,1.0,Looney Tunes: Back in Action,Action|Animation|Children|Fantasy,2003,2.75,2,3.3763
+7056,4.0,1.0,"Public Enemy, The",Action|Crime|Drama,1931,4.25,2,3.6263
+7070,4.0,1.0,Red River,Action|Adventure|Western,1948,4.0,1,3.5469
+7925,4.0,1.0,"Hidden Fortress, The (Kakushi-toride no san-akunin)",Action|Adventure,1958,4.25,2,3.6263
+8117,4.0,1.0,In China They Eat Dogs (I Kina spiser de hunde),Action|Comedy,1999,4.0,1,3.5469
+8241,4.0,1.0,Masterminds,Action|Comedy|Thriller,1997,4.0,1,3.5469
+26606,4.0,1.0,"Chinese Ghost Story, A (Sinnui yauwan)",Action|Fantasy|Horror|Romance,1987,4.25,2,3.6263
+44597,4.0,1.0,Youth of the Beast (Yaju no seishun),Action|Crime|Mystery,1963,4.0,1,3.5469
+49688,4.0,1.0,"Dam Busters, The",Action|Drama|War,1955,4.0,1,3.5469
+63826,4.0,1.0,Splinter,Action|Horror|Thriller,2008,4.0,1,3.5469
+65596,4.0,1.0,Mesrine: Killer Instinct (L'instinct de mort),Action|Crime|Drama|Thriller,2008,4.0,1,3.5469
+70533,4.0,1.0,Evangelion: 1.0 You Are (Not) Alone (Evangerion shin gekijôban: Jo),Action|Animation|Sci-Fi,2007,3.8333,3,3.5781
+73876,4.0,1.0,Undisputed II: Last Man Standing,Action|Crime|Drama,2006,4.0,1,3.5469
+77893,4.0,1.0,Merantau,Action|Drama,2009,4.0,1,3.5469
+80083,4.0,1.0,Dragon Ball Z: Dead Zone (Doragon bôru Z 1: Ora no Gohan wo kaese),Action|Adventure|Animation|Fantasy|Sci-Fi,1989,4.0,1,3.5469
+81132,4.0,1.0,Rubber,Action|Adventure|Comedy|Crime|Drama|Film-Noir|Horror|Mystery|Thriller|Western,2010,3.75,2,3.543
+81520,4.0,1.0,Undisputed III: Redemption,Action|Crime|Drama,2010,4.0,1,3.5469
+84187,4.0,1.0,Evangelion: 2.0 You Can (Not) Advance (Evangerion shin gekijôban: Ha),Action|Animation|Drama|Sci-Fi,2009,3.5,3,3.5012
+85342,4.0,1.0,Elite Squad: The Enemy Within (Tropa de Elite 2 - O Inimigo Agora É Outro),Action|Crime|Drama,2010,4.3571,7,3.8539
+85354,4.0,1.0,Mesrine: Public Enemy #1 (L'ennemi public n°1),Action|Crime,2008,3.5,3,3.5012
+86628,4.0,1.0,Kill the Irishman,Action|Crime,2011,4.0,2,3.5846
+86892,4.0,1.0,The Man from Nowhere,Action|Crime|Thriller,2010,4.5,3,3.732
+93805,4.0,1.0,Iron Sky,Action|Comedy|Sci-Fi,2012,3.75,2,3.543
+94985,4.0,1.0,Get the Gringo,Action|Crime|Drama|Thriller,2012,3.8333,3,3.5781
+95004,4.0,1.0,Superman/Doomsday,Action|Animation,2007,4.0,1,3.5469
+95165,4.0,1.0,Dragon Ball Z the Movie: The World's Strongest (a.k.a. Dragon Ball Z: The Strongest Guy in The World) (Doragon bôru Z: Kono yo de ichiban tsuyoi yatsu),Action|Adventure|Animation|Sci-Fi|Thriller,1990,4.0,1,3.5469
+95473,4.0,1.0,Dragon Ball Z: The Return of Cooler (Doragon bôru Z 6: Gekitotsu! Hyakuoku pawâ no senshi),Action|Adventure|Animation,1992,4.0,1,3.5469
+95499,4.0,1.0,Dragon Ball Z: Broly - The Legendary Super Saiyan (Doragon bôru Z 8: Moetsukiro!! Nessen retsusen-chô gekisen),Action|Adventure|Animation,1993,4.0,1,3.5469
+95519,4.0,1.0,Dragon Ball Z: Bojack Unbound (Doragon bôru Z 9: Ginga girigiri!! Butchigiri no sugoi yatsu),Action|Adventure|Animation|Fantasy,1993,4.0,1,3.5469
+95771,4.0,1.0,Dragon Ball Z: Broly Second Coming (Doragon bôru Z 10: Kiken na futari! Sûpâ senshi wa nemurenai),Action|Adventure|Animation,1994,4.0,1,3.5469
+95780,4.0,1.0,Dragon Ball Z: Bio-Broly (Doragon bôru Z 11: Sûpâ senshi gekiha! Katsu no wa ore da),Action|Adventure|Animation,1994,4.0,1,3.5469
+95965,4.0,1.0,Dragon Ball Z: Bardock - The Father of Goku (Doragon bôru Z: Tatta hitori no saishuu kessen - Furiiza ni itonda Z senshi Kakarotto no chichi),Action|Adventure|Animation,1990,4.0,1,3.5469
+100579,4.0,1.0,Universal Soldier: Day of Reckoning,Action|Sci-Fi|Thriller,2012,4.0,1,3.5469
+103883,4.0,1.0,2 Guns,Action|Comedy|Crime,2013,4.0,3,3.6166
+112897,4.0,1.0,The Expendables 3,Action|Adventure,2014,3.5,3,3.5012
+117867,4.0,1.0,'71,Action|Drama|Thriller|War,2014,4.0,1,3.5469
+133802,4.0,1.0,Slow West,Action|Thriller|Western,2015,4.25,2,3.6263
+134170,4.0,1.0,Kung Fury,Action|Comedy|Fantasy|Sci-Fi,2015,3.7143,7,3.5892
+135815,4.0,1.0,The Magnificent Ruffians,Action|Drama,1979,4.0,1,3.5469
+137859,4.0,1.0,Dragon Ball Z Gaiden: The Plot to Destroy the Saiyans,Action|Adventure|Animation,1993,4.0,1,3.5469
+137863,4.0,1.0,Dragon Ball Z: Resurrection of F,Action|Adventure|Animation|Fantasy,2015,4.0,1,3.5469
+141400,4.0,1.0,Invincible Shaolin,Action,1978,4.0,1,3.5469
+141544,4.0,1.0,Turbo Kid,Action|Adventure|Sci-Fi,2015,3.5,3,3.5012
+146309,4.0,1.0,The Boy and the Beast,Action|Adventure|Animation,2015,4.0,1,3.5469
+147382,4.0,1.0,Doctor Who: Voyage Of The Damned,Action|Sci-Fi,2007,4.5,3,3.732
+147657,4.0,1.0,Masked Avengers,Action,1981,4.0,1,3.5469
+163056,4.0,1.0,Shin Godzilla,Action|Adventure|Fantasy|Sci-Fi,2016,4.0,1,3.5469
+172497,4.0,1.0,T2 3-D: Battle Across Time,Action|Adventure|Sci-Fi,1996,4.0,1,3.5469
+179401,4.0,1.0,Jumanji: Welcome to the Jungle,Action|Adventure|Children,2017,3.6667,6,3.5635
+188301,4.0,1.0,Ant-Man and the Wasp,Action|Adventure|Comedy|Fantasy|Sci-Fi,2018,3.6667,3,3.5397
+3681,3.988,18.0,For a Few Dollars More (Per qualche dollaro in più),Action|Drama|Thriller|Western,1965,4.1515,33,4.0004
+65514,3.981,4.0,Ip Man,Action|Drama|War,2008,3.95,10,3.7258
+2366,3.978,6.0,King Kong,Action|Adventure|Fantasy|Horror,1933,3.64,25,3.6004
+3726,3.959,2.0,Assault on Precinct 13,Action|Thriller,1976,3.6,5,3.5344
+105585,3.948,2.0,Machete Kills (Machete 2),Action|Crime|Thriller,2013,4.0,2,3.5846
+8730,3.936,2.0,To End All Wars,Action|Drama|War,2001,4.0,2,3.5846
+110501,3.91,4.0,The Raid 2: Berandal,Action|Crime|Thriller,2014,3.9286,7,3.6774
+861,3.895,4.0,Supercop (Police Story 3: Supercop) (Jing cha gu shi III: Chao ji jing cha),Action|Comedy|Crime|Thriller,1992,3.8333,9,3.6587
+7802,3.883,7.0,"Warriors, The",Action|Adventure|Crime|Thriller,1979,3.9375,8,3.6953
+114935,3.867,4.0,Predestination,Action|Mystery|Sci-Fi|Thriller,2014,3.9,10,3.7008
+57640,3.86,14.0,Hellboy II: The Golden Army,Action|Adventure|Fantasy|Sci-Fi,2008,3.8056,18,3.697
+106487,3.859,7.0,The Hunger Games: Catching Fire,Action|Adventure|Sci-Fi|IMAX,2013,3.6346,26,3.5977
+4339,3.856,3.0,Von Ryan's Express,Action|Adventure|Drama|War,1965,3.75,4,3.5725
+6350,3.848,11.0,Laputa: Castle in the Sky (Tenkû no shiro Rapyuta),Action|Adventure|Animation|Children|Fantasy|Sci-Fi,1986,4.0625,24,3.8975
+42946,3.832,2.0,Project A ('A' gai waak),Action|Comedy,1983,4.0,2,3.5846
+5782,3.831,8.0,"Professional, The (Le professionnel)",Action|Drama|Thriller,1981,3.8684,19,3.7419
+1518,3.805,5.0,Breakdown,Action|Thriller,1997,3.3462,13,3.4137
+6893,3.804,8.0,"Italian Job, The",Action|Comedy|Crime,1969,3.85,10,3.6758
+4441,3.8,2.0,Game of Death,Action,1978,4.1667,3,3.6551
+52319,3.791,2.0,Inglorious Bastards (Quel maledetto treno blindato),Action|Adventure|Drama|War,1978,3.5714,7,3.5303
+6808,3.785,3.0,Where Eagles Dare,Action|Adventure|War,1968,4.0,4,3.644
+136449,3.784,2.0,Ghost in the Shell 2.0,Action|Animation|Sci-Fi,2008,3.75,2,3.543
+111362,3.783,12.0,X-Men: Days of Future Past,Action|Adventure|Sci-Fi,2014,3.8333,30,3.7504
+112138,3.781,5.0,22 Jump Street,Action|Comedy|Crime,2014,3.6842,19,3.6212
+6645,3.777,7.0,THX 1138,Action|Adventure|Drama|Sci-Fi,1971,3.7857,7,3.6186
+31878,3.76,11.0,Kung Fu Hustle (Gong fu),Action|Comedy,2004,3.5789,19,3.5523
+86142,3.759,3.0,13 Assassins (Jûsan-nin no shikaku),Action,2010,4.0,4,3.644
+84942,3.753,2.0,Drive Angry,Action|Fantasy|Thriller,2011,3.75,2,3.543
+91974,3.753,2.0,Underworld: Awakening,Action|Fantasy|Horror|IMAX,2012,3.8,5,3.601
+93510,3.751,8.0,21 Jump Street,Action|Comedy|Crime,2012,3.8654,26,3.7643
+74668,3.743,2.0,District 13: Ultimatum (Banlieue 13 - Ultimatum),Action|Sci-Fi,2009,3.75,2,3.543
+8968,3.742,4.0,After the Sunset,Action|Adventure|Comedy|Crime|Thriller,2004,3.5833,6,3.5322
+90600,3.74,2.0,Headhunters (Hodejegerne),Action|Crime|Thriller,2011,3.6,5,3.5344
+1927,3.724,2.0,All Quiet on the Western Front,Action|Drama|War,1930,4.35,10,3.9258
+3153,3.723,2.0,"7th Voyage of Sinbad, The",Action|Adventure|Fantasy,1958,4.4,5,3.801
+130634,3.72,2.0,Furious 7,Action|Crime|Thriller,2015,2.75,6,3.2197
+95497,3.718,2.0,Dragon Ball Z: Super Android 13! (Doragon bôru Z 7: Kyokugen batoru!! San dai sûpâ saiyajin),Action|Adventure|Animation,1992,3.75,2,3.543
+140956,3.711,2.0,Ready Player One,Action|Sci-Fi|Thriller,2018,3.5,4,3.5011
+6966,3.708,2.0,Darkman,Action|Crime|Fantasy|Sci-Fi|Thriller,1990,3.8333,3,3.5781
+7657,3.708,2.0,Versus,Action|Comedy|Fantasy|Horror,2000,3.75,2,3.543
+26159,3.708,2.0,Tokyo Drifter (Tôkyô nagaremono),Action|Crime|Drama,1966,3.75,2,3.543
+70728,3.705,2.0,Bronson,Action|Comedy|Drama|Thriller,2009,3.8333,3,3.5781
+110102,3.703,9.0,Captain America: The Winter Soldier,Action|Adventure|Sci-Fi|IMAX,2014,3.7419,31,3.6833
+7360,3.699,12.0,Dawn of the Dead,Action|Drama|Horror|Thriller,2004,3.9062,16,3.7506
+2524,3.699,4.0,"Towering Inferno, The",Action|Adventure|Drama|Thriller,1974,3.2222,9,3.3692
+99813,3.69,4.0,"Batman: The Dark Knight Returns, Part 2",Action|Animation,2013,3.875,8,3.6675
+102125,3.681,11.0,Iron Man 3,Action|Sci-Fi|Thriller|IMAX,2013,3.5625,32,3.548
+42718,3.678,3.0,District 13 (Banlieue 13),Action|Crime|Sci-Fi,2004,3.8,5,3.601
+119141,3.666,3.0,The Interview,Action|Comedy,2014,3.4583,12,3.478
+5899,3.664,3.0,Zulu,Action|Drama|War,1964,4.0,4,3.644
+122920,3.658,10.0,Captain America: Civil War,Action|Sci-Fi|Thriller,2016,3.6136,22,3.5786
+102716,3.646,3.0,"Fast & Furious 6 (Fast and the Furious 6, The)",Action|Crime|Thriller|IMAX,2013,3.3571,7,3.4421
+2924,3.636,5.0,Drunken Master (Jui kuen),Action|Comedy,1978,4.05,10,3.7758
+940,3.632,5.0,"Adventures of Robin Hood, The",Action|Adventure|Romance,1938,4.0,8,3.7231
+102123,3.624,4.0,This Is the End,Action|Comedy,2013,3.2143,14,3.334
+36850,3.624,2.0,Police Story 2 (Ging chaat goo si juk jaap),Action|Comedy|Crime|Thriller,1988,3.75,2,3.543
+53022,3.624,2.0,Wheels on Meals (Kuai can che),Action|Comedy|Crime|Romance,1984,3.75,2,3.543
+8501,3.618,4.0,"Hitcher, The",Action|Thriller,1986,3.625,4,3.5368
+86644,3.613,5.0,"Fast Five (Fast and the Furious 5, The)",Action|Crime|Drama|Thriller|IMAX,2011,3.05,10,3.2758
+90746,3.603,5.0,"Adventures of Tintin, The",Action|Animation|Mystery|IMAX,2011,3.5,12,3.5007
+103228,3.598,9.0,Pacific Rim,Action|Adventure|Sci-Fi|IMAX,2013,3.6071,14,3.5632
+2728,3.597,9.0,Spartacus,Action|Drama|Romance|War,1960,3.5769,13,3.5442
+3265,3.588,6.0,Hard-Boiled (Lat sau san taam),Action|Crime|Drama|Thriller,1992,4.0,9,3.7377
+66785,3.583,4.0,"Good, the Bad, the Weird, The (Joheunnom nabbeunnom isanghannom)",Action|Adventure|Comedy|Western,2008,3.8,5,3.601
+92420,3.578,6.0,Chronicle,Action|Sci-Fi|Thriller,2012,3.375,8,3.4453
+6664,3.577,5.0,Commando,Action|Adventure,1985,3.5,6,3.501
+330,3.575,2.0,Tales from the Hood,Action|Crime|Horror,1995,3.0,6,3.3135
+1429,3.574,7.0,First Strike (Police Story 4: First Strike) (Ging chaat goo si 4: Ji gaan daan yam mo),Action|Adventure|Comedy|Thriller,1996,3.575,20,3.5505
+79274,3.561,3.0,Batman: Under the Red Hood,Action|Animation,2010,3.6667,3,3.5397
+7569,3.554,6.0,You Only Live Twice,Action|Adventure|Sci-Fi|Thriller,1967,3.8333,12,3.6825
+70,3.552,25.0,From Dusk Till Dawn,Action|Comedy|Horror|Thriller,1996,3.5091,55,3.5079
+34323,3.547,6.0,"Devil's Rejects, The",Action|Crime|Horror,2005,3.7143,7,3.5892
+5522,3.545,4.0,Rollerball,Action|Drama|Sci-Fi,1975,3.5,4,3.5011
+73569,3.54,2.0,Project A 2 ('A' gai wak juk jap),Action|Comedy|Crime,1987,3.75,2,3.543
+63433,3.528,4.0,Farscape: The Peacekeeper Wars,Action|Adventure|Sci-Fi,2004,3.5,4,3.5011
+62849,3.527,10.0,RocknRolla,Action|Crime,2008,3.7692,13,3.6529
+62956,3.52,6.0,Futurama: Bender's Game,Action|Adventure|Animation|Comedy|Fantasy|Sci-Fi,2008,3.4444,9,3.4745
+4855,3.514,10.0,Dirty Harry,Action|Crime|Thriller,1971,3.775,20,3.6839
+6196,3.514,3.0,Cradle 2 the Grave,Action|Crime|Drama|Thriller,2003,3.5,3,3.5012
+159093,3.51,3.0,Now You See Me 2,Action|Comedy|Thriller,2016,3.6364,11,3.5722
+60161,3.506,6.0,Futurama: The Beast with a Billion Backs,Action|Animation|Comedy|Romance|Sci-Fi,2008,3.5,6,3.501
+88699,3.506,2.0,Death Race 2,Action|Sci-Fi|Thriller,2010,3.5,2,3.5013
+4552,3.5,2.0,"Tetsuo, the Ironman (Tetsuo)",Action|Horror|Sci-Fi|Thriller,1988,3.5,3,3.5012
+61026,3.5,2.0,Red Cliff (Chi bi),Action|Adventure|Drama|War,2008,4.0,3,3.6166
+68486,3.5,2.0,Red Cliff Part II (Chi Bi Xia: Jue Zhan Tian Xia),Action|Drama|War,2009,4.0,3,3.6166
+109578,3.5,2.0,Non-Stop,Action|Mystery|Thriller,2014,3.25,4,3.4297
+384,3.5,1.0,Bad Company,Action|Crime|Drama,1995,3.25,2,3.4596
+875,3.5,1.0,Nothing to Lose,Action|Crime|Drama,1994,3.5,1,3.5014
+4064,3.5,1.0,Coffy,Action|Crime|Thriller,1973,3.5,1,3.5014
+4956,3.5,1.0,"Stunt Man, The",Action|Adventure|Comedy|Drama|Romance|Thriller,1980,4.5,3,3.732
+5409,3.5,1.0,Rapid Fire,Action,1992,3.75,2,3.543
+5580,3.5,1.0,Aspen Extreme,Action,1993,3.5,1,3.5014
+6095,3.5,1.0,Dragon Lord (a.k.a. Dragon Strike) (Long Xiao Ye),Action,1982,3.5,1,3.5014
+6387,3.5,1.0,Once a Thief (Zong heng si hai),Action|Comedy|Crime|Thriller,1991,3.6667,3,3.5397
+6395,3.5,1.0,"Crazies, The (a.k.a. Code Name: Trixie)",Action|Drama|Horror|Sci-Fi|Thriller,1973,3.5,1,3.5014
+6506,3.5,1.0,Fulltime Killer (Chuen jik sat sau),Action|Thriller,2001,3.5,1,3.5014
+6990,3.5,1.0,The Great Train Robbery,Action|Adventure|Comedy|Crime|Drama,1978,3.5,1,3.5014
+7302,3.5,1.0,"Thief of Bagdad, The",Action|Adventure|Fantasy,1924,3.5,1,3.5014
+8093,3.5,1.0,Shiri (Swiri),Action|Drama|Romance|Thriller,1999,3.5,1,3.5014
+25946,3.5,1.0,"Three Musketeers, The",Action|Adventure|Drama|Romance,1948,3.5,1,3.5014
+26399,3.5,1.0,Five Deadly Venoms,Action,1978,3.5,1,3.5014
+26765,3.5,1.0,City Hunter (Sing si lip yan),Action|Comedy|Romance,1993,2.75,2,3.3763
+27002,3.5,1.0,From the Earth to the Moon,Action|Documentary|Drama|Thriller,1998,3.5,1,3.5014
+27865,3.5,1.0,Azumi,Action|Adventure|Drama|Thriller,2003,2.75,2,3.3763
+27905,3.5,1.0,Casshern,Action|Drama|Fantasy|Sci-Fi,2004,3.5,1,3.5014
+31664,3.5,1.0,Gorgeous (Boh lee chun),Action|Comedy|Romance,1999,3.5,1,3.5014
+32387,3.5,1.0,"Sword of Doom, The (Dai-bosatsu tôge)",Action|Drama,1966,4.25,2,3.6263
+32460,3.5,1.0,Knockin' on Heaven's Door,Action|Comedy|Crime|Drama,1997,4.25,4,3.7154
+36931,3.5,1.0,New Police Story (Xin jing cha gu shi),Action|Crime|Drama,2004,3.5,1,3.5014
+41627,3.5,1.0,Samurai Rebellion (Jôi-uchi: Hairyô tsuma shimatsu),Action|Drama,1967,3.5,1,3.5014
+43549,3.5,1.0,Helter Skelter,Action|Crime|Drama|Horror,2004,3.5,1,3.5014
+47254,3.5,1.0,Chaos,Action|Crime|Drama|Thriller,2005,3.5,1,3.5014
+52831,3.5,1.0,Maniac Cop,Action|Crime|Horror|Thriller,1988,3.5,1,3.5014
+58627,3.5,1.0,Never Back Down,Action,2008,3.5,1,3.5014
+60471,3.5,1.0,Rogue,Action|Adventure|Horror|Sci-Fi|Thriller,2007,3.5,1,3.5014
+61210,3.5,1.0,Mutant Chronicles,Action|Adventure|Sci-Fi,2008,3.5,1,3.5014
+62299,3.5,1.0,Alone in the Dark II,Action|Horror,2008,3.5,1,3.5014
+63276,3.5,1.0,Crows Zero (Kurôzu zero),Action,2007,4.0,2,3.5846
+69278,3.5,1.0,Land of the Lost,Action|Adventure|Comedy|Sci-Fi,2009,3.2143,7,3.3833
+71129,3.5,1.0,Green Lantern: First Flight,Action|Adventure|Animation|Fantasy|Sci-Fi,2009,3.5,1,3.5014
+72591,3.5,1.0,"Patriot, The",Action|Thriller,1998,3.5,1,3.5014
+73499,3.5,1.0,MacGyver: Lost Treasure of Atlantis,Action|Adventure,1994,3.5,1,3.5014
+74685,3.5,1.0,"Crazies, The",Action|Drama|Horror|Sci-Fi|Thriller,2010,3.375,4,3.4654
+82765,3.5,1.0,Little Big Soldier (Da bing xiao jiang),Action|Adventure|Comedy|Drama|War,2010,3.5,1,3.5014
+83374,3.5,1.0,"Warrior's Way, The",Action|Fantasy|Western,2010,3.5,1,3.5014
+89862,3.5,1.0,Bellflower,Action|Drama|Romance,2011,3.5,1,3.5014
+90243,3.5,1.0,Three Outlaw Samurai (Sanbiki no samurai),Action|Drama,1964,3.5,1,3.5014
+95145,3.5,1.0,Dragon Ball: The Curse Of The Blood Rubies (Doragon bôru: Shenron no densetsu),Action|Adventure|Animation|Children,1986,3.5,1,3.5014
+95163,3.5,1.0,Dragon Ball: Mystical Adventure (Doragon bôru: Makafushigi dai bôken),Action|Adventure|Animation|Children,1988,3.5,1,3.5014
+96691,3.5,1.0,Resident Evil: Retribution,Action|Horror|Sci-Fi|IMAX,2012,3.75,2,3.543
+97285,3.5,1.0,Take Aim at the Police Van (Sono gosôsha wo nerae: 'Jûsangô taihisen' yori),Action|Crime|Mystery,1960,3.5,1,3.5014
+98633,3.5,1.0,My Lucky Stars (Fuk sing go jiu),Action|Comedy,1985,3.5,1,3.5014
+107069,3.5,1.0,Lone Survivor,Action|Drama|Thriller|War,2013,3.0,2,3.418
+107846,3.5,1.0,MacGyver: Trail to Doomsday,Action|Adventure,1994,3.5,1,3.5014
+108090,3.5,1.0,Dragon Ball: The Path to Power (Doragon bôru: Saikyô e no michi),Action|Adventure|Animation|Children,1996,3.5,1,3.5014
+109850,3.5,1.0,Need for Speed,Action|Crime|Drama|IMAX,2014,3.75,2,3.543
+132362,3.5,1.0,Patlabor 2: The Movie,Action|Animation|Sci-Fi,1993,3.5,1,3.5014
+135456,3.5,1.0,Ghost in the Shell: Stand Alone Complex - The Laughing Man,Action|Animation|Crime|Sci-Fi,2005,3.25,2,3.4596
+135803,3.5,1.0,Five Element Ninjas,Action,1982,3.5,1,3.5014
+141408,3.5,1.0,Scouts Guide to the Zombie Apocalypse,Action|Comedy|Horror,2015,3.75,2,3.543
+142420,3.5,1.0,High Rise,Action|Drama|Sci-Fi,2015,3.0,2,3.418
+151781,3.5,1.0,Ghost in the Shell: Solid State Society,Action|Animation|Crime|Sci-Fi|Thriller,2006,3.5,1,3.5014
+158721,3.5,1.0,Gen-X Cops,Action|Comedy|Thriller,1999,3.5,1,3.5014
+162478,3.5,1.0,Masterminds,Action|Comedy|Crime,2016,4.0,3,3.6166
+167370,3.5,1.0,Assassin's Creed,Action|Adventure|Sci-Fi,2016,2.5,2,3.3346
+172881,3.5,1.0,Final Flight of the Osiris,Action|Animation|Sci-Fi,2003,3.5,1,3.5014
+7164,3.499,3.0,Peter Pan,Action|Adventure|Children|Fantasy,2003,3.0833,6,3.3447
+176101,3.496,3.0,Kingsman: The Golden Circle,Action|Adventure|Comedy,2017,3.0625,8,3.3064
+71156,3.495,5.0,"Men Who Stare at Goats, The",Action|Comedy|Drama,2009,3.3889,9,3.4482
+102033,3.495,4.0,Pain & Gain,Action|Comedy|Crime,2013,3.2,5,3.401
+66297,3.494,6.0,Futurama: Into the Wild Green Yonder,Action|Animation|Comedy|Sci-Fi,2009,3.5,6,3.501
+87222,3.488,4.0,Kung Fu Panda 2,Action|Adventure|Animation|Children|Comedy|IMAX,2011,3.3235,17,3.3895
+91485,3.485,6.0,"Expendables 2, The",Action|Adventure,2012,3.5,10,3.5008
+95167,3.469,8.0,Brave,Action|Adventure|Animation|Children,2012,3.4667,30,3.4754
+60979,3.456,3.0,Batman: Gotham Knight,Action|Animation|Crime,2008,3.5,3,3.5012
+7894,3.448,4.0,"Duck, You Sucker",Action|Western,1971,3.5,4,3.5011
+4042,3.447,2.0,"Alamo, The",Action|Drama|War|Western,1960,3.375,4,3.4654
+6857,3.444,7.0,Ninja Scroll (Jûbei ninpûchô),Action|Adventure|Animation|Fantasy,1995,3.7692,13,3.6529
+37830,3.438,7.0,Final Fantasy VII: Advent Children,Action|Adventure|Animation|Fantasy|Sci-Fi,2004,3.55,10,3.5258
+2521,3.43,2.0,Airport 1975,Action|Drama|Thriller,1974,3.5,2,3.5013
+2993,3.429,12.0,Thunderball,Action|Adventure|Thriller,1965,3.4792,24,3.4858
+80219,3.427,9.0,Machete,Action|Adventure|Comedy|Crime|Thriller,2010,3.25,12,3.3643
+3769,3.427,2.0,Thunderbolt and Lightfoot,Action,1974,3.3333,3,3.4627
+7007,3.426,6.0,"Last Boy Scout, The",Action|Comedy|Crime|Drama|Thriller,1991,3.5,8,3.5009
+71254,3.425,6.0,Gamer,Action|Sci-Fi|Thriller,2009,3.4286,7,3.4715
+122892,3.422,9.0,Avengers: Age of Ultron,Action|Adventure|Sci-Fi,2015,3.5185,27,3.5139
+4802,3.419,2.0,Operation Petticoat,Action|Comedy|Romance|War,1959,3.0,4,3.3583
+27032,3.416,2.0,Who Am I? (Wo shi shei),Action|Adventure|Comedy|Sci-Fi|Thriller,1998,3.5,2,3.5013
+3032,3.412,5.0,"Omega Man, The",Action|Drama|Sci-Fi|Thriller,1971,3.6667,6,3.5635
+74795,3.407,6.0,Green Zone,Action|Drama|Thriller|War,2010,3.5,9,3.5008
+135569,3.397,7.0,Star Trek Beyond,Action|Adventure|Sci-Fi,2016,3.4667,15,3.4806
+65682,3.395,4.0,Underworld: Rise of the Lycans,Action|Fantasy|Horror|Thriller,2009,3.6429,7,3.5597
+26865,3.39,4.0,Fist of Legend (Jing wu ying xiong),Action|Drama,1994,3.375,4,3.4654
+8633,3.381,5.0,"Last Starfighter, The",Action|Adventure|Comedy|Sci-Fi,1984,3.5714,7,3.5303
+2879,3.38,3.0,Armour of God II: Operation Condor (Operation Condor) (Fei ying gai wak),Action|Adventure|Comedy,1991,3.2143,7,3.3833
+2880,3.38,3.0,Armour of God (Long xiong hu di),Action|Adventure|Comedy,1987,3.0833,6,3.3447
+7235,3.374,6.0,Ichi the Killer (Koroshiya 1),Action|Comedy|Crime|Drama|Horror|Thriller,2001,3.4167,6,3.4697
+111781,3.371,5.0,Mission: Impossible - Rogue Nation,Action|Adventure|Thriller,2015,3.6471,17,3.5932
+5628,3.369,4.0,Wasabi,Action|Comedy|Crime|Drama|Thriller,2001,3.5,5,3.501
+27311,3.369,3.0,Batman Beyond: Return of the Joker,Action|Animation|Crime|Sci-Fi|Thriller,2000,3.5,3,3.5012
+53550,3.357,3.0,Rescue Dawn,Action|Adventure|Drama|War,2006,3.3333,3,3.4627
+81156,3.355,3.0,Jackass 3D,Action|Comedy|Documentary,2010,3.9167,6,3.6572
+79057,3.348,8.0,Predators,Action|Sci-Fi|Thriller,2010,3.3,10,3.4008
+4850,3.343,3.0,Spriggan (Supurigan),Action|Animation|Sci-Fi,1998,3.375,4,3.4654
+68791,3.341,11.0,Terminator Salvation,Action|Adventure|Sci-Fi|Thriller,2009,3.25,18,3.3398
+92507,3.34,4.0,Safe House,Action|Crime|Mystery|Thriller,2012,3.375,4,3.4654
+104243,3.331,3.0,Riddick,Action|Sci-Fi|Thriller|IMAX,2013,3.3,5,3.4344
+1254,3.329,7.0,"Treasure of the Sierra Madre, The",Action|Adventure|Drama|Western,1948,3.6562,16,3.5968
+65982,3.323,3.0,Outlander,Action|Adventure|Sci-Fi,2008,3.3333,3,3.4627
+62999,3.321,5.0,Madagascar: Escape 2 Africa,Action|Adventure|Animation|Children|Comedy|IMAX,2008,3.6923,13,3.6094
+113573,3.319,3.0,Sin City: A Dame to Kill For,Action|Crime|Thriller,2014,3.25,4,3.4297
+149406,3.319,3.0,Kung Fu Panda 3,Action|Adventure|Animation,2016,3.375,8,3.4453
+56156,3.307,5.0,Hitman,Action|Crime|Thriller,2007,3.2857,7,3.4127
+103253,3.305,6.0,Elysium,Action|Drama|Sci-Fi|IMAX,2013,3.3125,16,3.3852
+7757,3.304,4.0,Jason and the Argonauts,Action|Adventure|Fantasy,1963,3.5,6,3.501
+3947,3.304,3.0,Get Carter,Action|Crime|Drama|Thriller,1971,3.3333,3,3.4627
+73268,3.301,5.0,Daybreakers,Action|Drama|Horror|Thriller,2010,3.4167,6,3.4697
+99728,3.3,3.0,Gangster Squad,Action|Crime|Drama,2013,3.3333,3,3.4627
+95147,3.282,2.0,Dragon Ball: Sleeping Princess in Devil's Castle (Doragon bôru: Majinjô no nemuri hime),Action|Adventure|Animation|Children,1987,3.25,2,3.4596
+2013,3.272,8.0,"Poseidon Adventure, The",Action|Adventure|Drama,1972,3.0952,21,3.2263
+5796,3.271,2.0,Casino Royale,Action|Adventure|Comedy,1967,2.5,5,3.1677
+3633,3.27,9.0,On Her Majesty's Secret Service,Action|Adventure|Romance|Thriller,1969,3.2647,17,3.3524
+8578,3.27,2.0,Undead,Action|Comedy|Horror|Sci-Fi,2003,3.25,2,3.4596
+40851,3.267,2.0,Zathura,Action|Adventure|Children|Fantasy,2005,3.375,4,3.4654
+73929,3.263,2.0,Legion,Action|Fantasy|Horror|Thriller,2010,2.8333,3,3.3474
+85020,3.257,2.0,"Mechanic, The",Action|Drama|Thriller,2011,3.375,4,3.4654
+112818,3.254,3.0,"Purge: Anarchy, The",Action|Horror|Thriller,2014,3.3,5,3.4344
+94777,3.251,8.0,Men in Black III (M.III.B.) (M.I.B.³),Action|Comedy|Sci-Fi|IMAX,2012,3.2778,18,3.3577
+57528,3.247,7.0,Rambo (Rambo 4),Action|Drama|Thriller|War,2008,3.2778,9,3.3956
+99910,3.247,2.0,"Last Stand, The",Action|Crime|Thriller,2013,3.25,2,3.4596
+182823,3.247,2.0,Bright,Action|Crime|Fantasy,2017,2.875,4,3.3225
+106002,3.245,6.0,Ender's Game,Action|Adventure|Sci-Fi|IMAX,2013,3.4375,16,3.4621
+3519,3.242,2.0,Force 10 from Navarone,Action|Drama|War,1978,2.9167,6,3.2822
+4438,3.237,2.0,"Fist of Fury (Chinese Connection, The) (Jing wu men)",Action|Drama|Romance|Thriller,1972,3.8333,3,3.5781
+26242,3.234,4.0,Duel,Action|Mystery|Thriller,1971,3.2,5,3.401
+106072,3.231,9.0,Thor: The Dark World,Action|Adventure|Fantasy|IMAX,2013,3.3095,21,3.3715
+2527,3.228,7.0,Westworld,Action|Sci-Fi|Thriller|Western,1973,3.4167,18,3.447
+8493,3.223,4.0,Memphis Belle,Action|Drama|War,1990,3.0833,6,3.3447
+31804,3.222,4.0,Night Watch (Nochnoy dozor),Action|Fantasy|Horror|Mystery|Sci-Fi|Thriller,2004,3.25,4,3.4297
+7072,3.222,2.0,Stagecoach,Action|Drama|Romance|Western,1939,3.5,3,3.5012
+103042,3.219,9.0,Man of Steel,Action|Adventure|Fantasy|Sci-Fi|IMAX,2013,3.2955,22,3.3599
+105954,3.219,2.0,All Is Lost,Action|Adventure|Drama,2013,3.625,4,3.5368
+3984,3.218,13.0,Diamonds Are Forever,Action|Adventure|Thriller,1971,3.5,21,3.5005
+8832,3.216,2.0,Warriors of Heaven and Earth (Tian di ying xiong),Action|Adventure|Drama,2003,3.25,2,3.4596
+26504,3.216,2.0,Cloak & Dagger,Action|Adventure|Children|Crime|Mystery|Thriller,1984,3.25,2,3.4596
+4574,3.208,2.0,Blind Fury,Action|Thriller,1989,3.25,2,3.4596
+7108,3.208,2.0,Crime Story (Zhong an zu),Action|Crime|Drama,1993,3.25,2,3.4596
+26413,3.208,2.0,Snake in the Eagle's Shadow (Se ying diu sau),Action|Comedy,1978,3.25,2,3.4596
+7048,3.202,3.0,Nothing to Lose,Action|Adventure|Comedy|Crime,1997,3.375,4,3.4654
+76,3.186,4.0,Screamers,Action|Sci-Fi|Thriller,1995,3.4,15,3.4406
+78469,3.172,9.0,"A-Team, The",Action|Comedy|Thriller,2010,3.1471,17,3.2784
+26614,3.172,5.0,"Bourne Identity, The",Action|Adventure|Drama|Mystery|Thriller,1988,3.3889,9,3.4482
+138036,3.17,5.0,The Man from U.N.C.L.E.,Action|Adventure|Comedy,2015,3.4722,18,3.4827
+31420,3.161,7.0,Assault on Precinct 13,Action|Crime|Drama|Thriller,2005,3.1875,8,3.362
+79139,3.157,3.0,"Sorcerer's Apprentice, The",Action|Adventure|Children|Comedy|Fantasy,2010,3.45,10,3.4758
+3204,3.153,3.0,"Boys from Brazil, The",Action|Mystery|Thriller,1978,3.6875,8,3.5842
+90717,3.153,3.0,Tower Heist,Action|Comedy|Crime,2011,3.5,4,3.5011
+63222,3.153,2.0,JCVD,Action|Drama|Thriller,2008,3.25,2,3.4596
+104419,3.153,2.0,Justice League: Crisis on Two Earths,Action|Animation|Sci-Fi,2010,3.25,2,3.4596
+6721,3.14,5.0,Once Upon a Time in China (Wong Fei Hung),Action|Adventure|Drama,1991,3.3571,7,3.4421
+108928,3.14,3.0,"Monuments Men, The",Action|Drama|War,2014,2.6667,6,3.1885
+4005,3.138,6.0,"Living Daylights, The",Action|Adventure|Thriller,1987,3.2917,12,3.3871
+93563,3.13,3.0,Lockout,Action|Sci-Fi|Thriller,2012,3.1667,3,3.4243
+95182,3.129,2.0,Dragon Ball Z the Movie: The Tree of Might (Doragon bôru Z 3: Chikyû marugoto chô kessen),Action|Adventure|Animation|Sci-Fi,1990,3.0,2,3.418
+64231,3.127,4.0,Punisher: War Zone,Action|Crime|Drama|Thriller,2008,3.0,6,3.3135
+27441,3.124,2.0,Blood: The Last Vampire,Action|Animation|Horror,2000,3.25,2,3.4596
+46322,3.122,7.0,Jet Li's Fearless (Huo Yuan Jia),Action|Drama,2006,3.125,8,3.3342
+5069,3.119,2.0,Escaflowne: The Movie (Escaflowne),Action|Adventure|Animation|Drama|Fantasy,2000,3.25,2,3.4596
+103772,3.103,7.0,"Wolverine, The",Action|Adventure|Fantasy|Sci-Fi,2013,3.375,16,3.4237
+522,3.103,4.0,Romper Stomper,Action|Drama,1992,3.2857,7,3.4127
+95875,3.078,7.0,Total Recall,Action|Sci-Fi|Thriller,2012,3.1875,8,3.362
+134368,3.078,5.0,Spy,Action|Comedy|Crime,2015,3.6875,16,3.616
+73321,3.068,6.0,"Book of Eli, The",Action|Adventure|Drama,2010,3.2812,16,3.366
+120466,3.068,5.0,Chappie,Action|Thriller,2015,3.25,10,3.3758
+33834,3.062,4.0,Land of the Dead,Action|Horror|Thriller,2005,3.125,4,3.394
+2662,3.059,5.0,"War of the Worlds, The",Action|Drama|Sci-Fi,1953,3.1667,12,3.3189
+91535,3.053,6.0,"Bourne Legacy, The",Action|Adventure|Drama|Thriller|IMAX,2012,3.1389,18,3.2684
+2273,3.044,22.0,Rush Hour,Action|Comedy|Crime|Thriller,1998,3.2619,42,3.308
+63859,3.031,5.0,Bolt,Action|Adventure|Animation|Children|Comedy,2008,3.3889,18,3.4291
+5047,3.013,6.0,Kung Pow: Enter the Fist,Action|Comedy,2002,3.2222,9,3.3692
+136020,3.01,7.0,Spectre,Action|Adventure|Crime,2015,3.0588,17,3.2228
+86835,3.01,3.0,Priest,Action|Horror|Sci-Fi|Thriller,2011,3.0,3,3.3858
+4799,3.005,4.0,"It's a Mad, Mad, Mad, Mad World",Action|Adventure|Comedy|Crime,1963,3.25,10,3.3758
+6219,3.0,3.0,"Hunted, The",Action|Drama|Thriller,2003,3.0,3,3.3858
+1604,3.0,2.0,Money Talks,Action|Comedy,1997,3.3333,3,3.4627
+2344,3.0,2.0,Runaway Train,Action|Adventure|Drama|Thriller,1985,3.25,8,3.3898
+3576,3.0,2.0,"Hidden, The",Action|Horror|Sci-Fi,1987,3.5,4,3.5011
+7192,3.0,2.0,Only the Strong,Action,1993,3.0,2,3.418
+26172,3.0,2.0,Point Blank,Action|Crime|Drama|Thriller,1967,3.0,2,3.418
+31660,3.0,2.0,Steamboy (Suchîmubôi),Action|Animation|Drama|Sci-Fi,2004,3.0,2,3.418
+70361,3.0,2.0,12 Rounds,Action|Thriller,2009,3.0,3,3.3858
+79879,3.0,2.0,Piranha (Piranha 3D),Action|Horror|Thriller,2010,2.1667,3,3.1935
+98499,3.0,2.0,"Fearless Hyena, The (Xiao quan guai zhao)",Action|Comedy,1979,3.0,2,3.418
+98623,3.0,2.0,Winners and Sinners (Qi mou miao ji: Wu fu xing),Action|Comedy|Crime,1983,3.0,2,3.418
+150401,3.0,2.0,Close Range,Action|Crime,2015,3.0,2,3.418
+170875,3.0,2.0,The Fate of the Furious,Action|Crime|Drama|Thriller,2017,2.3333,3,3.232
+1497,3.0,1.0,Double Team,Action,1997,4.0,3,3.6166
+2055,3.0,1.0,Hot Lead and Cold Feet,Action|Comedy|Western,1978,3.0,1,3.456
+2956,3.0,1.0,Someone to Watch Over Me,Action|Crime|Thriller,1987,3.1667,6,3.376
+3405,3.0,1.0,"Night to Remember, A",Action|Drama,1958,3.0,1,3.456
+3771,3.0,1.0,The Golden Voyage of Sinbad,Action|Adventure|Fantasy,1973,4.0,3,3.6166
+4397,3.0,1.0,Cannonball Run II,Action|Comedy,1984,2.5,2,3.3346
+4497,3.0,1.0,Dead Heat,Action|Comedy|Horror|Sci-Fi,1988,3.0,1,3.456
+4594,3.0,1.0,Farewell to the King,Action|War,1989,3.0,1,3.456
+4879,3.0,1.0,High Heels and Low Lifes,Action|Comedy|Crime|Drama,2001,3.0,1,3.456
+6051,3.0,1.0,"Harder They Come, The",Action|Crime|Drama,1973,4.1667,3,3.6551
+6186,3.0,1.0,Gods and Generals,Action|Drama|War,2003,3.0,1,3.456
+6577,3.0,1.0,Kickboxer 2: The Road Back,Action|Drama,1991,3.5,2,3.5013
+6814,3.0,1.0,City Heat,Action|Comedy,1984,3.0,1,3.456
+7756,3.0,1.0,Alexander Nevsky (Aleksandr Nevskiy),Action|Drama|War,1938,4.0,2,3.5846
+7844,3.0,1.0,"Legend, The (Legend of Fong Sai-Yuk, The) (Fong Sai Yuk)",Action|Comedy,1993,3.5,2,3.5013
+8481,3.0,1.0,Northwest Passage,Action|Adventure|Drama|Romance|Thriller|Western,1940,3.0,1,3.456
+25962,3.0,1.0,King Solomon's Mines,Action|Adventure|Romance,1950,3.0,1,3.456
+26344,3.0,1.0,French Connection II,Action|Crime|Drama|Thriller,1975,3.0,1,3.456
+26375,3.0,1.0,Silver Streak,Action|Comedy|Crime,1976,3.6667,3,3.5397
+26464,3.0,1.0,Blue Thunder,Action|Crime|Drama,1983,3.0,1,3.456
+26701,3.0,1.0,Patlabor: The Movie (Kidô keisatsu patorebâ: The Movie),Action|Animation|Crime|Drama|Film-Noir|Mystery|Sci-Fi|Thriller,1989,3.0,1,3.456
+27728,3.0,1.0,Ghost in the Shell 2: Innocence (a.k.a. Innocence) (Inosensu),Action|Animation|Drama|Sci-Fi|Thriller,2004,2.1667,3,3.1935
+27802,3.0,1.0,Infernal Affairs 2 (Mou gaan dou II),Action|Crime|Drama|Thriller,2003,3.0,1,3.456
+31617,3.0,1.0,El Cid,Action|Adventure|Drama|Romance|War,1961,3.0,1,3.456
+31867,3.0,1.0,Man of the House,Action|Comedy,2005,3.0,1,3.456
+32898,3.0,1.0,"Trip to the Moon, A (Voyage dans la lune, Le)",Action|Adventure|Fantasy|Sci-Fi,1902,3.5,5,3.501
+33801,3.0,1.0,Godzilla: Final Wars (Gojira: Fainaru uôzu),Action|Adventure|Fantasy|Sci-Fi,2004,3.0,1,3.456
+40578,3.0,1.0,Sword of the Beast (Kedamono no ken),Action|Drama,1965,3.0,1,3.456
+42559,3.0,1.0,Samurai Assassin (Samurai),Action|Adventure|Drama,1965,3.0,1,3.456
+45183,3.0,1.0,"Protector, The (a.k.a. Warrior King) (Tom yum goong)",Action|Comedy|Crime|Thriller,2005,3.0,1,3.456
+49314,3.0,1.0,Harsh Times,Action|Crime|Drama,2006,3.0,1,3.456
+52462,3.0,1.0,Aqua Teen Hunger Force Colon Movie Film for Theaters,Action|Adventure|Animation|Comedy|Fantasy|Mystery|Sci-Fi,2007,3.0,1,3.456
+57499,3.0,1.0,Heaven and Earth (Ten to Chi to),Action|Adventure|Drama|War,1990,3.0,1,3.456
+59103,3.0,1.0,"Forbidden Kingdom, The",Action|Adventure|Comedy|Fantasy,2008,3.8333,3,3.5781
+59336,3.0,1.0,Redbelt,Action|Drama,2008,3.0,1,3.456
+60937,3.0,1.0,"Mummy: Tomb of the Dragon Emperor, The",Action|Adventure|Fantasy|Thriller,2008,2.6429,7,3.148
+67295,3.0,1.0,Kung Fu Panda: Secrets of the Furious Five,Action|Animation|Children|Comedy,2008,2.875,4,3.3225
+72601,3.0,1.0,Teenage Mutant Ninja Turtles: Turtles Forever,Action|Adventure|Animation|Comedy|Thriller,2009,3.0,1,3.456
+73676,3.0,1.0,Robin-B-Hood (Bo bui gai wak),Action|Comedy|Drama,2006,3.0,1,3.456
+73741,3.0,1.0,Ninja,Action|Crime|Drama|Thriller,2009,3.0,1,3.456
+77667,3.0,1.0,MacGruber,Action|Comedy,2010,3.0,1,3.456
+82641,3.0,1.0,"One-Armed Swordsman, The (Dubei dao)",Action|Drama,1967,3.0,1,3.456
+84523,3.0,1.0,Kill! (Kiru),Action|Comedy|Drama,1968,3.0,1,3.456
+87197,3.0,1.0,Let the Bullets Fly,Action|Comedy,2010,3.0,1,3.456
+88327,3.0,1.0,"New One-Armed Swordsman, The (Xin du bi dao)",Action|Drama|War,1971,3.0,1,3.456
+88515,3.0,1.0,Blitz,Action|Crime|Thriller,2011,3.0,1,3.456
+89343,3.0,1.0,Red State,Action|Crime|Horror|Thriller,2011,3.0,1,3.456
+90403,3.0,1.0,"Three Musketeers, The",Action|Adventure,2011,3.1667,3,3.4243
+91660,3.0,1.0,"Darkest Hour, The",Action|Horror|Sci-Fi|Thriller,2011,2.5,2,3.3346
+94160,3.0,1.0,Dante's Inferno: An Animated Epic,Action|Animation|Fantasy,2010,3.0,1,3.456
+94405,3.0,1.0,Safe,Action|Crime|Thriller,2012,3.5,2,3.5013
+98503,3.0,1.0,Half a Loaf of Kung Fu (Dian zhi gong fu gan chian chan),Action|Comedy,1980,3.0,1,3.456
+100304,3.0,1.0,"Liability, The",Action|Thriller,2012,3.0,1,3.456
+101423,3.0,1.0,Mezzo Forte,Action|Animation|Comedy,1998,3.0,1,3.456
+103233,3.0,1.0,LEGO Batman: The Movie - DC Heroes Unite,Action|Adventure|Animation,2013,3.0,1,3.456
+103810,3.0,1.0,Red 2,Action|Comedy|Crime|Thriller,2013,3.2,5,3.401
+104141,3.0,1.0,Batman: Mystery of the Batwoman,Action|Animation|Children|Crime,2003,3.0,1,3.456
+106785,3.0,1.0,Homefront,Action|Crime|Thriller,2013,3.0,1,3.456
+107723,3.0,1.0,Highlander: The Search for Vengeance,Action|Adventure|Fantasy,2007,3.0,1,3.456
+113278,3.0,1.0,Batman: Assault on Arkham,Action|Animation|Crime|Thriller,2014,3.0,1,3.456
+114246,3.0,1.0,"Walk Among the Tombstones, A",Action|Crime|Mystery|Thriller,2014,3.0,1,3.456
+119828,3.0,1.0,A Man Called Blade,Action|Drama|Thriller|Western,1977,3.0,1,3.456
+122898,3.0,1.0,Justice League,Action|Adventure|Sci-Fi,2017,2.5,6,3.126
+130490,3.0,1.0,Insurgent,Action|Sci-Fi|Thriller,2015,2.8333,6,3.251
+147662,3.0,1.0,Return of the One-Armed Swordsman,Action|Adventure,1969,3.0,1,3.456
+158874,3.0,1.0,Karate Bullfighter,Action|Drama,1975,3.0,1,3.456
+160836,3.0,1.0,Hazard,Action|Drama|Thriller,2005,3.0,1,3.456
+161354,3.0,1.0,Batman: The Killing Joke,Action|Animation|Crime|Drama,2016,3.0,1,3.456
+166558,3.0,1.0,Underworld: Blood Wars,Action|Horror,2016,3.0,1,3.456
+169982,3.0,1.0,Power Rangers,Action|Adventure|Sci-Fi,2017,3.0,1,3.456
+170813,3.0,1.0,Baywatch,Action|Comedy,2017,3.0,3,3.3858
+184471,3.0,1.0,Tomb Raider,Action|Adventure|Fantasy,2018,2.5,4,3.2154
+185435,3.0,1.0,"Game Over, Man!",Action|Comedy,2018,3.0,1,3.456
+51939,2.997,5.0,TMNT (Teenage Mutant Ninja Turtles),Action|Adventure|Animation|Children|Comedy|Fantasy,2007,3.0833,6,3.3447
+32596,2.986,5.0,Sahara,Action|Adventure|Comedy,2005,3.0714,7,3.3245
+112171,2.983,4.0,"Equalizer, The",Action|Crime|Thriller,2014,3.2778,9,3.3956
+85056,2.978,2.0,I Am Number Four,Action|Sci-Fi|Thriller|IMAX,2011,3.1,5,3.3677
+60514,2.976,4.0,Journey to the Center of the Earth,Action|Adventure|Sci-Fi,2008,2.5,5,3.1677
+26152,2.974,4.0,Batman,Action|Adventure|Comedy,1966,3.0,5,3.3344
+93363,2.97,4.0,John Carter,Action|Adventure|Sci-Fi|IMAX,2012,3.0909,11,3.2865
+52287,2.953,5.0,Meet the Robinsons,Action|Adventure|Animation|Children|Comedy|Sci-Fi,2007,3.5455,11,3.5246
+75985,2.94,4.0,Repo Men,Action|Sci-Fi|Thriller,2010,3.5,6,3.501
+79224,2.937,4.0,"Karate Kid, The",Action|Children|Drama,2010,2.5,8,3.0564
+7700,2.936,3.0,"Wages of Fear, The (Salaire de la peur, Le)",Action|Adventure|Drama|Thriller,1953,3.3,5,3.4344
+2334,2.933,6.0,"Siege, The",Action|Thriller,1998,2.8077,13,3.1094
+122890,2.927,3.0,Warcraft,Action|Adventure|Fantasy,2016,3.4167,6,3.4697
+4701,2.92,13.0,Rush Hour 2,Action|Comedy,2001,3.371,31,3.4028
+7307,2.916,2.0,Flesh & Blood,Action|Adventure|Drama|War,1985,3.0,2,3.418
+91842,2.915,2.0,Contraband,Action|Crime|Drama|Thriller,2012,3.0,2,3.418
+93326,2.908,5.0,This Means War,Action|Comedy|Romance,2012,2.6364,11,3.0484
+8984,2.896,22.0,Ocean's Twelve,Action|Comedy|Crime|Thriller,2004,3.2907,43,3.3305
+67197,2.88,4.0,Knowing,Action|Drama|Mystery|Sci-Fi|Thriller,2009,2.8333,9,3.185
+122924,2.872,7.0,X-Men: Apocalypse,Action|Adventure|Fantasy|Sci-Fi,2016,3.0714,14,3.2507
+39435,2.871,4.0,"Legend of Zorro, The",Action|Adventure|Drama|Western,2005,2.9,5,3.301
+45442,2.871,4.0,Poseidon,Action|Adventure|Thriller|IMAX,2006,2.875,4,3.3225
+58025,2.862,8.0,Jumper,Action|Adventure|Drama|Sci-Fi|Thriller,2008,3.0,18,3.1791
+56336,2.858,2.0,Wrong Turn 2: Dead End,Action|Horror|Thriller,2007,3.0,2,3.418
+3624,2.852,17.0,Shanghai Noon,Action|Adventure|Comedy|Western,2000,3.1512,43,3.2173
+7570,2.851,5.0,Octopussy,Action|Adventure|Thriller,1983,3.3125,8,3.4175
+92008,2.84,3.0,Haywire,Action|Thriller,2011,2.8333,3,3.3474
+3959,2.838,3.0,"Time Machine, The",Action|Adventure|Sci-Fi,1960,3.625,8,3.5564
+6156,2.833,11.0,Shanghai Knights,Action|Adventure|Comedy,2003,3.2105,19,3.3109
+1385,2.831,6.0,Under Siege,Action|Drama|Thriller,1992,2.8542,24,3.0446
+4238,2.824,10.0,Along Came a Spider,Action|Crime|Mystery|Thriller,2001,3.1471,17,3.2784
+1465,2.813,2.0,Rosewood,Action|Drama,1997,3.3333,3,3.4627
+6484,2.804,6.0,Hollywood Homicide,Action|Crime|Drama,2003,2.9286,7,3.2656
+405,2.798,3.0,Highlander III: The Sorcerer (a.k.a. Highlander: The Final Dimension),Action|Fantasy,1994,2.4167,12,2.9098
+7004,2.796,13.0,Kindergarten Cop,Action|Comedy|Crime|Thriller,1990,2.8824,17,3.1117
+169984,2.795,3.0,Alien: Covenant,Action|Horror|Sci-Fi|Thriller,2017,2.8,5,3.2677
+20,2.786,6.0,Money Train,Action|Comedy|Crime|Drama|Thriller,1995,2.5,15,2.9006
+6548,2.784,12.0,Bad Boys II,Action|Comedy|Crime|Thriller,2003,2.8824,17,3.1117
+55232,2.778,8.0,Resident Evil: Extinction,Action|Horror|Sci-Fi|Thriller,2007,2.95,10,3.2258
+86880,2.77,9.0,Pirates of the Caribbean: On Stranger Tides,Action|Adventure|Fantasy|IMAX,2011,3.2292,24,3.3093
+76293,2.77,2.0,Date Night,Action|Comedy|Romance,2010,3.3182,11,3.4055
+5040,2.766,3.0,Conan the Destroyer,Action|Adventure|Fantasy,1984,3.125,8,3.3342
+89840,2.762,3.0,Killer Elite,Action|Thriller,2011,2.8333,3,3.3474
+101076,2.757,2.0,G.I. Joe: Retaliation,Action|Adventure|Sci-Fi|Thriller|IMAX,2013,3.0,3,3.3858
+48596,2.756,2.0,"Marine, The",Action|Drama|Thriller,2006,2.75,2,3.3763
+27618,2.745,2.0,"Sound of Thunder, A",Action|Adventure|Drama|Sci-Fi|Thriller,2005,2.75,2,3.3763
+1858,2.741,6.0,Mr. Nice Guy (Yat goh ho yan),Action|Comedy,1997,2.5625,8,3.0842
+114818,2.739,2.0,Stretch,Action|Comedy|Crime,2014,2.1667,3,3.1935
+48678,2.737,2.0,Feast,Action|Comedy|Horror|Thriller,2005,2.75,2,3.3763
+1432,2.735,5.0,Metro,Action|Comedy|Crime|Drama|Thriller,1997,2.7143,7,3.1774
+61289,2.732,2.0,Sukiyaki Western Django,Action|Western,2008,3.3333,3,3.4627
+111360,2.73,7.0,Lucy,Action|Sci-Fi,2014,2.8214,14,3.1048
+4443,2.73,2.0,Outland,Action|Sci-Fi|Thriller,1981,2.75,2,3.3763
+3764,2.726,2.0,F/X2 (a.k.a. F/X 2 - The Deadly Art of Illusion),Action|Crime|Thriller,1991,2.3,5,3.101
+32017,2.724,7.0,"Pacifier, The",Action|Comedy,2005,2.7143,7,3.1774
+56775,2.72,10.0,National Treasure: Book of Secrets,Action|Adventure,2007,3.0417,24,3.1769
+83349,2.72,4.0,"Green Hornet, The",Action|Comedy|Crime|Fantasy|Thriller|IMAX,2011,3.0,11,3.2388
+71530,2.718,6.0,Surrogates,Action|Sci-Fi|Thriller,2009,3.0357,14,3.2298
+44020,2.718,2.0,Ultimate Avengers,Action|Animation|Children|Sci-Fi,2006,2.75,2,3.3763
+58404,2.718,2.0,Justice League: The New Frontier,Action|Adventure|Animation|Fantasy|Sci-Fi,2008,2.75,2,3.3763
+85796,2.718,2.0,Hobo with a Shotgun,Action|Adventure|Crime|Thriller,2011,2.375,4,3.1797
+90249,2.716,4.0,Real Steel,Action|Drama|Sci-Fi|IMAX,2011,3.0,6,3.3135
+104925,2.708,2.0,"Family, The",Action|Comedy|Crime,2013,3.5,3,3.5012
+3439,2.707,8.0,Teenage Mutant Ninja Turtles II: The Secret of the Ooze,Action|Children|Fantasy,1991,2.6923,13,3.0442
+55116,2.705,2.0,"Hunting Party, The",Action|Adventure|Comedy|Drama|Thriller,2007,2.6667,3,3.3089
+72167,2.698,3.0,"Boondock Saints II: All Saints Day, The",Action|Crime|Drama|Thriller,2009,3.375,4,3.4654
+36509,2.694,3.0,"Cave, The",Action|Adventure|Horror|Mystery|Sci-Fi|Thriller,2005,2.6667,3,3.3089
+360,2.692,2.0,I Love Trouble,Action|Comedy,1994,2.6875,8,3.1398
+376,2.687,9.0,"River Wild, The",Action|Thriller,1994,3.25,40,3.3003
+114180,2.685,4.0,"Maze Runner, The",Action|Mystery|Sci-Fi,2014,2.9375,16,3.1544
+68793,2.684,5.0,Night at the Museum: Battle of the Smithsonian,Action|Comedy|IMAX,2009,3.1,10,3.3008
+83613,2.679,5.0,Cowboys & Aliens,Action|Sci-Fi|Thriller|Western|IMAX,2011,3.0,9,3.264
+101362,2.661,3.0,Olympus Has Fallen,Action|Thriller,2013,2.875,8,3.2231
+1616,2.66,8.0,"Peacemaker, The",Action|Thriller|War,1997,3.025,20,3.1839
+110553,2.658,6.0,The Amazing Spider-Man 2,Action|Sci-Fi|IMAX,2014,2.6364,11,3.0484
+103249,2.657,8.0,World War Z,Action|Drama|Horror|IMAX,2013,3.0263,19,3.1902
+108945,2.652,3.0,RoboCop,Action|Crime|Sci-Fi|IMAX,2014,2.3333,6,3.0635
+94780,2.65,3.0,Snow White and the Huntsman,Action|Adventure|Drama,2012,2.8333,6,3.251
+85401,2.646,3.0,Super,Action|Comedy|Drama,2010,2.9,5,3.301
+5055,2.622,6.0,Dragon: The Bruce Lee Story,Action|Drama,1993,2.8125,8,3.1953
+7017,2.622,2.0,Passenger 57,Action|Thriller,1992,3.5,3,3.5012
+91976,2.618,3.0,"Grey, The",Action|Drama,2012,2.9167,6,3.2822
+79553,2.614,3.0,Ip Man 2,Action,2010,3.0,5,3.3344
+80363,2.609,4.0,Resident Evil: Afterlife,Action|Horror|Sci-Fi|Thriller|IMAX,2010,3.1429,7,3.3539
+78105,2.606,6.0,Prince of Persia: The Sands of Time,Action|Adventure|Fantasy|Romance|IMAX,2010,2.8846,13,3.1529
+4531,2.604,3.0,Red Heat,Action,1988,2.6667,3,3.3089
+3889,2.602,4.0,Highlander: Endgame (Highlander IV),Action|Adventure|Fantasy,2000,2.25,6,3.0322
+79185,2.602,3.0,Knight and Day,Action|Comedy|Romance,2010,3.4167,6,3.4697
+8861,2.6,8.0,Resident Evil: Apocalypse,Action|Horror|Sci-Fi|Thriller,2004,2.9286,14,3.1673
+8369,2.597,3.0,Mindhunters,Action|Crime|Horror|Mystery|Thriller,2004,2.6667,3,3.3089
+7573,2.595,5.0,Never Say Never Again,Action|Adventure|Thriller,1983,3.125,8,3.3342
+8604,2.59,3.0,Taxi,Action|Comedy,1998,3.2,5,3.401
+4133,2.589,3.0,Masters of the Universe,Action|Adventure|Fantasy|Sci-Fi,1987,2.5625,8,3.0842
+1762,2.587,4.0,Deep Rising,Action|Horror|Sci-Fi,1998,2.3,5,3.101
+95207,2.584,5.0,Abraham Lincoln: Vampire Hunter,Action|Fantasy|Horror|Thriller,2012,2.75,6,3.2197
+3837,2.571,3.0,Phantasm II,Action|Fantasy|Horror|Sci-Fi|Thriller,1988,2.5,3,3.2704
+173291,2.564,2.0,Valerian and the City of a Thousand Planets,Action|Adventure|Sci-Fi,2017,2.875,4,3.3225
+370,2.545,20.0,Naked Gun 33 1/3: The Final Insult,Action|Comedy,1994,3.0603,58,3.1252
+6550,2.532,4.0,Johnny English,Action|Comedy|Thriller,2003,2.9615,13,3.1963
+3113,2.531,6.0,End of Days,Action|Fantasy|Horror|Mystery|Thriller,1999,2.7,15,3.0206
+390,2.527,2.0,Faster Pussycat! Kill! Kill!,Action|Crime|Drama,1965,3.7,5,3.5677
+139642,2.52,2.0,Southpaw,Action|Drama,2015,2.8333,6,3.251
+1586,2.503,8.0,G.I. Jane,Action|Drama,1997,2.7955,22,3.0161
+798,2.501,5.0,Daylight,Action|Adventure|Drama|Thriller,1996,2.7083,12,3.0689
+65802,2.5,2.0,Paul Blart: Mall Cop,Action|Comedy|Crime,2009,2.7143,7,3.1774
+547,2.5,1.0,Surviving the Game,Action|Adventure|Thriller,1994,3.25,2,3.4596
+2281,2.5,1.0,Monument Ave.,Action|Crime|Drama,1998,2.5,1,3.4105
+2582,2.5,1.0,Twin Dragons (Shuang long hui),Action|Comedy,1992,3.0,3,3.3858
+4065,2.5,1.0,Foxy Brown,Action|Crime|Drama,1974,2.5,1,3.4105
+4224,2.5,1.0,Exit Wounds,Action|Thriller,2001,2.75,2,3.3763
+4440,2.5,1.0,"Big Boss, The (Fists of Fury) (Tang shan da xiong)",Action|Thriller,1971,3.75,2,3.543
+4442,2.5,1.0,"Last Dragon, The",Action|Comedy|Drama,1985,2.6667,3,3.3089
+4568,2.5,1.0,Best of the Best,Action,1989,2.5,1,3.4105
+4614,2.5,1.0,Kickboxer,Action,1989,2.5,1,3.4105
+4632,2.5,1.0,"Package, The",Action|Thriller,1989,3.0,2,3.418
+4800,2.5,1.0,King Solomon's Mines,Action|Adventure|Drama|Romance|Thriller,1937,2.5,1,3.4105
+5156,2.5,1.0,"Big Doll House, The",Action,1971,2.5,1,3.4105
+5720,2.5,1.0,"Friend Is a Treasure, A (Chi Trova Un Amico, Trova un Tesoro) (Who Finds a Friend Finds a Treasure)",Action|Adventure|Comedy,1981,2.5,1,3.4105
+5922,2.5,1.0,Attila (Attila Flagello di Dio),Action,1982,2.5,1,3.4105
+6722,2.5,1.0,Once Upon a Time in China II (Wong Fei-hung Ji Yi: Naam yi dong ji keung),Action|Romance,1992,2.5,1,3.4105
+6882,2.5,1.0,Returner (Ritaanaa),Action|Adventure|Sci-Fi,2002,2.5,1,3.4105
+7047,2.5,1.0,Year of the Dragon,Action|Crime|Drama,1985,2.5,1,3.4105
+7394,2.5,1.0,Those Magnificent Men in Their Flying Machines,Action|Adventure|Comedy,1965,2.5,1,3.4105
+7562,2.5,1.0,Dobermann,Action|Crime,1997,2.5,1,3.4105
+8446,2.5,1.0,Sands of Iwo Jima,Action|Drama|Romance|War,1949,2.5,1,3.4105
+8500,2.5,1.0,Godzilla vs. Mechagodzilla (Gojira tai Mekagojira),Action|Horror|Sci-Fi,1974,2.5,1,3.4105
+8782,2.5,1.0,Thunderbirds,Action|Adventure|Fantasy|Sci-Fi,2004,2.75,2,3.3763
+26819,2.5,1.0,Fortress,Action|Sci-Fi,1992,2.5,1,3.4105
+26854,2.5,1.0,"Darkman II: Return of Durant, The",Action|Crime|Horror,1995,2.5,1,3.4105
+27193,2.5,1.0,Taxi 2,Action|Comedy,2000,3.875,4,3.6083
+27426,2.5,1.0,"Accidental Spy, The (Dak miu mai shing)",Action|Comedy|Thriller,2001,2.5,1,3.4105
+27689,2.5,1.0,"Crimson Rivers 2: Angels of the Apocalypse (Rivières pourpres II - Les anges de l'apocalypse, Les)",Action|Crime|Thriller,2004,2.5,1,3.4105
+27816,2.5,1.0,Saints and Soldiers,Action|Adventure|Drama|War,2003,2.5,1,3.4105
+34811,2.5,1.0,Pusher II: With Blood on My Hands,Action|Crime|Drama|Thriller,2004,2.5,1,3.4105
+37477,2.5,1.0,"Man, The",Action|Comedy|Crime,2005,2.5,1,3.4105
+38294,2.5,1.0,Beowulf & Grendel,Action|Adventure|Drama|Fantasy,2005,2.5,1,3.4105
+44849,2.5,1.0,Renaissance,Action|Animation|Film-Noir|Sci-Fi|Thriller,2006,2.5,1,3.4105
+47538,2.5,1.0,Crime Busters,Action|Adventure|Comedy|Crime,1977,2.5,1,3.4105
+50445,2.5,1.0,"Hitcher, The",Action|Horror|Thriller,2007,2.5,2,3.3346
+51545,2.5,1.0,Pusher III: I'm the Angel of Death,Action|Comedy|Drama|Horror|Thriller,2005,2.5,1,3.4105
+58826,2.5,1.0,"Shepherd: Border Patrol, The",Action|Crime|Thriller,2008,2.5,1,3.4105
+69131,2.5,1.0,Killshot,Action|Crime|Drama|Thriller,2008,2.5,1,3.4105
+71910,2.5,1.0,"Tournament, The",Action,2009,2.5,1,3.4105
+77201,2.5,1.0,Valhalla Rising,Action|Drama|War,2009,2.5,1,3.4105
+79895,2.5,1.0,"Extraordinary Adventures of Adèle Blanc-Sec, The",Action|Adventure|Fantasy|Mystery,2010,2.5,1,3.4105
+80162,2.5,1.0,"Horde, The (La Horde)",Action|Horror|Thriller,2009,2.5,1,3.4105
+97950,2.5,1.0,"Man with the Iron Fists, The",Action|Adventure|Crime,2012,2.5,1,3.4105
+107314,2.5,1.0,Oldboy,Action|Drama|Mystery,2013,3.0,2,3.418
+108188,2.5,1.0,Jack Ryan: Shadow Recruit,Action|Drama|Thriller|IMAX,2014,2.0,2,3.2513
+110541,2.5,1.0,"Brain Smasher... A Love Story (Bouncer and the Lady, The)",Action|Comedy,1993,2.5,1,3.4105
+113345,2.5,1.0,Jupiter Ascending,Action|Adventure|Sci-Fi,2015,2.0,2,3.2513
+114795,2.5,1.0,Dracula Untold,Action|Drama|Fantasy,2014,3.5,4,3.5011
+116169,2.5,1.0,Reign of Assassins,Action,2010,2.5,1,3.4105
+117466,2.5,1.0,In the Heart of the Sea,Action|Adventure|Drama,2015,3.5,3,3.5012
+119218,2.5,1.0,The Punisher: Dirty Laundry,Action|Crime|Drama,2012,2.5,1,3.4105
+120783,2.5,1.0,Son of a Gun,Action|Crime|Drama,2014,2.5,1,3.4105
+129779,2.5,1.0,Ghost in the Shell Arise - Border 1: Ghost Pain,Action|Animation|Sci-Fi,2013,2.5,1,3.4105
+130518,2.5,1.0,The Amazing Screw-On Head,Action|Adventure|Animation|Comedy|Sci-Fi,2006,4.0,3,3.6166
+135137,2.5,1.0,Pixels,Action|Comedy|Sci-Fi,2015,2.5833,6,3.1572
+136816,2.5,1.0,Bad Asses on the Bayou,Action|Comedy,2015,2.5,1,3.4105
+139130,2.5,1.0,Afro Samurai,Action|Adventure|Animation|Drama|Fantasy,2007,2.5,1,3.4105
+139859,2.5,1.0,Ghost in the Shell Arise - Border 2: Ghost Whispers,Action|Animation|Sci-Fi|Thriller,2013,2.5,1,3.4105
+160271,2.5,1.0,Central Intelligence,Action|Comedy,2016,3.625,4,3.5368
+160341,2.5,1.0,Bloodmoon,Action|Thriller,1997,2.5,1,3.4105
+161032,2.5,1.0,The Grandmother,Action|Drama,1970,2.5,1,3.4105
+185585,2.5,1.0,Pacific Rim: Uprising,Action|Fantasy|Sci-Fi,2018,2.75,2,3.3763
+100163,2.491,4.0,Hansel & Gretel: Witch Hunters,Action|Fantasy|Horror|IMAX,2013,2.9,5,3.301
+113348,2.489,3.0,Teenage Mutant Ninja Turtles,Action|Adventure|Comedy,2014,2.75,4,3.2868
+4719,2.486,7.0,Osmosis Jones,Action|Animation|Comedy|Crime|Drama|Romance|Thriller,2001,2.625,8,3.112
+5609,2.484,2.0,Ballistic: Ecks vs. Sever,Action|Thriller,2002,2.5,2,3.3346
+2530,2.481,8.0,Beneath the Planet of the Apes,Action|Sci-Fi,1970,2.7778,18,3.0363
+53464,2.48,12.0,Fantastic Four: Rise of the Silver Surfer,Action|Adventure|Sci-Fi,2007,2.575,20,2.8839
+52950,2.48,2.0,Day Watch (Dnevnoy dozor),Action|Fantasy|Horror|Thriller,2006,2.5,2,3.3346
+88812,2.478,4.0,30 Minutes or Less,Action|Comedy|Crime,2011,2.6667,6,3.1885
+3563,2.474,2.0,"Crow: Salvation, The",Action|Horror,2000,2.5,3,3.2704
+87529,2.47,3.0,Your Highness,Action|Adventure|Comedy|Fantasy,2011,3.1111,9,3.3166
+129937,2.463,2.0,Run All Night,Action|Crime|Drama|Thriller,2015,2.1667,3,3.1935
+158956,2.463,2.0,Kill Command,Action|Horror|Sci-Fi,2016,2.5,2,3.3346
+64030,2.457,5.0,Transporter 3,Action|Adventure|Crime|Thriller,2008,2.6667,6,3.1885
+74851,2.456,2.0,From Paris with Love,Action|Crime,2010,2.5,2,3.3346
+1752,2.454,4.0,Hard Rain,Action|Crime|Thriller,1998,2.5,4,3.2154
+69644,2.453,3.0,Ice Age: Dawn of the Dinosaurs,Action|Adventure|Animation|Children|Comedy|Romance,2009,2.6071,14,2.9798
+2532,2.45,3.0,Conquest of the Planet of the Apes,Action|Sci-Fi,1972,2.7917,12,3.1143
+50005,2.449,3.0,Curse of the Golden Flower (Man cheng jin dai huang jin jia),Action|Drama,2006,2.5,3,3.2704
+5414,2.448,3.0,Bad Company,Action|Comedy|Crime,2002,2.875,4,3.3225
+3744,2.446,8.0,Shaft,Action|Crime|Thriller,2000,2.6579,19,2.9488
+111663,2.427,2.0,Zombeavers,Action|Comedy|Horror,2014,2.5,2,3.3346
+120799,2.414,6.0,Terminator Genisys,Action|Adventure|Sci-Fi|Thriller,2015,2.5,9,3.0271
+2170,2.411,3.0,Wrongfully Accused,Action|Comedy,1998,2.4,5,3.1344
+1772,2.398,4.0,Blues Brothers 2000,Action|Comedy|Musical,1998,2.7083,12,3.0689
+61350,2.387,3.0,Babylon A.D.,Action|Adventure|Sci-Fi|Thriller,2008,2.3333,3,3.232
+101864,2.382,7.0,Oblivion,Action|Adventure|Sci-Fi|IMAX,2013,3.3,20,3.3672
+94018,2.373,2.0,Battleship,Action|Sci-Fi|Thriller|IMAX,2012,2.3333,3,3.232
+2533,2.369,4.0,Escape from the Planet of the Apes,Action|Sci-Fi,1971,3.0,15,3.2006
+5313,2.353,15.0,The Scorpion King,Action|Adventure|Fantasy|Thriller,2002,2.2955,22,2.6724
+117895,2.353,4.0,Maze Runner: Scorch Trials,Action|Thriller,2015,1.8333,6,2.876
+96861,2.352,4.0,Taken 2,Action|Crime|Drama|Thriller,2012,3.2857,7,3.4127
+8531,2.35,4.0,White Chicks,Action|Comedy|Crime,2004,2.8333,6,3.251
+6615,2.34,9.0,Freddy vs. Jason,Action|Horror|Thriller,2003,2.3333,9,2.9482
+6800,2.339,3.0,Cobra,Action|Crime,1986,2.3333,3,3.232
+2625,2.32,2.0,Black Mask (Hak hap),Action|Adventure|Crime|Sci-Fi|Thriller,1996,2.5,2,3.3346
+135567,2.309,3.0,Independence Day: Resurgence,Action|Adventure|Sci-Fi,2016,2.375,4,3.1797
+136864,2.285,5.0,Batman v Superman: Dawn of Justice,Action|Adventure|Fantasy|Sci-Fi,2016,2.3438,16,2.7891
+7000,2.276,3.0,Hudson Hawk,Action|Adventure|Comedy,1991,3.0,4,3.3583
+8977,2.271,6.0,Alexander,Action|Adventure|Drama|War,2004,2.2,10,2.8508
+204,2.263,2.0,Under Siege 2: Dark Territory,Action,1995,2.7167,30,2.9129
+98239,2.257,2.0,Red Dawn,Action|War,2012,2.25,2,3.293
+78041,2.256,2.0,Killers,Action|Comedy,2010,2.25,2,3.293
+103339,2.25,3.0,White House Down,Action|Drama|Thriller|IMAX,2013,2.9167,6,3.2822
+2701,2.249,27.0,Wild Wild West,Action|Comedy|Sci-Fi|Western,1999,2.2075,53,2.4129
+7369,2.233,4.0,Scooby-Doo 2: Monsters Unleashed,Action|Adventure|Children|Comedy|Mystery,2004,2.25,4,3.144
+5523,2.231,2.0,"Adventures of Pluto Nash, The",Action|Adventure|Comedy|Sci-Fi,2002,2.3333,3,3.232
+2153,2.226,6.0,"Avengers, The",Action|Adventure,1998,2.3182,11,2.8817
+5999,2.226,2.0,Heavy Metal 2000,Action|Adventure|Animation|Fantasy|Sci-Fi,2000,2.25,2,3.293
+101112,2.225,2.0,Oz the Great and Powerful,Action|Adventure|Fantasy|IMAX,2013,3.0833,6,3.3447
+4066,2.224,2.0,I'm Gonna Git You Sucka,Action|Comedy,1988,2.875,4,3.3225
+93766,2.217,2.0,Wrath of the Titans,Action|Adventure|Fantasy|IMAX,2012,2.625,4,3.2511
+181,2.216,5.0,Mighty Morphin Power Rangers: The Movie,Action|Children,1995,2.2647,17,2.7228
+76175,2.207,7.0,Clash of the Titans,Action|Adventure|Drama|Fantasy,2010,2.3077,13,2.8268
+2540,2.207,2.0,"Corruptor, The",Action|Crime|Drama|Thriller,1999,2.5,3,3.2704
+6564,2.203,12.0,Lara Croft Tomb Raider: The Cradle of Life,Action|Adventure|Comedy|Romance|Thriller,2003,2.6471,17,2.9635
+60522,2.184,2.0,"Machine Girl, The (Kataude mashin gâru)",Action|Comedy|Fantasy|Horror|Thriller,2008,2.25,2,3.293
+97836,2.172,3.0,Here Comes the Boom,Action|Comedy,2012,2.5714,7,3.1186
+62394,2.164,3.0,Max Payne,Action|Crime|Drama|Thriller,2008,2.1667,3,3.1935
+103384,2.159,2.0,"Lone Ranger, The",Action|Adventure|Western|IMAX,2013,2.7857,7,3.2068
+2429,2.145,2.0,Mighty Joe Young,Action|Adventure|Drama|Fantasy|Thriller,1998,2.8,5,3.2677
+37380,2.137,9.0,Doom,Action|Horror|Sci-Fi,2005,2.15,10,2.8258
+688,2.131,3.0,Operation Dumbo Drop,Action|Adventure|Comedy|War,1995,2.3333,9,2.9482
+1431,2.115,9.0,Beverly Hills Ninja,Action|Comedy,1997,2.4688,16,2.866
+56801,2.113,4.0,AVPR: Aliens vs. Predator - Requiem,Action|Horror|Sci-Fi,2007,2.5833,6,3.1572
+6014,2.109,4.0,National Security,Action|Comedy,2003,2.5,5,3.1677
+227,2.055,2.0,Drop Zone,Action|Thriller,1994,2.8636,22,3.063
+3981,2.043,7.0,Red Planet,Action|Sci-Fi|Thriller,2000,2.3462,13,2.8485
+393,2.02,5.0,Street Fighter,Action|Adventure|Fantasy,1994,2.5,10,3.0008
+1681,2.015,5.0,Mortal Kombat: Annihilation,Action|Adventure|Fantasy,1997,1.9286,7,2.8539
+6959,2.008,3.0,Timeline,Action|Adventure|Sci-Fi,2003,2.0,3,3.1551
+33158,2.006,3.0,xXx: State of the Union,Action|Crime|Thriller,2005,2.0,5,3.001
+111659,2.0,3.0,Maleficent,Action|Adventure|Children|IMAX,2014,2.75,16,3.0391
+77866,2.0,2.0,Robin Hood,Action|Adventure|Drama|Romance|War,2010,3.1667,6,3.376
+998,2.0,1.0,Set It Off,Action|Crime,1996,3.0,3,3.3858
+1495,2.0,1.0,Turbo: A Power Rangers Movie,Action|Adventure|Children,1997,2.0,2,3.2513
+2365,2.0,1.0,King Kong vs. Godzilla (Kingukongu tai Gojira),Action|Sci-Fi,1962,2.5,2,3.3346
+2525,2.0,1.0,Alligator,Action|Horror|Sci-Fi,1980,2.0,3,3.1551
+2531,2.0,1.0,Battle for the Planet of the Apes,Action|Sci-Fi,1973,2.7778,9,3.1587
+2535,2.0,1.0,Earthquake,Action|Drama|Thriller,1974,2.6667,3,3.3089
+2741,2.0,1.0,No Mercy,Action|Crime|Thriller,1986,2.0,2,3.2513
+2817,2.0,1.0,Aces: Iron Eagle III,Action,1992,2.0,3,3.1551
+3584,2.0,1.0,Breathless,Action|Drama|Romance|Thriller,1983,2.0,4,3.0725
+3682,2.0,1.0,Magnum Force,Action|Crime|Drama|Thriller,1973,3.7,5,3.5677
+3957,2.0,1.0,Billy Jack,Action|Drama,1971,2.6667,3,3.3089
+4053,2.0,1.0,Double Take,Action|Comedy,2001,2.5,2,3.3346
+4166,2.0,1.0,Series 7: The Contenders,Action|Drama,2001,2.5,2,3.3346
+4200,2.0,1.0,Double Impact,Action,1991,3.25,2,3.4596
+4597,2.0,1.0,Gleaming the Cube,Action|Drama|Mystery,1989,2.0,1,3.3651
+5442,2.0,1.0,V. I. Warshawski,Action|Comedy|Crime,1991,2.0,1,3.3651
+5543,2.0,1.0,"Swarm, The",Action|Horror|Sci-Fi,1978,2.25,2,3.293
+5612,2.0,1.0,Trapped,Action|Thriller,2002,2.0,1,3.3651
+5638,2.0,1.0,Godzilla vs. Mothra (Mosura tai Gojira),Action|Adventure|Fantasy|Sci-Fi,1964,2.0,1,3.3651
+6057,2.0,1.0,Biker Boyz,Action|Crime|Drama,2003,2.0,1,3.3651
+6723,2.0,1.0,Once Upon a Time in China III (Wong Fei-hung tsi sam: Siwong tsangba),Action,1993,3.0,2,3.418
+7262,2.0,1.0,Catch That Kid,Action|Adventure|Children|Comedy|Crime,2004,2.0,1,3.3651
+7704,2.0,1.0,"Delta Force, The",Action,1986,2.0,1,3.3651
+7991,2.0,1.0,Death Race 2000,Action|Sci-Fi,1975,3.6667,3,3.5397
+8045,2.0,1.0,Hamburger Hill,Action|Drama|War,1987,2.0,1,3.3651
+8605,2.0,1.0,Taxi 3,Action|Comedy,2003,3.25,2,3.4596
+8677,2.0,1.0,Flash Gordon Conquers the Universe,Action|Sci-Fi,1940,1.25,2,3.1263
+26322,2.0,1.0,Gone in 60 Seconds,Action|Crime|Drama,1974,3.125,4,3.394
+26590,2.0,1.0,G.I. Joe: The Movie,Action|Adventure|Animation|Children|Fantasy|Sci-Fi,1987,2.0,1,3.3651
+26593,2.0,1.0,Hell Comes to Frogtown,Action|Comedy|Sci-Fi,1988,2.0,1,3.3651
+26764,2.0,1.0,Captain America,Action|Fantasy|Sci-Fi|Thriller|War,1990,1.25,2,3.1263
+27155,2.0,1.0,"Batman/Superman Movie, The",Action|Adventure|Animation|Children|Fantasy|Sci-Fi,1998,2.0,1,3.3651
+27683,2.0,1.0,Tremors 4: The Legend Begins,Action|Comedy|Horror|Sci-Fi|Thriller|Western,2004,2.0,1,3.3651
+31367,2.0,1.0,"Chase, The",Action|Adventure|Comedy|Crime|Romance|Thriller,1994,2.0,1,3.3651
+32300,2.0,1.0,D.E.B.S.,Action|Comedy,2004,2.8333,3,3.3474
+32440,2.0,1.0,If Looks Could Kill,Action|Comedy,1991,2.0,1,3.3651
+43558,2.0,1.0,Big Momma's House 2,Action|Comedy|Crime,2006,2.0,1,3.3651
+50147,2.0,1.0,Black Christmas,Action|Horror|Thriller,2006,2.0,1,3.3651
+53143,2.0,1.0,Fay Grim,Action|Thriller,2006,2.0,1,3.3651
+54908,2.0,1.0,Taxi 4,Action|Comedy,2007,2.0,1,3.3651
+59947,2.0,1.0,"Protector, The",Action|Comedy|Drama|Thriller,1985,2.0,1,3.3651
+61073,2.0,1.0,Hell Ride,Action|Drama|Thriller,2008,2.0,1,3.3651
+67361,2.0,1.0,Echelon Conspiracy,Action|Mystery|Thriller,2009,2.0,1,3.3651
+75805,2.0,1.0,"Bounty Hunter, The",Action|Comedy|Romance,2010,2.75,6,3.2197
+87785,2.0,1.0,Takers,Action|Crime|Thriller,2010,2.75,2,3.3763
+92198,2.0,1.0,Seeking Justice,Action|Drama|Thriller,2011,2.0,1,3.3651
+96007,2.0,1.0,Dragon Ball GT: A Hero's Legacy (Doragon bôru GT: Gokû gaiden! Yûki no akashi wa sû-shin-chû),Action|Adventure|Animation,1997,2.0,1,3.3651
+103366,2.0,1.0,Redemption (Hummingbird),Action|Crime|Thriller,2013,2.0,1,3.3651
+104129,2.0,1.0,Man of Tai Chi,Action|IMAX,2013,3.25,2,3.4596
+104837,2.0,1.0,Rage of Honor,Action|Crime,1987,2.0,1,3.3651
+106873,2.0,1.0,Evangelion: 3.0 You Can (Not) Redo,Action|Animation|Drama,2012,2.5,3,3.2704
+107962,2.0,1.0,Freezer,Action|Thriller,2014,2.0,1,3.3651
+108156,2.0,1.0,Ride Along,Action|Comedy,2014,3.1667,6,3.376
+115151,2.0,1.0,Plastic,Action|Crime,2014,2.0,1,3.3651
+116887,2.0,1.0,Exodus: Gods and Kings,Action|Adventure|Drama,2014,2.75,2,3.3763
+120637,2.0,1.0,Blackhat,Action|Crime|Drama|Mystery|Thriller,2015,2.5,2,3.3346
+123310,2.0,1.0,Tornado!,Action,1996,2.0,1,3.3651
+129397,2.0,1.0,Marvel One-Shot: Item 47,Action|Fantasy|Sci-Fi,2012,2.75,2,3.3763
+130083,2.0,1.0,Kidnapping Mr. Heineken,Action|Crime|Drama|Thriller,2015,2.0,1,3.3651
+131480,2.0,1.0,Poker Night,Action|Crime|Thriller,2014,2.0,1,3.3651
+135518,2.0,1.0,Self/less,Action|Mystery|Sci-Fi|Thriller,2015,2.75,2,3.3763
+144522,2.0,1.0,Sky High,Action|Horror|Thriller,2003,2.0,1,3.3651
+146730,2.0,1.0,Lost in the Sun,Action|Drama|Thriller,2015,2.0,1,3.3651
+149612,2.0,1.0,Swelter,Action|Drama|Thriller,2014,2.0,1,3.3651
+155358,2.0,1.0,Camino,Action|Adventure|Thriller,2016,2.0,1,3.3651
+159690,2.0,1.0,Teenage Mutant Ninja Turtles: Out of the Shadows,Action|Adventure|Comedy,2016,2.0,1,3.3651
+160563,2.0,1.0,The Legend of Tarzan,Action|Adventure,2016,3.0833,6,3.3447
+160730,2.0,1.0,The Adderall Diaries,Action|Drama|Thriller,2015,2.0,1,3.3651
+165347,2.0,1.0,Jack Reacher: Never Go Back,Action|Crime|Drama|Mystery|Thriller,2016,2.0,1,3.3651
+168456,2.0,1.0,Mercury Plains,Action|Adventure|Drama,2016,2.0,1,3.3651
+170297,2.0,1.0,Ultimate Avengers 2,Action|Animation|Sci-Fi,2006,2.0,1,3.3651
+176935,2.0,1.0,Geostorm,Action,2017,2.0,1,3.3651
+2422,1.986,7.0,"Karate Kid, Part III, The",Action|Adventure|Children|Drama,1989,1.75,14,2.4798
+112370,1.98,2.0,Transformers: Age of Extinction,Action|Adventure|Sci-Fi,2014,1.875,4,3.0368
+106491,1.971,3.0,47 Ronin,Action|Adventure|Fantasy,2013,2.6429,7,3.148
+89087,1.96,4.0,Colombiana,Action|Adventure|Drama|Thriller,2011,2.5,6,3.126
+132796,1.958,2.0,San Andreas,Action|Drama|Thriller,2015,1.875,4,3.0368
+85131,1.956,2.0,Battle: Los Angeles,Action|Sci-Fi|War,2011,2.375,4,3.1797
+546,1.94,12.0,Super Mario Bros.,Action|Adventure|Children|Comedy|Fantasy|Sci-Fi,1993,2.0,21,2.4844
+3879,1.928,2.0,"Art of War, The",Action|Thriller,2000,2.0,2,3.2513
+1599,1.912,2.0,Steel,Action,1997,2.3333,3,3.232
+59129,1.91,2.0,Outpost,Action|Horror,2008,2.0,2,3.2513
+3208,1.909,4.0,Loaded Weapon 1 (National Lampoon's Loaded Weapon 1),Action|Comedy,1993,2.1875,8,2.9175
+4987,1.9,2.0,Spacehunter: Adventures in the Forbidden Zone,Action|Adventure|Sci-Fi,1983,2.0,2,3.2513
+57951,1.887,2.0,Fool's Gold,Action|Adventure|Comedy|Romance,2008,2.3333,3,3.232
+87520,1.856,5.0,Transformers: Dark of the Moon,Action|Adventure|Sci-Fi|War|IMAX,2011,2.3636,11,2.9055
+3864,1.849,3.0,Godzilla 2000 (Gojira ni-sen mireniamu),Action|Adventure|Sci-Fi,1999,2.1,5,3.0344
+7720,1.847,2.0,"Four Musketeers, The",Action|Adventure|Comedy|Romance,1974,2.75,4,3.2868
+103655,1.839,3.0,R.I.P.D.,Action|Comedy|Fantasy,2013,1.8333,3,3.1166
+502,1.837,5.0,"Next Karate Kid, The",Action|Children|Romance,1994,2.3667,15,2.8206
+67695,1.834,3.0,Observe and Report,Action|Comedy,2009,2.625,4,3.2511
+3440,1.821,6.0,Teenage Mutant Ninja Turtles III,Action|Adventure|Children|Comedy|Fantasy,1993,2.0714,14,2.6673
+109673,1.819,3.0,300: Rise of an Empire,Action|Drama|War|IMAX,2014,2.125,4,3.1083
+132046,1.813,3.0,Tomorrowland,Action|Adventure|Children|Mystery|Sci-Fi,2015,2.5,7,3.0892
+78893,1.78,3.0,"Last Airbender, The",Action|Adventure|Fantasy,2010,1.9167,6,2.9072
+54648,1.77,2.0,Rush Hour 3,Action|Comedy|Crime|Thriller,2007,2.7,5,3.2344
+3268,1.769,7.0,Stop! Or My Mom Will Shoot,Action|Comedy,1992,1.7727,11,2.596
+2720,1.76,9.0,Inspector Gadget,Action|Adventure|Children|Comedy,1999,2.0952,21,2.5489
+140711,1.744,2.0,American Ultra,Action|Comedy|Sci-Fi|Thriller,2015,2.6667,6,3.1885
+100498,1.742,2.0,"Good Day to Die Hard, A",Action|Crime|Thriller|IMAX,2013,2.0833,6,2.9697
+611,1.741,2.0,Hellraiser: Bloodline,Action|Horror|Sci-Fi,1996,2.4167,6,3.0947
+8912,1.734,2.0,Taxi,Action|Comedy,2004,1.75,2,3.2096
+43932,1.734,2.0,Pulse,Action|Drama|Fantasy|Horror|Mystery|Sci-Fi|Thriller,2006,1.75,2,3.2096
+6013,1.733,2.0,Kangaroo Jack,Action|Comedy,2003,1.75,2,3.2096
+4673,1.721,3.0,Tango & Cash,Action|Comedy|Crime|Thriller,1989,1.6667,3,3.0781
+39400,1.715,4.0,"Fog, The",Action|Horror|Mystery|Thriller,2005,2.1,5,3.0344
+4748,1.64,5.0,3 Ninjas,Action|Children|Comedy,1992,2.0833,6,2.9697
+6686,1.627,3.0,"Medallion, The",Action|Comedy|Crime|Fantasy,2003,2.7,5,3.2344
+7016,1.543,3.0,Over the Top,Action|Drama,1987,1.5,3,3.0397
+74532,1.532,3.0,Cop Out,Action|Comedy|Crime,2010,2.5,5,3.1677
+4756,1.517,2.0,"Musketeer, The",Action|Adventure|Drama|Romance,2001,1.5,2,3.168
+1556,1.512,10.0,Speed 2: Cruise Control,Action|Romance|Thriller,1997,1.6053,19,2.2592
+26792,1.5,2.0,Sidekicks,Action|Adventure|Children|Comedy,1992,1.5,2,3.168
+9,1.5,1.0,Sudden Death,Action,1995,3.125,16,3.2698
+548,1.5,1.0,Terminal Velocity,Action|Mystery|Thriller,1994,2.75,6,3.2197
+667,1.5,1.0,Bloodsport 2 (a.k.a. Bloodsport II: The Next Kumite),Action,1996,2.8125,8,3.1953
+3768,1.5,1.0,Braddock: Missing in Action III,Action|War,1988,1.25,2,3.1263
+4629,1.5,1.0,Next of Kin,Action|Crime|Thriller,1989,1.75,2,3.2096
+5961,1.5,1.0,Blue Steel,Action|Thriller,1990,1.5,1,3.3196
+6994,1.5,1.0,"Hard Way, The",Action|Comedy,1991,3.25,2,3.4596
+7782,1.5,1.0,Sniper,Action|Drama,1993,3.0,2,3.418
+26828,1.5,1.0,Mr. Nanny,Action|Children|Comedy,1993,1.5,1,3.3196
+26913,1.5,1.0,Street Fighter II: The Animated Movie (Sutorîto Faitâ II gekijô-ban),Action|Animation,1994,1.5,1,3.3196
+27705,1.5,1.0,In Hell,Action|Drama|Thriller,2003,1.5,1,3.3196
+33132,1.5,1.0,State Property 2,Action|Crime|Drama,2005,1.5,1,3.3196
+34292,1.5,1.0,Hardware,Action|Horror|Sci-Fi,1990,1.5,1,3.3196
+68480,1.5,1.0,Flatfoot on the Nile (Piedone d'Egitto),Action|Comedy|Crime,1980,1.5,1,3.3196
+75416,1.5,1.0,Generation X,Action|Adventure|Sci-Fi,1996,1.5,1,3.3196
+90738,1.5,1.0,"Double, The",Action|Crime|Drama|Mystery|Thriller,2011,1.5,1,3.3196
+91273,1.5,1.0,Bunraku,Action|Drama|Fantasy,2010,1.5,1,3.3196
+91470,1.5,1.0,Violet & Daisy,Action|Drama,2011,3.0,2,3.418
+94011,1.5,1.0,"Big Bang, The",Action|Thriller,2011,1.5,1,3.3196
+97470,1.5,1.0,Catch .44,Action|Drama|Thriller,2011,1.25,2,3.1263
+97742,1.5,1.0,Alex Cross,Action|Crime|Mystery|Thriller,2012,1.5,1,3.3196
+99005,1.5,1.0,Fire with Fire,Action|Crime|Drama,2012,1.5,1,3.3196
+102880,1.5,1.0,After Earth,Action|Adventure|Sci-Fi|IMAX,2013,1.0,2,3.0846
+105020,1.5,1.0,Collision Course,Action|Comedy|Thriller,1989,1.5,1,3.3196
+106542,1.5,1.0,Charlie Countryman,Action|Comedy|Romance,2013,1.5,1,3.3196
+110826,1.5,1.0,Brick Mansions,Action|Crime|Drama,2014,1.5,1,3.3196
+113416,1.5,1.0,Revenge of the Green Dragons,Action|Crime|Drama,2014,1.5,1,3.3196
+116419,1.5,1.0,Drive Hard,Action|Comedy|Crime,2014,1.5,1,3.3196
+122490,1.5,1.0,Wicked Blood,Action|Drama|Thriller,2014,1.5,1,3.3196
+126420,1.5,1.0,American Heist,Action,2015,1.5,1,3.3196
+131714,1.5,1.0,Last Knights,Action|Adventure,2015,3.0,3,3.3858
+132157,1.5,1.0,Paul Blart: Mall Cop 2,Action|Comedy|Crime,2015,2.75,4,3.2868
+132618,1.5,1.0,Kite,Action|Crime|Drama|Mystery|Thriller,2014,1.5,1,3.3196
+133195,1.5,1.0,Hitman: Agent 47,Action|Crime|Thriller,2015,1.5,1,3.3196
+133798,1.5,1.0,Hot Pursuit,Action|Comedy,2015,1.5,1,3.3196
+136012,1.5,1.0,Bloodsport III,Action|Thriller,1996,1.5,1,3.3196
+136800,1.5,1.0,Robot Overlords,Action|Adventure|Sci-Fi,2014,1.5,1,3.3196
+136859,1.5,1.0,The Lovers,Action|Adventure|Romance|Sci-Fi,2015,1.5,1,3.3196
+143472,1.5,1.0,Into the Grizzly Maze,Action|Horror|Thriller,2015,1.5,1,3.3196
+151315,1.5,1.0,Ride Along 2,Action|Comedy,2016,2.0,3,3.1551
+151479,1.5,1.0,The Flash 2 - Revenge of the Trickster,Action|Fantasy|Sci-Fi,1991,1.5,1,3.3196
+156607,1.5,1.0,The Huntsman Winter's War,Action|Adventure|Drama|Fantasy,2016,1.0,3,2.9243
+157407,1.5,1.0,I Am Wrath,Action|Crime|Drama|Thriller,2016,1.5,1,3.3196
+157865,1.5,1.0,Ratchet & Clank,Action|Adventure|Animation|Children|Comedy|Sci-Fi,2016,1.5,1,3.3196
+161918,1.5,1.0,Sharknado 4: The 4th Awakens,Action|Adventure|Horror|Sci-Fi,2016,1.5,1,3.3196
+5246,1.487,2.0,Smokey and the Bandit II,Action|Comedy,1980,2.125,4,3.1083
+27793,1.474,2.0,Starship Troopers 2: Hero of the Federation,Action|Horror|Sci-Fi|War,2004,1.5,2,3.168
+3767,1.416,2.0,Missing in Action 2: The Beginning,Action|War,1985,1.6667,3,3.0781
+120635,1.334,3.0,Taken 3,Action|Crime|Thriller,2015,2.7,5,3.2344
+1389,1.33,4.0,Jaws 3-D,Action|Horror,1983,1.4167,6,2.7197
+66,1.31,2.0,Lawnmower Man 2: Beyond Cyberspace,Action|Sci-Fi|Thriller,1996,2.5,9,3.0271
+92938,1.286,2.0,Ghost Rider: Spirit of Vengeance,Action|Fantasy|Thriller,2012,1.6,5,2.8677
+6996,1.276,4.0,Highlander II: The Quickening,Action|Sci-Fi,1991,1.8571,7,2.8245
+112911,1.255,2.0,Hercules,Action|Adventure,2014,2.0,4,3.0725
+2807,1.248,2.0,Universal Soldier: The Return,Action|Sci-Fi,1999,2.625,4,3.2511
+4749,1.214,2.0,3 Ninjas Kick Back,Action|Children|Comedy,1994,1.25,2,3.1263
+3593,1.2,10.0,Battlefield Earth,Action|Sci-Fi,2000,1.6579,19,2.2936
+6872,1.168,4.0,"House of the Dead, The",Action|Horror,2003,1.125,4,2.8225
+1427,1.0,1.0,Turbulence,Action|Thriller,1997,1.0,1,3.2742
+2614,1.0,1.0,Chopping Mall (a.k.a. Killbots),Action|Horror|Sci-Fi,1986,1.0,2,3.0846
+2887,1.0,1.0,Simon Sez,Action|Comedy,1999,1.0,1,3.2742
+4207,1.0,1.0,Navy Seals,Action|Adventure|War,1990,2.0,3,3.1551
+4630,1.0,1.0,No Holds Barred,Action,1989,1.0,1,3.2742
+4635,1.0,1.0,Pink Cadillac,Action|Comedy|Drama,1989,1.0,1,3.2742
+6566,1.0,1.0,Spy Kids 3-D: Game Over,Action|Adventure|Children,2003,2.0,3,3.1551
+31553,1.0,1.0,Double Dragon,Action|Adventure|Sci-Fi,1994,1.0,1,3.2742
+33681,1.0,1.0,"Adventures of Sharkboy and Lavagirl 3-D, The",Action|Adventure|Children|Fantasy,2005,1.75,2,3.2096
+43419,1.0,1.0,Bandidas,Action|Comedy|Crime|Western,2006,1.0,1,3.2742
+50003,1.0,1.0,DOA: Dead or Alive,Action|Adventure,2006,2.0,2,3.2513
+55259,1.0,1.0,"Seeker: The Dark Is Rising, The",Action|Adventure|Drama|Fantasy,2007,1.0,1,3.2742
+72874,1.0,1.0,"Peacekeeper, The",Action,1997,1.0,1,3.2742
+92264,1.0,1.0,One for the Money,Action|Comedy|Crime,2012,2.0,2,3.2513
+101577,1.0,1.0,"Host, The",Action|Adventure|Romance,2013,2.5,4,3.2154
+104760,1.0,1.0,Getaway,Action|Crime,2013,1.0,1,3.2742
+105121,1.0,1.0,Inescapable,Action|Drama|War,2012,1.0,1,3.2742
+112326,1.0,1.0,Nick Fury: Agent of S.H.I.E.L.D.,Action|Sci-Fi,1998,1.0,1,3.2742
+117630,1.0,1.0,Double Trouble,Action|Comedy|Crime|Romance,1992,1.0,1,3.2742
+122902,1.0,1.0,Fantastic Four,Action|Adventure|Fantasy|Sci-Fi,2015,2.1,5,3.0344
+129657,1.0,1.0,Tracers,Action,2015,1.0,1,3.2742
+132462,1.0,1.0,Sword of Vengeance,Action|Adventure|Drama,2014,1.0,1,3.2742
+157432,1.0,1.0,Precious Cargo,Action|Crime,2016,1.0,1,3.2742
+161290,1.0,1.0,Vigilante Diaries,Action,2016,1.0,1,3.2742
+5248,0.987,2.0,Smokey and the Bandit III,Action|Comedy,1983,1.375,4,2.894
+8290,0.724,2.0,Mitchell,Action|Crime,1975,0.75,2,3.043
+2534,0.5,1.0,Avalanche,Action,1978,2.5,3,3.2704
+4580,0.5,1.0,Cyborg,Action|Sci-Fi,1989,0.5,2,3.0013
+4750,0.5,1.0,3 Ninjas Knuckle Up,Action|Children,1995,0.5,1,3.2287
+5700,0.5,1.0,The Pumaman,Action|Adventure|Fantasy|Sci-Fi,1980,0.5,1,3.2287
+26696,0.5,1.0,Lionheart,Action,1990,0.5,1,3.2287
+27595,0.5,1.0,Jesus Christ Vampire Hunter,Action|Comedy|Horror|Musical,2001,0.5,1,3.2287
+31424,0.5,1.0,Alone in the Dark,Action|Horror|Sci-Fi|Thriller,2005,0.5,1,3.2287
+53453,0.5,1.0,Starcrash (a.k.a. Star Crash),Action|Adventure|Fantasy|Sci-Fi,1978,0.5,1,3.2287
+57326,0.5,1.0,In the Name of the King: A Dungeon Siege Tale,Action|Adventure|Fantasy,2008,0.5,1,3.2287
+59014,0.5,1.0,Superhero Movie,Action|Comedy|Sci-Fi,2008,2.0,3,3.1551
+61818,0.5,1.0,"Crow, The: Wicked Prayer",Action|Adventure|Fantasy|Thriller,2005,0.5,1,3.2287
+71810,0.5,1.0,Legionnaire,Action|Adventure|Drama|War,1998,0.5,1,3.2287
+72424,0.5,1.0,Derailed,Action|Thriller,2002,0.5,1,3.2287
+89190,0.5,1.0,Conan the Barbarian,Action|Adventure|Fantasy,2011,1.75,2,3.2096
+90888,0.5,1.0,Immortals,Action|Drama|Fantasy,2011,2.6667,3,3.3089
+102735,0.5,1.0,Captain America,Action|Drama,1979,0.5,1,3.2287
+102749,0.5,1.0,Captain America II: Death Too Soon,Action|Crime,1979,0.5,1,3.2287
+104017,0.5,1.0,3 dev adam (Three Giant Men),Action|Adventure|Sci-Fi,1973,0.5,1,3.2287
+111785,0.5,1.0,Midnight Chronicles,Action|Adventure|Fantasy,2009,0.5,1,3.2287
+129250,0.5,1.0,Superfast!,Action|Comedy|Crime,2015,0.5,1,3.2287
+136297,0.5,1.0,Mortal Kombat: The Journey Begins,Action|Animation,1995,0.5,1,3.2287
+145951,0.5,1.0,Bloodsport: The Dark Kumite,Action|Thriller,1999,0.5,1,3.2287
+157172,0.5,1.0,Wizards of the Lost Kingdom II,Action|Fantasy,1989,0.5,1,3.2287

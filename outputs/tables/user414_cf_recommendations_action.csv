@@ -1,0 +1,16 @@
+movieId,predicted_rating,n_neighbor_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+5915,4.784,2.0,Victory (a.k.a. Escape to Victory),Action|Drama|War,1981,4.75,2,3.7096
+122912,4.674,3.0,Avengers: Infinity War - Part I,Action|Adventure|Sci-Fi,2018,4.0,13,3.7833
+5833,4.639,3.0,Dog Soldiers,Action|Horror,2002,4.6667,3,3.7704
+6300,4.513,3.0,Flickering Lights (Blinkende lygter),Action|Comedy|Crime,2000,4.5,3,3.732
+167746,4.506,2.0,The Lego Batman Movie,Action|Animation|Comedy,2017,3.7143,7,3.5892
+93838,4.492,5.0,The Raid: Redemption,Action|Crime,2011,4.3333,9,3.8956
+7387,4.353,9.0,Dawn of the Dead,Action|Drama|Horror,1978,3.975,20,3.8172
+27156,4.345,3.0,"Neon Genesis Evangelion: The End of Evangelion (Shin seiki Evangelion Gekijô-ban: Air/Magokoro wo, kimi ni)",Action|Animation|Drama|Fantasy|Sci-Fi,1997,4.3,5,3.7677
+69275,4.31,3.0,Dead Snow (Død snø),Action|Adventure|Comedy|Horror,2009,4.25,4,3.7154
+187593,4.305,3.0,Deadpool 2,Action|Comedy|Sci-Fi,2018,3.875,12,3.7053
+69524,4.277,2.0,Raiders of the Lost Ark: The Adaptation,Action|Adventure|Thriller,1989,4.3333,3,3.6935
+4826,4.27,2.0,"Big Red One, The",Action|Adventure|Drama|War,1980,4.25,2,3.6263
+5965,4.266,2.0,"Duellists, The",Action|War,1977,4.1667,3,3.6551
+82242,4.251,2.0,Rare Exports: A Christmas Tale (Rare Exports),Action|Comedy,2010,4.25,2,3.6263
+3062,4.242,4.0,"Longest Day, The",Action|Drama|War,1962,4.0,11,3.7627

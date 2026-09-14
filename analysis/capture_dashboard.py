@@ -120,6 +120,19 @@ def main() -> None:
             page.screenshot(path=OUT / "app_10_actor_filmography.png")
             print("  ", OUT / "app_10_actor_filmography.png")
 
+            # 🔸 개인화: 나랑 비슷한 사람들이 좋아하는 영화 (사용자 기반 협업 필터링, userId 414)
+            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=False).scroll_into_view_if_needed()
+            wait_idle(page, 800)
+            uid_input = page.get_by_role("spinbutton")
+            uid_input.click()
+            uid_input.fill("414")
+            uid_input.press("Tab")
+            wait_idle(page, 3000)
+            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=False).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_11_user_cf.png")
+            print("  ", OUT / "app_11_user_cf.png")
+
             browser.close()
     finally:
         srv.terminate()
