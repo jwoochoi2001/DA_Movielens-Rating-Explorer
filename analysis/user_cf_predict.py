@@ -1,8 +1,9 @@
 """사용자 기반 협업 필터링(user-based CF) — 평점 예측 · 추천.
 
-user_cf_neighbors.py 의 find_neighbors() 로 찾은 이웃(코사인 유사도 상위 k명,
-공통 평가 영화 min_common편 이상)을 그대로 재사용해, 대상 사용자가 아직 평가하지
-않은 영화의 평점을 예측하고 상위 N편을 추천한다.
+user_cf_neighbors.py 의 find_neighbors_auto() 로 찾은 이웃(코사인 유사도 상위 k명,
+공통 평가 영화 min_common편 이상 — 조건을 만족하는 이웃이 없으면 30 -> 15 -> 5 순으로
+자동으로 낮춰 재시도)을 그대로 재사용해, 대상 사용자가 아직 평가하지 않은 영화의
+평점을 예측하고 상위 N편을 추천한다.
 
 예측 공식 (유사도 가중 평균, 이웃 중 그 영화를 평가한 사람만 사용)
     pred(u, m) = Σ_v sim(u, v) · rating(v, m)  /  Σ_v |sim(u, v)|
@@ -33,7 +34,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from user_cf_neighbors import find_neighbors
+from user_cf_neighbors import find_neighbors_auto
 
 RATINGS_CSV = "data/processed/ratings.csv"
 MOVIES_CSV = "data/processed/movies_with_ratings.csv"
@@ -54,9 +55,12 @@ def main() -> None:
     ratings = pd.read_csv(RATINGS_CSV)
     movies = pd.read_csv(MOVIES_CSV)
 
-    neighbors = find_neighbors(ratings, args.user, args.min_common, args.k)
+    neighbors, used_min_common = find_neighbors_auto(ratings, args.user, args.min_common, args.k)
+    if used_min_common != args.min_common:
+        print(f"공통 평가 영화 {args.min_common}편 이상 조건에서는 이웃을 찾지 못해, 자동으로 "
+              f"{used_min_common}편 이상으로 낮춰 재시도했습니다.")
     print(f"기준 사용자: {args.user}  ·  이웃 {len(neighbors)}명 "
-          f"(공통 평가 영화 {args.min_common}편 이상, 코사인 유사도 상위 {args.k}명)")
+          f"(공통 평가 영화 {used_min_common}편 이상, 코사인 유사도 상위 {args.k}명)")
     print(neighbors.to_string(index=False))
 
     target_seen = set(ratings.loc[ratings.userId == args.user, "movieId"])

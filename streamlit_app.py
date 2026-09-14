@@ -530,7 +530,8 @@ def render_plot_profile_recs() -> None:
 def render_cf_section() -> None:
     """[개인화 — 사용자 기반 협업 필터링] MovieLens 사용자 ID를 입력하면, 평점 패턴이
     코사인 유사도로 가장 비슷한 이웃들이 높게 평가한 미평가 영화를 이웃 가중 평균으로
-    예측해 추천한다. '선호 영화' 프로필과는 다른, 실제 평점 이력 기반 개인화다."""
+    예측해 추천한다. '선호 영화' 프로필과는 다른, 실제 평점 이력 기반 개인화다.
+    최소 공통 평가 영화 수 조건에서 이웃을 못 찾으면 30 -> 15 -> 5 순으로 자동으로 낮춰 재시도한다."""
     st.subheader("나랑 비슷한 사람들이 좋아하는 영화")
     st.caption(
         "MovieLens 사용자 ID를 입력하면, 그 사용자와 평점 패턴이 비슷한 이웃(코사인 유사도)을 "
@@ -555,13 +556,33 @@ def render_cf_section() -> None:
         st.info(f"사용자 {uid} 는 데이터에 없습니다.")
         return
 
+    # 요청한 min_common 조건으로 이웃이 하나도 안 잡히면, 자동으로 기준을 낮춰(30 -> 15 -> 5 순으로,
+    # 그중 요청값보다 작은 것만) 재시도한다 — 평점이 적은 사용자라도 이웃을 찾을 확률을 높인다.
+    fallback_steps = sorted({v for v in (30, 15, 5) if v < min_common}, reverse=True)
+    used_min_common = min_common
     neighbors = find_cf_neighbors(ratings_all, int(uid), min_common, k)
     if neighbors.empty:
-        st.info("조건을 만족하는 이웃을 찾지 못했습니다 — 최소 공통 평가 영화 수를 낮춰보세요.")
+        for mc in fallback_steps:
+            neighbors = find_cf_neighbors(ratings_all, int(uid), mc, k)
+            if not neighbors.empty:
+                used_min_common = mc
+                break
+
+    if neighbors.empty:
+        st.info(
+            f"공통 평가 영화 수를 {fallback_steps[-1] if fallback_steps else min_common}편까지 "
+            "낮춰도 조건을 만족하는 이웃을 찾지 못했습니다 — 이웃 수(최대)를 늘려보세요."
+        )
         return
 
+    if used_min_common != min_common:
+        st.caption(
+            f"⚠️ 공통 평가 영화 {min_common}편 이상 조건에서는 이웃을 찾지 못해, "
+            f"자동으로 **{used_min_common}편 이상**으로 낮춰 재시도했습니다."
+        )
+
     st.caption(
-        f"이웃 {len(neighbors)}명 (공통 평가 영화 {min_common}편 이상, 코사인 유사도 상위 {k}명) "
+        f"이웃 {len(neighbors)}명 (공통 평가 영화 {used_min_common}편 이상, 코사인 유사도 상위 {k}명) "
         f"· 유사도 {neighbors['cosine_sim'].min():.3f} ~ {neighbors['cosine_sim'].max():.3f}"
     )
 
