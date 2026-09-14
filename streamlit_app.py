@@ -14,6 +14,12 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
     - 이 영화와 같은 장르에서 추천할 만한 영화: 장르 겹침 + 보정 평점(bayesian_rating) 순
     - 비슷한 장르의 영화: 장르 원-핫 벡터 코사인 유사도 순(동점은 보정 평점 순)
 
+  🎬 감독·출연진 기반 추천 (영화를 선택했을 때만, 검색 결과 하단) — 위 두 영역과는 완전히
+     별개로 장르/평점/선호 목록을 전혀 쓰지 않는다. data/raw/movie_text_metadata.csv(TMDB) 기준.
+    - 같은 감독의 다른 영화: 감독이 한 명이라도 겹치는 영화
+    - 출연진이 겹치는 영화: 대상 영화의 1번 배우(첫 번째로 표기된 배우)가 있는 영화 후보 중,
+      그 배우 말고 다른 배우도 한 명 더 겹치는 — 즉 배우가 2명 이상 겹치는 영화만 추천
+
 그 외
   - 제목·장르 검색 (평가 수와 무관하게 전부 검색), 영화 상세(평점 분포·평균·추천 라벨)
   - 하트 버튼으로 "선호 영화"에 담기 — data/processed/favorites.json 에 저장되어
@@ -48,6 +54,7 @@ RATINGS_CSV = PROC / "ratings.csv"
 RAW_RATINGS_CSV = ROOT / "data" / "raw" / "ratings.csv"
 LABEL_TXT = PROC / "label_text.txt"
 FAVORITES_JSON = PROC / "favorites.json"
+CREDITS_CSV = ROOT / "data" / "raw" / "movie_text_metadata.csv"  # TMDB 감독/출연진(directors, cast)
 
 RATING_BINS = [x / 2 for x in range(1, 11)]  # 0.5, 1.0, ... 5.0
 
@@ -183,6 +190,25 @@ def save_favorites_to_disk(fav_ids: set) -> None:
 
 
 @st.cache_data
+def load_credits():
+    """movieId -> 감독 이름 리스트 / 출연진 이름 리스트(TMDB 표기 순서 그대로).
+    다른 추천 영역(장르·TF-IDF)과는 완전히 별개로, 감독·출연진 섹션에서만 쓴다."""
+    if not CREDITS_CSV.exists():
+        return {}, {}
+    df = pd.read_csv(CREDITS_CSV, usecols=["movieId", "directors", "cast"])
+
+    def parse_names(cell) -> list:
+        try:
+            return [p["name"] for p in json.loads(cell)]
+        except (json.JSONDecodeError, TypeError):
+            return []
+
+    directors_by_movie = {int(mid): parse_names(d) for mid, d in zip(df["movieId"], df["directors"])}
+    cast_by_movie = {int(mid): parse_names(c) for mid, c in zip(df["movieId"], df["cast"])}
+    return directors_by_movie, cast_by_movie
+
+
+@st.cache_data
 def load_labels() -> dict:
     labels = {}
     if LABEL_TXT.exists():
@@ -206,6 +232,7 @@ LABELS = load_labels()
 genre_matrix = load_genre_matrix() if GENRE_ONEHOT_CSV.exists() else None
 # 캐시 키 해시가 단순하도록 movieId·overview 두 열만 넘긴다(다른 열엔 리스트형 genre_list 가 있어 해시 불가).
 tfidf_matrix, movie_to_row = build_tfidf(movies[["movieId", "overview"]])  # 전체 영화 기준 1회 계산(캐시)
+directors_by_movie, cast_by_movie = load_credits()  # 감독·출연진 (다른 추천 영역과는 별개로 사용)
 
 LABEL_HELP = {
     0: "평가가 하나도 없는 영화",
@@ -239,8 +266,10 @@ def toggle_favorite(mid: int):
     save_favorites_to_disk(favs)
 
 
-def render_movie_row(row: pd.Series, key_prefix: str) -> None:
-    """하트 버튼 + 이동 버튼 + 요약 정보 한 줄. 여러 추천 리스트에서 공통으로 쓴다."""
+def render_movie_row(row: pd.Series, key_prefix: str, shared_label: str = "공통 장르") -> None:
+    """하트 버튼 + 이동 버튼 + 요약 정보 한 줄. 여러 추천 리스트에서 공통으로 쓴다.
+    row 에 'shared'(리스트) 열이 있으면 shared_label 이름으로 덧붙여 보여준다
+    (장르 목록/감독 이름/배우 이름 등 섹션에 맞게 바꿔 쓸 수 있다)."""
     yr = "" if pd.isna(row["release_year"]) else f" ({int(row['release_year'])})"
     lab = int(row["rating_label"])
     rid = row["movieId"]
@@ -271,7 +300,7 @@ def render_movie_row(row: pd.Series, key_prefix: str) -> None:
     bits.append(f":{LABEL_COLOR.get(lab, 'gray')}[{LABELS.get(lab, lab)}]")
     line = " · ".join(bits)
     if "shared" in row.index and row["shared"]:
-        line += f"  \n<sub>공통 장르: {', '.join(row['shared'])}</sub>"
+        line += f"  \n<sub>{shared_label}: {', '.join(row['shared'])}</sub>"
     col_info.markdown(line, unsafe_allow_html=True)
 
 
@@ -385,6 +414,90 @@ def render_plot_profile_recs() -> None:
 
     for _, row in plot_df.head(topn_plot).iterrows():
         render_movie_row(row, "plotprofile")
+
+
+def render_same_director_section(mid: int) -> None:
+    """[감독·출연진 — 다른 추천 영역과 무관] 감독이 한 명이라도 겹치는 다른 영화."""
+    st.subheader("같은 감독의 다른 영화")
+    directors = directors_by_movie.get(mid, [])
+
+    if not directors_by_movie:
+        st.info(f"`{CREDITS_CSV.relative_to(ROOT)}` 가 없습니다.")
+        return
+    if not directors:
+        st.caption("이 영화는 감독 정보(TMDB)가 없습니다.")
+        return
+
+    target_set = set(directors)
+    rows = []
+    for other_mid, other_directors in directors_by_movie.items():
+        if other_mid == mid:
+            continue
+        shared = target_set & set(other_directors)
+        if shared:
+            rows.append({"movieId": other_mid, "shared": sorted(shared)})
+
+    if not rows:
+        st.caption(f"감독: {', '.join(directors)} — 겹치는 다른 영화를 찾지 못했습니다.")
+        return
+
+    df = pd.DataFrame(rows).merge(movies, on="movieId", how="inner")  # 병합으로 제거된 movieId 는 자동 제외
+    df = df.sort_values("bayesian_rating", ascending=False)
+
+    topn = st.slider("표시 개수", 5, 30, 10, key="director_topn")
+    st.caption(f"감독: {', '.join(directors)} · {len(df)}편 중 상위 {min(topn, len(df))}편"
+               " (정렬: 보정 평점)")
+
+    for _, row in df.head(topn).iterrows():
+        render_movie_row(row, "director", shared_label="공통 감독")
+
+
+def render_cast_overlap_section(mid: int) -> None:
+    """[감독·출연진 — 다른 추천 영역과 무관] 출연진이 겹치는 영화.
+    대상 영화의 1번 배우(첫 번째로 표기된 배우)가 있는 영화 후보 중에서, 그 배우 말고
+    다른 배우도 한 명 더(=순서대로 다음 후보들과 대조) 겹치는 — 즉 배우가 2명 이상
+    겹치는 영화만 추천한다."""
+    st.subheader("출연진이 겹치는 영화")
+    cast = cast_by_movie.get(mid, [])
+
+    if not cast_by_movie:
+        st.info(f"`{CREDITS_CSV.relative_to(ROOT)}` 가 없습니다.")
+        return
+    if len(cast) < 2:
+        st.caption("이 영화는 출연진 정보(TMDB)가 없거나 2명 미만이라 이 섹션을 만들 수 없습니다.")
+        return
+
+    lead = cast[0]  # 1번 배우
+    target_order = {name: i for i, name in enumerate(cast)}  # 대상 영화 표기 순서
+
+    rows = []
+    for other_mid, other_cast in cast_by_movie.items():
+        if other_mid == mid:
+            continue
+        other_set = set(other_cast)
+        if lead not in other_set:
+            continue  # 1번 배우가 없는 영화는 애초에 후보에서 제외
+        shared = other_set & set(cast)
+        if len(shared) >= 2:  # 1번 배우 + 다음 순번 배우 중 최소 1명 더 겹침
+            rows.append({
+                "movieId": other_mid,
+                "shared": sorted(shared, key=lambda n: target_order[n]),  # 대상 영화 표기 순
+            })
+
+    if not rows:
+        st.caption(f"1번 배우: {lead} — 그 외 배우도 함께 겹치는 영화를 찾지 못했습니다.")
+        return
+
+    df = pd.DataFrame(rows).merge(movies, on="movieId", how="inner")
+    df["n_shared"] = df["shared"].apply(len)
+    df = df.sort_values(["n_shared", "bayesian_rating"], ascending=[False, False])
+
+    topn = st.slider("표시 개수", 5, 30, 10, key="cast_topn")
+    st.caption(f"1번 배우(기준): {lead} · 배우 2명 이상 겹치는 영화 {len(df)}편 중 상위 {min(topn, len(df))}편"
+               " (정렬: 겹치는 배우 수 → 보정 평점)")
+
+    for _, row in df.head(topn).iterrows():
+        render_movie_row(row, "cast", shared_label="공통 배우")
 
 
 # ----------------------------- 사이드바: 검색 -----------------------------
@@ -508,6 +621,18 @@ with right:
     st.bar_chart(dist_df, y="응답 수", color="#4C72B0", height=260)
     if counts.sum() == 0:
         st.caption("이 영화에는 평점 기록이 없습니다.")
+
+st.markdown("---")
+
+
+# ============================= 🎬 감독·출연진 기반 추천 =============================
+# 검색해서 선택한 영화 기준. 장르/평점/선호 목록을 전혀 쓰지 않는, 위 두 영역과는
+# 완전히 별개인 섹션이다. data/raw/movie_text_metadata.csv(TMDB) 정보가 있는 영화만 대상.
+st.header("🎬 감독·출연진 기반 추천")
+st.caption(f"「{m['title']}」 검색 결과 하단 — 감독·출연진(TMDB)만 사용, 장르·평점·선호 목록은 쓰지 않습니다.")
+
+render_same_director_section(mid)
+render_cast_overlap_section(mid)
 
 st.markdown("---")
 

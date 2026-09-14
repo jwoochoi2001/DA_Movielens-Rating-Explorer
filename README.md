@@ -162,7 +162,7 @@ DA_Movielens-Rating-Explorer/
 └── outputs/
     ├── figures/                     # EDA 그림 9종
     ├── tables/                      # 표 5종
-    └── screenshots/                 # 대시보드 캡처 8종
+    └── screenshots/                 # 대시보드 캡처 9종
 ```
 
 ---
@@ -356,15 +356,17 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 
 ## 8. 대시보드 — 영화 추천 탐색기 (`streamlit_app.py`)
 
-`streamlit run streamlit_app.py` 로 실행. 화면은 **🔸 개인화 추천**과 **🔹 비개인화 추천**
-두 영역으로 명확히 나뉜다.
+`streamlit run streamlit_app.py` 로 실행. 화면은 세 영역으로 나뉜다 — **🔸 개인화 추천**,
+**🎬 감독·출연진 기반 추천**, **🔹 비개인화 추천**. 세 영역은 서로 기준을 섞지 않는다
+(예: 🔹 비개인화·🔸 개인화 어느 쪽도 감독·배우 정보를 쓰지 않고, 🎬 영역은 반대로 장르·평점·선호
+목록을 전혀 쓰지 않는다).
 
-| | 🔸 개인화 추천 | 🔹 비개인화 추천 |
-|---|---|---|
-| 위치 | 페이지 맨 위, 항상 표시(영화 선택 여부 무관) | 영화를 선택했을 때, 상세 화면 아래 |
-| 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화 하나 |
-| 특징 | 선호 목록이 다르면 결과도 다름(사람마다 다름) | 같은 영화를 보면 누구에게나 같은 결과 |
-| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
+| | 🔸 개인화 추천 | 🎬 감독·출연진 기반 추천 | 🔹 비개인화 추천 |
+|---|---|---|---|
+| 위치 | 페이지 맨 위, 항상 표시 | 영화 선택 시, 상세 바로 아래 | 영화 선택 시, 🎬 영역 아래 |
+| 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화의 감독·출연진(TMDB) | 지금 보고 있는 영화 하나 |
+| 특징 | 사람마다 결과가 다름 | 같은 영화면 누구에게나 같음 | 같은 영화면 누구에게나 같음 |
+| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천 | 같은 감독의 다른 영화, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
@@ -462,6 +464,27 @@ Shawshank Redemption · Godfather · Fight Club 순으로 추천된다.
 - 예: `Chinatown`(Crime·Film-Noir·Mystery·Thriller) + `Shawshank Redemption`(Crime·Drama) 선호 시
   `Crime 10.0점`, `Drama·Film-Noir·Mystery·Thriller 각 5.0점`.
 - 선호 영화가 없으면 담아보라는 안내만 표시하고 차트는 그리지 않는다.
+
+### 8-9. 🎬 감독·출연진 기반 추천
+![대시보드 감독·출연진 추천](outputs/screenshots/app_09_director_cast.png)
+검색해서 선택한 영화(상세 화면) 바로 아래, 🔹 비개인화 추천보다 먼저 나온다. 장르·평점·보정평점·
+선호 목록을 **전혀 쓰지 않고** 오직 `data/raw/movie_text_metadata.csv`(TMDB)의 감독·출연진 정보만
+사용한다 — 이 정보가 없는 영화(전체 9,737편 중 3,536편만 있음)는 안내 문구만 뜬다.
+
+**같은 감독의 다른 영화**: 감독이 한 명이라도 겹치면 후보에 넣고, `bayesian_rating` 내림차순으로
+정렬한다. 예: Matrix, The(감독: Lilly & Lana Wachowski) → Bound·Cloud Atlas·Speed Racer·
+Matrix Reloaded·Jupiter Ascending·Matrix Revolutions 6편.
+
+**출연진이 겹치는 영화**: 단순히 배우가 한 명만 겹쳐도 추천하면 동명이인 수준의 우연한 조연 한 명만
+겹쳐도 걸리므로, 기준을 이렇게 좁혔다 —
+1. 대상 영화의 **1번 배우**(TMDB cast 배열의 첫 번째, 보통 주연)가 출연한 영화만 1차 후보로 삼는다.
+2. 그 후보들 중에서 대상 영화의 **다른 출연진과도 최소 한 명 더** 겹치는 영화만 남긴다
+   (= 대상 영화와 배우를 **2명 이상** 공유하는 영화만).
+3. 정렬은 겹치는 배우 수 내림차순 → 동점이면 `bayesian_rating` 내림차순.
+
+예: Matrix, The(1번 배우 Keanu Reeves, 그 외 Laurence Fishburne·Carrie-Anne Moss·Hugo Weaving·
+Gloria Foster) → Keanu Reeves 가 나온 영화는 많지만, 그중 Matrix 출연진을 2명 이상 공유하는 건
+**Matrix Reloaded·Matrix Revolutions 두 편뿐**이라 이 둘만 추천된다(존 윅 등은 제외).
 
 ---
 

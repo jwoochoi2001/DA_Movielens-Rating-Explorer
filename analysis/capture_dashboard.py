@@ -106,6 +106,12 @@ def main() -> None:
             page.screenshot(path=OUT / "app_08_profile_score.png")
             print("  ", OUT / "app_08_profile_score.png")
 
+            # 🎬 감독·출연진 기반 추천 (Matrix 기준 — 같은 감독의 다른 영화 + 출연진 겹치는 영화)
+            page.get_by_text("감독·출연진 기반 추천", exact=False).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_09_director_cast.png")
+            print("  ", OUT / "app_09_director_cast.png")
+
             browser.close()
     finally:
         srv.terminate()
