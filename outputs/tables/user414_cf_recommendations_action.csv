@@ -9,8 +9,3 @@ movieId,predicted_rating,n_neighbor_votes,title,genres,release_year,mean_rating,
 27156,4.345,3.0,"Neon Genesis Evangelion: The End of Evangelion (Shin seiki Evangelion Gekijô-ban: Air/Magokoro wo, kimi ni)",Action|Animation|Drama|Fantasy|Sci-Fi,1997,4.3,5,3.7677
 69275,4.31,3.0,Dead Snow (Død snø),Action|Adventure|Comedy|Horror,2009,4.25,4,3.7154
 187593,4.305,3.0,Deadpool 2,Action|Comedy|Sci-Fi,2018,3.875,12,3.7053
-69524,4.277,2.0,Raiders of the Lost Ark: The Adaptation,Action|Adventure|Thriller,1989,4.3333,3,3.6935
-4826,4.27,2.0,"Big Red One, The",Action|Adventure|Drama|War,1980,4.25,2,3.6263
-5965,4.266,2.0,"Duellists, The",Action|War,1977,4.1667,3,3.6551
-82242,4.251,2.0,Rare Exports: A Christmas Tale (Rare Exports),Action|Comedy,2010,4.25,2,3.6263
-3062,4.242,4.0,"Longest Day, The",Action|Drama|War,1962,4.0,11,3.7627

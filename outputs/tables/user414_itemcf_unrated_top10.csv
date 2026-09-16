@@ -1,0 +1,11 @@
+movieId,predicted_rating,n_compared,title,release_year,rating_count,bayesian_rating
+1219,4.738,40,Psycho,1960,83,3.9787
+1203,4.689,40,12 Angry Men,1957,57,4.0525
+1258,4.627,40,"Shining, The",1980,109,4.0337
+2324,4.576,40,Life Is Beautiful (La Vita è bella),1997,88,4.0818
+3681,4.568,40,For a Few Dollars More (Per qualche dollaro in più),1965,33,4.0004
+1230,4.498,40,Annie Hall,1977,58,3.8164
+1212,4.375,40,"Third Man, The",1949,24,4.0152
+1086,4.371,40,Dial M for Murder,1954,25,3.929
+1245,4.331,40,Miller's Crossing,1990,20,3.9839
+922,4.328,40,Sunset Blvd. (a.k.a. Sunset Boulevard),1950,27,4.1085

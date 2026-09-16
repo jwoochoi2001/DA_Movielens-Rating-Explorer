@@ -12,6 +12,10 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
     - 나랑 비슷한 사람들이 좋아하는 영화 (사용자 기반 협업 필터링): MovieLens 사용자 ID를
       입력하면, 평점 패턴이 코사인 유사도로 가장 비슷한 이웃들(공통 평가 영화 수 최소치 이상,
       최대 이웃 수 제한)이 높게 평가한 미평가 영화를 이웃 유사도 가중 평균으로 예측해 추천
+    - 내가 좋아했던 영화와 비슷한 영화 (아이템 기반 협업 필터링): 같은 사용자 ID가 실제로
+      평가한 영화들 중 평점 패턴이 비슷한 상위 k편을, 본인의 과거 평점으로 가중 평균해 미평가
+      영화의 평점을 예측 — 평점 편향 보정(사용자 평균을 뺀 편차 기준, adjusted cosine
+      similarity) 옵션 포함
 
   🔹 비개인화 추천 영역 (영화를 선택했을 때만, 그 영화를 기준으로 — 누가 봐도 같은 결과)
     - 이 영화와 같은 장르에서 추천할 만한 영화: 장르 겹침 + 보정 평점(bayesian_rating) 순
@@ -309,6 +313,72 @@ def predict_cf_ratings(ratings_df: pd.DataFrame, target_user: int,
 
 
 @st.cache_data
+def item_cf_predict(ratings_df: pd.DataFrame, target_user: int, k: int, center: bool) -> pd.DataFrame:
+    """아이템 기반 협업 필터링 — target_user 가 실제로 평가한 영화들 중 평점 패턴(코사인 유사도)이
+    가장 비슷한 상위 k편의 평점을 가중 평균해, 아직 평가하지 않은 영화 전부의 평점을 예측한다
+    (analysis/item_cf_unrated_predict.py 와 같은 방식). 최소 평가 수 필터는 여기서 하지 않고
+    호출부에서 병합 후 거는데, 그래야 슬라이더로 그 값만 바꿀 때 이 무거운 계산을 다시 하지 않는다.
+    center=True 면 평점 편향 보정(adjusted cosine similarity) — 사용자별 평균을 뺀 편차로
+    유사도·가중평균을 계산하고, 최종 예측에 그 사용자의 평균을 다시 더한다.
+    pred(i) = mean(u) + Σ sim(i,j)·(rating(u,j)-mean(u)) / Σ|sim(i,j)|  (j: 유사도 상위 k편)."""
+    mat, user_idx, user_ids = build_user_item_matrix(ratings_df)
+    movie_ids = np.sort(ratings_df["movieId"].unique())
+    if target_user not in user_idx:
+        return pd.DataFrame(columns=["movieId", "predicted_rating", "n_compared"])
+
+    mat_csc = mat.tocsc()
+
+    if center:
+        user_means = ratings_df.groupby("userId")["rating"].mean().reindex(user_ids).to_numpy()
+        mat_coo = mat.tocoo()
+        centered_data = mat_coo.data - user_means[mat_coo.row]
+        sim_mat = csr_matrix((centered_data, (mat_coo.row, mat_coo.col)), shape=mat.shape).tocsc()
+    else:
+        user_means = None
+        sim_mat = mat_csc
+
+    u_i = user_idx[target_user]
+    target_mean = float(user_means[u_i]) if center else 0.0
+    user_row = mat_csc[u_i, :].tocoo()
+    rated_cols = user_row.col
+    rated_vals = user_row.data
+    if rated_cols.size == 0:
+        return pd.DataFrame(columns=["movieId", "predicted_rating", "n_compared"])
+
+    candidate_cols = np.setdiff1d(np.arange(len(movie_ids)), rated_cols)
+    if candidate_cols.size == 0:
+        return pd.DataFrame(columns=["movieId", "predicted_rating", "n_compared"])
+
+    rated_sub = sim_mat[:, rated_cols]
+    cand_sub = sim_mat[:, candidate_cols]
+    sims = sk_cosine_similarity(cand_sub.T, rated_sub.T)   # (n_cand, n_rated)
+
+    rows_out = []
+    for row_i, col in enumerate(candidate_cols):
+        s = sims[row_i]
+        if s.size > k:
+            top = np.argpartition(-s, k - 1)[:k]
+        else:
+            top = np.arange(s.size)
+        s_top = s[top]
+        denom = np.abs(s_top).sum()
+        if denom == 0:
+            continue
+        r_top = rated_vals[top]
+        if center:
+            pred = target_mean + float(np.dot(s_top, r_top - target_mean) / denom)
+            pred = min(5.0, max(0.5, pred))
+        else:
+            pred = float(np.dot(s_top, r_top) / denom)
+        rows_out.append({
+            "movieId": movie_ids[col],
+            "predicted_rating": round(pred, 3),
+            "n_compared": int(s_top.size),
+        })
+    return pd.DataFrame(rows_out)
+
+
+@st.cache_data
 def load_labels() -> dict:
     labels = {}
     if LABEL_TXT.exists():
@@ -400,9 +470,11 @@ def render_movie_row(row: pd.Series, key_prefix: str, shared_label: str = "공�
 
     bits = []
     if "predicted_rating" in row.index and pd.notna(row["predicted_rating"]):
-        bits.append(f"이웃 예측 평점 **{row['predicted_rating']:.2f}**")
+        bits.append(f"예상 평점 **{row['predicted_rating']:.2f}**")
         if "n_neighbor_votes" in row.index and pd.notna(row["n_neighbor_votes"]):
             bits.append(f"이웃 {int(row['n_neighbor_votes'])}명 투표")
+        elif "n_compared" in row.index and pd.notna(row["n_compared"]):
+            bits.append(f"비교 영화 {int(row['n_compared'])}편")
     if "cosine_sim" in row.index and pd.notna(row["cosine_sim"]):
         bits.append(f"유사도 **{row['cosine_sim']:.3f}**")
     bits.append(f"보정 {row['bayesian_rating']:.2f}")
@@ -603,6 +675,60 @@ def render_cf_section() -> None:
         render_movie_row(row, "cf")
 
 
+def render_item_cf_section() -> None:
+    """[개인화 — 아이템 기반 협업 필터링] 위 사용자 기반 CF 섹션과 같은 MovieLens 사용자 ID를 그대로
+    써서, 그 사용자가 실제로 평가한 영화들과 평점 패턴(코사인 유사도)이 비슷한 아직 안 본 영화를
+    찾아, 그 사용자 자신의 과거 평점을 유사도로 가중평균해 예측한다 — '다른 사람'이 아니라
+    '내가 이미 준 점수'만 쓴다는 점이 사용자 기반과 다르다. 평점 편향 보정(사용자 평균을 뺀 편차
+    기준) 옵션도 제공한다."""
+    st.subheader("내가 좋아했던 영화와 비슷한 영화")
+    st.caption(
+        "위 'MovieLens 사용자 ID'가 실제로 평가한 영화들과 평점 패턴이 코사인 유사도로 비슷한 "
+        "아직 안 본 영화를 찾아, 그 영화들에 준 본인의 평점을 유사도로 가중평균해 예측합니다 "
+        "(아이템 기반 협업 필터링)."
+    )
+
+    uid = st.session_state.get("cf_user_id", 0)
+    if not uid:
+        st.caption("위 '나랑 비슷한 사람들이 좋아하는 영화'에서 MovieLens 사용자 ID를 입력하면 결과가 나타납니다.")
+        return
+
+    c1, c2, c3 = st.columns(3)
+    min_ratings = c1.slider("영화의 최소 평가 수", 5, 100, 5, key="itemcf_min_ratings")
+    k = c2.slider("비교 영화 수(최대)", 5, 100, 40, key="itemcf_k")
+    center = c3.checkbox(
+        "평점 편향 보정", value=True, key="itemcf_center",
+        help="사용자마다 다른 '후하다/박하다' 성향을 보정합니다 — 평점 그대로가 아니라 "
+             "\"평점 - 그 사용자의 평균 평점\"(편차)으로 유사도·가중평균을 계산합니다.",
+    )
+
+    ratings_all = load_user_ratings()
+    if uid not in set(ratings_all["userId"]):
+        st.info(f"사용자 {uid} 는 데이터에 없습니다.")
+        return
+
+    pred = item_cf_predict(ratings_all, int(uid), k, center)
+    if pred.empty:
+        st.info("이 사용자의 평가 이력으로는 예측 후보를 만들 수 없습니다.")
+        return
+
+    pred = pred.merge(movies, on="movieId", how="left")
+    pred = pred[pred["rating_count"] >= min_ratings]
+    if pred.empty:
+        st.info(f"전체 평가 수 {min_ratings}건 이상인 후보가 없습니다 — 최소 평가 수를 낮춰보세요.")
+        return
+    pred = pred.sort_values(["predicted_rating", "n_compared"], ascending=[False, False])
+
+    topn = st.slider("표시 개수", 5, 30, 10, key="itemcf_topn")
+    st.caption(
+        f"전체 평가 수 {min_ratings}건 이상인 미평가 영화 {len(pred)}편 중 예측 평점 상위 "
+        f"{min(topn, len(pred))}편" + (" · 평점 편향 보정 적용" if center else "")
+    )
+
+    for _, row in pred.head(topn).iterrows():
+        render_movie_row(row, "itemcf")
+
+
 def render_same_director_section(mid: int) -> None:
     """[감독·출연진 — 다른 추천 영역과 무관] 감독이 한 명이라도 겹치는 다른 영화."""
     st.subheader("같은 감독의 다른 영화")
@@ -773,6 +899,7 @@ render_profile_score()
 render_genre_profile_recs()
 render_plot_profile_recs()
 render_cf_section()
+render_item_cf_section()
 
 st.markdown("---")
 

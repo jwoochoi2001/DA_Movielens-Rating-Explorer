@@ -1,0 +1,121 @@
+target_movieId,target_title,title,cosine_sim,user_rating,deviation
+1258,"Shining, The",Fight Club,0.2808,5.0,1.608
+1258,"Shining, The",Pulp Fiction,0.279,5.0,1.608
+1258,"Shining, The",Fright Night,0.2713,3.0,-0.392
+1258,"Shining, The",Léon: The Professional (a.k.a. The Professional) (Léon),0.2683,5.0,1.608
+1258,"Shining, The",Blade Runner,0.2667,5.0,1.608
+1258,"Shining, The",Pi,0.2638,4.0,0.608
+1258,"Shining, The",Office Space,0.2629,4.0,0.608
+1258,"Shining, The",Amadeus,0.2623,5.0,1.608
+1258,"Shining, The",Reservoir Dogs,0.2619,5.0,1.608
+1258,"Shining, The","Departed, The",0.2562,4.5,1.108
+1258,"Shining, The",Big Trouble in Little China,0.2547,5.0,1.608
+1258,"Shining, The",Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,0.2545,5.0,1.608
+1258,"Shining, The","Amelie (Fabuleux destin d'Amélie Poulain, Le)",0.2524,5.0,1.608
+1258,"Shining, The",Trainspotting,0.251,5.0,1.608
+1258,"Shining, The",Full Metal Jacket,0.2493,5.0,1.608
+1258,"Shining, The",Ghost in the Shell (Kôkaku kidôtai),0.2484,5.0,1.608
+1258,"Shining, The",Donnie Darko,0.2453,5.0,1.608
+1258,"Shining, The",Brick,0.2412,3.5,0.108
+1258,"Shining, The",Akira,0.241,4.0,0.608
+1258,"Shining, The",Dead Poets Society,0.2369,4.0,0.608
+1258,"Shining, The",Planet of the Apes,0.2357,3.0,-0.392
+1258,"Shining, The",Army of Darkness,0.2356,4.0,0.608
+1258,"Shining, The",Eternal Sunshine of the Spotless Mind,0.2339,4.5,1.108
+1258,"Shining, The",Star Wars: Episode V - The Empire Strikes Back,0.2323,5.0,1.608
+1258,"Shining, The",American History X,0.2319,5.0,1.608
+1258,"Shining, The",Memento,0.2299,5.0,1.608
+1258,"Shining, The","Silence of the Lambs, The",0.2297,4.0,0.608
+1258,"Shining, The","Godfather, The",0.229,5.0,1.608
+1258,"Shining, The","Godfather: Part II, The",0.2266,5.0,1.608
+1258,"Shining, The",Inglourious Basterds,0.2256,4.0,0.608
+1258,"Shining, The","Femme Nikita, La (Nikita)",0.2241,5.0,1.608
+1258,"Shining, The","Boondock Saints, The",0.2237,5.0,1.608
+1258,"Shining, The",Mulholland Drive,0.2214,4.0,0.608
+1258,"Shining, The",28 Days Later,0.2185,4.0,0.608
+1258,"Shining, The",Stand by Me,0.217,5.0,1.608
+1258,"Shining, The",Awakenings,0.217,3.0,-0.392
+1258,"Shining, The",Apocalypse Now,0.2164,5.0,1.608
+1258,"Shining, The",Little Miss Sunshine,0.2163,4.5,1.108
+1258,"Shining, The",Princess Mononoke (Mononoke-hime),0.2157,5.0,1.608
+1258,"Shining, The",City of God (Cidade de Deus),0.2132,4.0,0.608
+1219,Psycho,Rear Window,0.4003,5.0,1.608
+1219,Psycho,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,0.3969,5.0,1.608
+1219,Psycho,Vertigo,0.3299,5.0,1.608
+1219,Psycho,"Graduate, The",0.3296,5.0,1.608
+1219,Psycho,On the Waterfront,0.3269,4.0,0.608
+1219,Psycho,"Godfather, The",0.3263,5.0,1.608
+1219,Psycho,Ladder 49,0.2933,3.0,-0.392
+1219,Psycho,Casablanca,0.2791,5.0,1.608
+1219,Psycho,Taxi Driver,0.2782,5.0,1.608
+1219,Psycho,"Streetcar Named Desire, A",0.2766,4.0,0.608
+1219,Psycho,Seven Samurai (Shichinin no samurai),0.2733,5.0,1.608
+1219,Psycho,Young Frankenstein,0.2702,4.0,0.608
+1219,Psycho,"Clockwork Orange, A",0.2689,5.0,1.608
+1219,Psycho,Monty Python and the Holy Grail,0.2685,5.0,1.608
+1219,Psycho,One Flew Over the Cuckoo's Nest,0.2654,4.0,0.608
+1219,Psycho,Inglourious Basterds,0.2619,4.0,0.608
+1219,Psycho,To Catch a Thief,0.2609,4.0,0.608
+1219,Psycho,Star Wars: Episode V - The Empire Strikes Back,0.2577,5.0,1.608
+1219,Psycho,"Maltese Falcon, The",0.2575,4.0,0.608
+1219,Psycho,Rocky,0.2575,4.0,0.608
+1219,Psycho,"Silence of the Lambs, The",0.2571,4.0,0.608
+1219,Psycho,Cape Fear,0.2542,3.5,0.108
+1219,Psycho,Pulp Fiction,0.2534,5.0,1.608
+1219,Psycho,Lawrence of Arabia,0.2527,5.0,1.608
+1219,Psycho,"Good Night, and Good Luck.",0.2521,4.0,0.608
+1219,Psycho,Misery,0.2498,4.0,0.608
+1219,Psycho,"Deer Hunter, The",0.2444,4.0,0.608
+1219,Psycho,"Godfather: Part II, The",0.2428,5.0,1.608
+1219,Psycho,Apocalypse Now,0.2411,5.0,1.608
+1219,Psycho,"Lord of the Rings: The Fellowship of the Ring, The",0.2409,5.0,1.608
+1219,Psycho,"Fish Called Wanda, A",0.2396,5.0,1.608
+1219,Psycho,"Good, the Bad and the Ugly, The (Buono, il brutto, il cattivo, Il)",0.2385,5.0,1.608
+1219,Psycho,"African Queen, The",0.2358,4.0,0.608
+1219,Psycho,Gilda,0.2349,4.0,0.608
+1219,Psycho,Monty Python's Life of Brian,0.2345,5.0,1.608
+1219,Psycho,Jaws,0.2341,4.0,0.608
+1219,Psycho,Blown Away,0.234,2.0,-1.392
+1219,Psycho,Return to Oz,0.2331,3.0,-0.392
+1219,Psycho,"Princess Bride, The",0.2319,5.0,1.608
+1219,Psycho,"Apartment, The",0.2297,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Pecker,0.3212,3.0,-0.392
+2324,Life Is Beautiful (La Vita è bella),"Elephant Man, The",0.2942,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Fight Club,0.2563,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Twelve Monkeys (a.k.a. 12 Monkeys),0.2559,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),"Amelie (Fabuleux destin d'Amélie Poulain, Le)",0.2499,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Talk to Her (Hable con Ella),0.2469,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Eternal Sunshine of the Spotless Mind,0.2369,4.5,1.108
+2324,Life Is Beautiful (La Vita è bella),With Honors,0.2328,3.0,-0.392
+2324,Life Is Beautiful (La Vita è bella),Memento,0.2272,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Schindler's List,0.2241,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Pulp Fiction,0.2117,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),East is East,0.2112,3.0,-0.392
+2324,Life Is Beautiful (La Vita è bella),American History X,0.2079,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Cyrano de Bergerac,0.2028,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Ghost World,0.2026,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Dancer in the Dark,0.2017,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Trainspotting,0.2006,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Cecil B. DeMented,0.1987,3.0,-0.392
+2324,Life Is Beautiful (La Vita è bella),Brazil,0.1981,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Cinema Paradiso (Nuovo cinema Paradiso),0.1978,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),"Yards, The",0.1929,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),"Fog of War: Eleven Lessons from the Life of Robert S. McNamara, The",0.1924,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Moulin Rouge,0.1921,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Metropolis,0.1907,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Circle of Friends,0.1847,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Traffic,0.1842,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),American Beauty,0.183,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Chocolat,0.1812,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Rabbit-Proof Fence,0.1781,3.5,0.108
+2324,Life Is Beautiful (La Vita è bella),Seven (a.k.a. Se7en),0.1769,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Star Wars: Episode VI - Return of the Jedi,0.1758,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),"Departed, The",0.1755,4.5,1.108
+2324,Life Is Beautiful (La Vita è bella),Monty Python's The Meaning of Life,0.1752,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Dead Poets Society,0.1705,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),"Graduate, The",0.1704,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),Heaven,0.17,3.5,0.108
+2324,Life Is Beautiful (La Vita è bella),Kill Bill: Vol. 1,0.169,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),"Lord of the Rings: The Return of the King, The",0.1686,4.0,0.608
+2324,Life Is Beautiful (La Vita è bella),Good Will Hunting,0.1682,5.0,1.608
+2324,Life Is Beautiful (La Vita è bella),"Squid and the Whale, The",0.1656,4.0,0.608

@@ -1,0 +1,11 @@
+movieId,predicted_rating,n_item_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+92259,5.0,2,Intouchables,Comedy|Drama,2011,4.1081,37,3.9791
+31658,4.877,9,Howl's Moving Castle (Hauru no ugoku shiro),Adventure|Animation|Fantasy|Romance,2004,4.075,40,3.9603
+785,4.814,5,Kingpin,Comedy,1996,3.369,42,3.3945
+2023,4.81,20,"Godfather: Part III, The",Crime|Drama|Mystery|Thriller,1990,3.3556,45,3.3821
+2288,4.77,20,"Thing, The",Action|Horror|Sci-Fi|Thriller,1982,3.9333,45,3.8548
+1183,4.75,12,"English Patient, The",Drama|Romance|War,1996,3.7111,45,3.673
+1219,4.749,50,Psycho,Crime|Horror,1960,4.0361,83,3.9787
+1230,4.743,48,Annie Hall,Comedy|Romance,1977,3.8707,58,3.8164
+1203,4.708,32,12 Angry Men,Drama,1957,4.1491,57,4.0525
+3624,4.645,7,Shanghai Noon,Action|Adventure|Comedy|Western,2000,3.1512,43,3.2173

@@ -121,17 +121,25 @@ def main() -> None:
             print("  ", OUT / "app_10_actor_filmography.png")
 
             # 🔸 개인화: 나랑 비슷한 사람들이 좋아하는 영화 (사용자 기반 협업 필터링, userId 414)
-            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=False).scroll_into_view_if_needed()
+            # exact=True — 아이템 기반 CF 섹션의 안내문이 이 제목을 인용해서, 부분일치로는 두 곳이 걸린다.
+            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=True).scroll_into_view_if_needed()
             wait_idle(page, 800)
             uid_input = page.get_by_role("spinbutton")
             uid_input.click()
             uid_input.fill("414")
             uid_input.press("Tab")
             wait_idle(page, 3000)
-            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=False).scroll_into_view_if_needed()
+            page.get_by_text("나랑 비슷한 사람들이 좋아하는 영화", exact=True).scroll_into_view_if_needed()
             wait_idle(page, 1000)
             page.screenshot(path=OUT / "app_11_user_cf.png")
             print("  ", OUT / "app_11_user_cf.png")
+
+            # 🔸 개인화: 내가 좋아했던 영화와 비슷한 영화 (아이템 기반 협업 필터링, 같은 userId 414)
+            wait_idle(page, 1500)
+            page.get_by_text("내가 좋아했던 영화와 비슷한 영화", exact=False).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_12_item_cf.png")
+            print("  ", OUT / "app_12_item_cf.png")
 
             browser.close()
     finally:

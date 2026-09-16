@@ -1,0 +1,11 @@
+movieId,predicted_rating,n_neighbor_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+5915,4.784,2,Victory (a.k.a. Escape to Victory),Action|Drama|War,1981,4.75,2,3.7096
+126430,4.742,2,The Pacific,Action|Adventure|Drama|War,2010,4.75,2,3.7096
+5833,4.639,3,Dog Soldiers,Action|Horror,2002,4.6667,3,3.7704
+6300,4.513,3,Flickering Lights (Blinkende lygter),Action|Comedy|Crime,2000,4.5,3,3.732
+1112,4.486,2,Palookaville,Action|Comedy|Drama,1996,4.5,2,3.668
+8235,4.428,2,Safety Last!,Action|Comedy|Romance,1923,4.0,2,3.5846
+86892,4.382,3,The Man from Nowhere,Action|Crime|Thriller,2010,4.5,3,3.732
+3384,4.377,4,"Taking of Pelham One Two Three, The",Action|Crime,1974,4.5,4,3.7868
+55167,4.374,4,Tekkonkinkreet (Tekkon kinkurîto),Action|Adventure|Animation|Crime|Fantasy,2006,4.625,4,3.8225
+93838,4.345,9,The Raid: Redemption,Action|Crime,2011,4.3333,9,3.8956

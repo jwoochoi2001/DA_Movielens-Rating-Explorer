@@ -1,0 +1,11 @@
+movieId,cosine_sim,n_common,title,rating_count
+2959,0.7139374267197175,180.0,Fight Club,218
+1196,0.7009347662061192,173.0,Star Wars: Episode V - The Empire Strikes Back,211
+2028,0.6796149698709606,156.0,Saving Private Ryan,188
+260,0.6634467462440661,183.0,Star Wars: Episode IV - A New Hope,251
+1210,0.6609844896017214,154.0,Star Wars: Episode VI - Return of the Jedi,196
+4993,0.6541275887575164,157.0,"Lord of the Rings: The Fellowship of the Ring, The",198
+2762,0.6513070231927239,152.0,"Sixth Sense, The",179
+7153,0.6402027116367685,148.0,"Lord of the Rings: The Return of the King, The",185
+1198,0.6311069081483195,154.0,Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark),200
+3578,0.6260827319127356,140.0,Gladiator,170

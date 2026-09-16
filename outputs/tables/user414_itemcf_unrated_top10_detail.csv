@@ -1,0 +1,121 @@
+target_movieId,target_title,title,cosine_sim,user_rating
+1219,Psycho,Rear Window,0.6177,5.0
+1219,Psycho,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,0.5531,5.0
+1219,Psycho,Taxi Driver,0.5528,5.0
+1219,Psycho,Vertigo,0.5346,5.0
+1219,Psycho,Fargo,0.5273,5.0
+1219,Psycho,Apocalypse Now,0.5185,5.0
+1219,Psycho,Chinatown,0.5176,5.0
+1219,Psycho,2001: A Space Odyssey,0.5126,5.0
+1219,Psycho,Being John Malkovich,0.5083,5.0
+1219,Psycho,"Godfather, The",0.5041,5.0
+1219,Psycho,Reservoir Dogs,0.5028,5.0
+1219,Psycho,North by Northwest,0.5015,4.0
+1219,Psycho,L.A. Confidential,0.4945,5.0
+1219,Psycho,"Graduate, The",0.4941,5.0
+1219,Psycho,Brazil,0.4924,5.0
+1219,Psycho,Jaws,0.4907,4.0
+1219,Psycho,Citizen Kane,0.4897,5.0
+1219,Psycho,Casablanca,0.4894,5.0
+1219,Psycho,Alien,0.4703,5.0
+1219,Psycho,"Godfather: Part II, The",0.4602,5.0
+1219,Psycho,"Sixth Sense, The",0.4569,3.0
+1219,Psycho,Goodfellas,0.4518,5.0
+1219,Psycho,Blade Runner,0.4516,5.0
+1219,Psycho,E.T. the Extra-Terrestrial,0.4513,4.0
+1219,Psycho,Who Framed Roger Rabbit?,0.4508,4.0
+1219,Psycho,Monty Python and the Holy Grail,0.4478,5.0
+1219,Psycho,"Wizard of Oz, The",0.4469,4.0
+1219,Psycho,"Clockwork Orange, A",0.4463,5.0
+1219,Psycho,Some Like It Hot,0.445,5.0
+1219,Psycho,Raising Arizona,0.4447,5.0
+1219,Psycho,Groundhog Day,0.4426,4.0
+1219,Psycho,American Beauty,0.442,5.0
+1219,Psycho,"Blues Brothers, The",0.4405,5.0
+1219,Psycho,Misery,0.4364,4.0
+1219,Psycho,Back to the Future,0.4362,5.0
+1219,Psycho,To Kill a Mockingbird,0.4354,5.0
+1219,Psycho,"Deer Hunter, The",0.4348,4.0
+1219,Psycho,Blue Velvet,0.4346,4.0
+1219,Psycho,"Breakfast Club, The",0.4343,5.0
+1219,Psycho,Amadeus,0.4334,5.0
+1203,12 Angry Men,One Flew Over the Cuckoo's Nest,0.4045,4.0
+1203,12 Angry Men,Casablanca,0.3873,5.0
+1203,12 Angry Men,It's a Wonderful Life,0.3819,5.0
+1203,12 Angry Men,North by Northwest,0.3799,4.0
+1203,12 Angry Men,To Kill a Mockingbird,0.3751,5.0
+1203,12 Angry Men,"Godfather: Part II, The",0.3728,5.0
+1203,12 Angry Men,Fargo,0.3722,5.0
+1203,12 Angry Men,Goodfellas,0.372,5.0
+1203,12 Angry Men,"Good, the Bad and the Ugly, The (Buono, il brutto, il cattivo, Il)",0.3701,5.0
+1203,12 Angry Men,Schindler's List,0.368,4.0
+1203,12 Angry Men,Monty Python and the Holy Grail,0.367,5.0
+1203,12 Angry Men,Alien,0.3653,5.0
+1203,12 Angry Men,"Godfather, The",0.3622,5.0
+1203,12 Angry Men,Rear Window,0.3584,5.0
+1203,12 Angry Men,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,0.3535,5.0
+1203,12 Angry Men,"Karate Kid, The",0.3511,4.0
+1203,12 Angry Men,Seven Samurai (Shichinin no samurai),0.3509,5.0
+1203,12 Angry Men,Reservoir Dogs,0.3502,5.0
+1203,12 Angry Men,Eternal Sunshine of the Spotless Mind,0.348,4.5
+1203,12 Angry Men,American Beauty,0.3477,5.0
+1203,12 Angry Men,"Shawshank Redemption, The",0.346,5.0
+1203,12 Angry Men,Fight Club,0.3403,5.0
+1203,12 Angry Men,"Sixth Sense, The",0.3393,3.0
+1203,12 Angry Men,Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark),0.3369,5.0
+1203,12 Angry Men,"Aviator, The",0.3325,3.5
+1203,12 Angry Men,Apocalypse Now,0.3324,5.0
+1203,12 Angry Men,Blade Runner,0.3321,5.0
+1203,12 Angry Men,Groundhog Day,0.3266,4.0
+1203,12 Angry Men,Pulp Fiction,0.3264,5.0
+1203,12 Angry Men,"Lord of the Rings: The Return of the King, The",0.3245,4.0
+1203,12 Angry Men,"Wizard of Oz, The",0.3241,4.0
+1203,12 Angry Men,Up in the Air,0.322,4.5
+1203,12 Angry Men,Amadeus,0.322,5.0
+1203,12 Angry Men,Citizen Kane,0.3197,5.0
+1203,12 Angry Men,"Graduate, The",0.3182,5.0
+1203,12 Angry Men,"Lord of the Rings: The Two Towers, The",0.3169,5.0
+1203,12 Angry Men,"Usual Suspects, The",0.3157,5.0
+1203,12 Angry Men,Memento,0.3138,5.0
+1203,12 Angry Men,"Pan's Labyrinth (Laberinto del fauno, El)",0.3136,4.0
+1203,12 Angry Men,Taxi Driver,0.3102,5.0
+1258,"Shining, The","Clockwork Orange, A",0.5503,5.0
+1258,"Shining, The",Goodfellas,0.5402,5.0
+1258,"Shining, The",Alien,0.5375,5.0
+1258,"Shining, The","Sixth Sense, The",0.5368,3.0
+1258,"Shining, The",Reservoir Dogs,0.5296,5.0
+1258,"Shining, The",Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,0.5188,5.0
+1258,"Shining, The",Fight Club,0.517,5.0
+1258,"Shining, The",Fargo,0.5134,5.0
+1258,"Shining, The","Big Lebowski, The",0.5034,5.0
+1258,"Shining, The","Godfather, The",0.5021,5.0
+1258,"Shining, The",Jaws,0.502,4.0
+1258,"Shining, The",2001: A Space Odyssey,0.4966,5.0
+1258,"Shining, The",Memento,0.4964,5.0
+1258,"Shining, The",Star Wars: Episode V - The Empire Strikes Back,0.4959,5.0
+1258,"Shining, The",Pulp Fiction,0.4886,5.0
+1258,"Shining, The",Kill Bill: Vol. 1,0.4866,4.0
+1258,"Shining, The","Exorcist, The",0.4855,4.0
+1258,"Shining, The",E.T. the Extra-Terrestrial,0.4854,4.0
+1258,"Shining, The","Silence of the Lambs, The",0.4839,4.0
+1258,"Shining, The",American Beauty,0.4834,5.0
+1258,"Shining, The",Ferris Bueller's Day Off,0.4826,5.0
+1258,"Shining, The",Misery,0.4784,4.0
+1258,"Shining, The",Groundhog Day,0.4776,4.0
+1258,"Shining, The",Big,0.4749,4.0
+1258,"Shining, The",Aliens,0.4718,5.0
+1258,"Shining, The","Usual Suspects, The",0.4712,5.0
+1258,"Shining, The",Kill Bill: Vol. 2,0.4687,4.0
+1258,"Shining, The",Blade Runner,0.468,5.0
+1258,"Shining, The",Being John Malkovich,0.4679,5.0
+1258,"Shining, The","Matrix, The",0.4676,5.0
+1258,"Shining, The","Truman Show, The",0.4676,4.0
+1258,"Shining, The",Seven (a.k.a. Se7en),0.4634,4.0
+1258,"Shining, The",Beetlejuice,0.4625,4.0
+1258,"Shining, The","Breakfast Club, The",0.4614,5.0
+1258,"Shining, The",Apocalypse Now,0.4614,5.0
+1258,"Shining, The",Requiem for a Dream,0.4608,4.0
+1258,"Shining, The","Godfather: Part II, The",0.4607,5.0
+1258,"Shining, The",Back to the Future,0.4604,5.0
+1258,"Shining, The",American History X,0.4602,5.0
+1258,"Shining, The",Full Metal Jacket,0.4601,5.0

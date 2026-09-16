@@ -154,6 +154,11 @@ DA_Movielens-Rating-Explorer/
 │   ├── eda_figures.py
 │   ├── user_cf_neighbors.py         # 사용자 기반 협업 필터링 — 이웃 탐색 CLI
 │   ├── user_cf_predict.py           # 사용자 기반 협업 필터링 — 평점 예측·추천 CLI
+│   ├── user_cf_predict_itemneighbors.py  # 사용자 기반 CF — 영화별(per-movie) 이웃 선택 버전
+│   ├── rating_pattern_similarity.py # 영화 한 편과 평점 패턴이 비슷한 영화 조회 CLI
+│   ├── item_based_cf.py             # 아이템 기반 협업 필터링 — 일반 추천 CLI
+│   ├── item_cf_unrated_predict.py   # 아이템 기반 CF — 미평가 영화 예측(+편향 보정) CLI — 대시보드가 쓰는 로직
+│   ├── cf_holdout_eval.py           # CF 정확도 검증 — 실제 평점 일부를 가려 예측과 비교(MAE)
 │   └── capture_dashboard.py         # 대시보드 스크린샷 (playwright)
 ├── data/
 │   ├── raw/                         # 원본 (수정 금지)
@@ -163,8 +168,8 @@ DA_Movielens-Rating-Explorer/
 │       └── favorites.json                              (개인 선호 목록, git 미포함)
 └── outputs/
     ├── figures/                     # EDA 그림 9종
-    ├── tables/                      # 표 5종 + 사용자 414번 CF 분석 출력(user_cf_*.py 결과)
-    └── screenshots/                 # 대시보드 캡처 11종
+    ├── tables/                      # 표 5종 + 사용자 414번 CF 분석 출력(user_cf_*.py, item*cf*.py 결과)
+    └── screenshots/                 # 대시보드 캡처 12종
 ```
 
 ---
@@ -368,7 +373,7 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 | 위치 | 페이지 맨 위, 항상 표시 | 영화 선택 시, 상세 바로 아래 | 영화 선택 시, 🎬 영역 아래 |
 | 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화의 감독·출연진(TMDB) | 지금 보고 있는 영화 하나 |
 | 특징 | 사람마다 결과가 다름 | 같은 영화면 누구에게나 같음 | 같은 영화면 누구에게나 같음 |
-| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천, 나랑 비슷한 사람들이 좋아하는 영화(사용자 기반 협업 필터링) | 같은 감독의 다른 영화, 배우 클릭 시 그 배우 출연작, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
+| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천, 나랑 비슷한 사람들이 좋아하는 영화(사용자 기반 CF), 내가 좋아했던 영화와 비슷한 영화(아이템 기반 CF) | 같은 감독의 다른 영화, 배우 클릭 시 그 배우 출연작, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
@@ -541,6 +546,35 @@ pred(u, m) = Σ sim(u, v)·rating(v, m) / Σ|sim(u, v)|     (v = 영화 m을 평
 - CLI로 재현: `python analysis/user_cf_neighbors.py --user 414`(이웃 목록),
   `python analysis/user_cf_predict.py --user 414 --genre Action`(장르 필터 추천) —
   결과는 `outputs/tables/user414_*.csv` 에 저장된다.
+
+### 8-11. 🔸 개인화: 내가 좋아했던 영화와 비슷한 영화 (아이템 기반 협업 필터링)
+![대시보드 아이템 기반 협업 필터링](outputs/screenshots/app_12_item_cf.png)
+바로 위 8-10과 **같은 MovieLens 사용자 ID**를 그대로 써서(별도 입력창 없이 위 값을 공유),
+"저 사람과 비슷한 다른 사람들"이 아니라 **그 사람 자신이 실제로 평가한 영화들**만으로 추천한다 —
+사용자 기반 CF가 "남의 평점"을 빌려 쓰는 것과 정반대다.
+
+- **영화 비교 방법**: 사용자 × 영화 평점 행렬의 열(그 영화에 모든 사용자가 준 평점, 안 본 사람은 0)
+  끼리 **코사인 유사도** — Matrix 유사 영화 조회에 쓴 것과 동일한 정의이며, 공통 평가자 수 하한은
+  두지 않는다.
+- **평점 반영 방법**: 아직 평가하지 않은 영화마다, 대상 사용자가 **실제로 평가한 영화들** 중
+  유사도 상위 **비교 영화 수(최대)** 편을 골라, 그 영화들에 준 **자신의 평점**을 유사도로
+  가중평균한다 — `pred(i) = Σ sim(i,j)·rating(u,j) / Σ|sim(i,j)|`.
+- **평점 편향 보정**(기본 켜짐): 사용자마다 평점을 후하게/박하게 주는 성향이 달라, 절대 평점
+  대신 **"평점 - 그 사용자의 평균 평점"(편차)** 으로 유사도·가중평균을 계산하고(adjusted cosine
+  similarity), 최종 예측에 그 사용자의 평균을 다시 더해 원래 평점 스케일로 되돌린다 —
+  `pred(i) = mean(u) + Σ sim(i,j)·(rating(u,j)-mean(u)) / Σ|sim(i,j)|`. 체크박스로 끄면 보정 없는
+  절대 평점 기준 계산으로 바뀐다.
+- **영화의 최소 평가 수**: 전체 평가 수가 이 값 미만인 후보 영화는 제외한다(우연히 소수 평가로
+  튀는 영화를 걸러낸다) — 슬라이더를 바꿔도 무거운 유사도 계산 자체는 다시 하지 않고, 이미 계산해
+  둔 전체 후보를 다시 거르기만 한다(`@st.cache_data` 가 사용자 ID·비교 영화 수·편향 보정 여부만
+  키로 쓴다).
+- 예: userId `414`, 기본값(최소 평가 수 5·비교 40편·편향 보정 켜짐) 기준 1위는 `The Shining`
+  (예상 평점 4.53, 비교 영화 40편), 이어서 Psycho(4.42)·Touch of Evil(4.34) 순. 편향 보정을 끄면
+  1위가 Psycho(4.74)로 바뀐다 — 사용자 414의 평균 평점(3.39)이 전체 평균(3.50)보다 낮은 편이라,
+  보정을 켰을 때 "이 사람 기준으로 상대적으로 후하게 준" 마이너한 고전들이 더 부각된다.
+- CLI로 재현: `python analysis/item_cf_unrated_predict.py --user 414 --center`(편향 보정),
+  `python analysis/rating_pattern_similarity.py --title "Matrix, The"`(영화 하나와 비슷한 영화 조회) —
+  결과는 `outputs/tables/user414_itemcf_*.csv` 에 저장된다.
 
 ---
 

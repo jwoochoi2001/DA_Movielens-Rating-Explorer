@@ -1,0 +1,47 @@
+movieId,predicted_rating,n_item_votes,title,genres,release_year,mean_rating,rating_count,bayesian_rating
+92259,5.0,2,Intouchables,Comedy|Drama,2011,4.1081,37,3.9791
+29,5.0,1,"City of Lost Children, The (Cité des enfants perdus, La)",Adventure|Drama|Fantasy|Mystery|Sci-Fi,1995,4.0132,38,3.9066
+265,5.0,1,Like Water for Chocolate (Como agua para chocolate),Drama|Fantasy|Romance,1992,3.9394,33,3.8376
+2953,5.0,1,Home Alone 2: Lost in New York,Children|Comedy,1992,2.5161,31,2.7565
+4701,5.0,1,Rush Hour 2,Action|Comedy,2001,3.371,31,3.4028
+8957,5.0,1,Saw,Horror|Mystery|Thriller,2004,3.1818,33,3.2562
+31658,4.877,9,Howl's Moving Castle (Hauru no ugoku shiro),Adventure|Animation|Fantasy|Romance,2004,4.075,40,3.9603
+785,4.814,5,Kingpin,Comedy,1996,3.369,42,3.3945
+2023,4.81,20,"Godfather: Part III, The",Crime|Drama|Mystery|Thriller,1990,3.3556,45,3.3821
+2288,4.77,20,"Thing, The",Action|Horror|Sci-Fi|Thriller,1982,3.9333,45,3.8548
+1183,4.75,12,"English Patient, The",Drama|Romance|War,1996,3.7111,45,3.673
+1219,4.749,50,Psycho,Crime|Horror,1960,4.0361,83,3.9787
+1230,4.743,48,Annie Hall,Comedy|Romance,1977,3.8707,58,3.8164
+1203,4.708,32,12 Angry Men,Drama,1957,4.1491,57,4.0525
+3624,4.645,7,Shanghai Noon,Action|Adventure|Comedy|Western,2000,3.1512,43,3.2173
+70,4.636,50,From Dusk Till Dawn,Action|Comedy|Horror|Thriller,1996,3.5091,55,3.5079
+1333,4.631,14,"Birds, The",Horror|Thriller,1963,3.6023,44,3.5836
+98809,4.596,12,"Hobbit: An Unexpected Journey, The",Adventure|Fantasy|IMAX,2012,3.8125,40,3.7503
+3176,4.59,50,"Talented Mr. Ripley, The",Drama|Mystery|Thriller,1999,3.3367,49,3.3647
+1258,4.584,50,"Shining, The",Horror,1980,4.0826,109,4.0337
+2324,4.58,50,Life Is Beautiful (La Vita è bella),Comedy|Drama|Romance|War,1997,4.1477,88,4.0818
+920,4.542,20,Gone with the Wind,Drama|Romance|War,1939,3.6444,45,3.6185
+2424,4.491,33,You've Got Mail,Comedy|Romance,1998,3.12,50,3.1836
+2710,4.487,50,"Blair Witch Project, The",Drama|Horror|Thriller,1999,2.7969,64,2.8921
+2273,4.431,29,Rush Hour,Action|Comedy|Crime|Thriller,1998,3.2619,42,3.308
+1367,4.424,6,101 Dalmatians,Adventure|Children|Comedy,1996,3.0745,47,3.1494
+455,4.408,2,Free Willy,Adventure|Children|Drama,1993,2.3919,37,2.628
+74458,4.348,50,Shutter Island,Drama|Mystery|Thriller,2010,4.0224,67,3.9547
+37729,4.306,32,Corpse Bride,Animation|Comedy|Fantasy|Musical|Romance,2005,3.5341,44,3.5281
+8984,4.247,38,Ocean's Twelve,Action|Comedy|Crime|Thriller,2004,3.2907,43,3.3305
+2701,4.222,50,Wild Wild West,Action|Comedy|Sci-Fi|Western,1999,2.2075,53,2.4129
+48385,4.1,50,Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,Comedy,2006,3.3462,65,3.3669
+370,4.084,41,Naked Gun 33 1/3: The Final Insult,Action|Comedy,1994,3.0603,58,3.1252
+509,4.07,28,"Piano, The",Drama|Romance,1993,3.541,61,3.5354
+256,4.0,2,Junior,Comedy|Sci-Fi,1994,2.8286,35,2.9781
+102125,4.0,1,Iron Man 3,Action|Sci-Fi|Thriller|IMAX,2013,3.5625,32,3.548
+186,3.95,15,Nine Months,Comedy|Romance,1995,2.8229,48,2.9399
+783,3.944,6,"Hunchback of Notre Dame, The",Animation|Children|Drama|Musical|Romance,1996,3.3298,47,3.3599
+30793,3.858,50,Charlie and the Chocolate Factory,Adventure|Children|Comedy|Fantasy|IMAX,2005,3.0,61,3.0706
+8368,3.824,50,Harry Potter and the Prisoner of Azkaban,Adventure|Fantasy|IMAX,2004,3.914,93,3.8739
+4025,3.763,50,Miss Congeniality,Comedy|Crime,2000,3.0547,64,3.1151
+520,3.755,50,Robin Hood: Men in Tights,Comedy,1993,3.1304,69,3.1774
+435,3.579,50,Coneheads,Comedy|Sci-Fi,1993,2.4206,63,2.5687
+19,3.515,50,Ace Ventura: When Nature Calls,Comedy,1995,2.7273,88,2.8063
+410,3.351,50,Addams Family Values,Children|Comedy|Fantasy,1993,3.1012,84,3.1438
+317,3.277,50,"Santa Clause, The",Comedy|Drama|Fantasy,1994,3.2037,81,3.2364

@@ -1,0 +1,11 @@
+movieId,predicted_rating,n_compared,title,release_year,rating_count,bayesian_rating
+1258,4.532,40,"Shining, The",1980,109,4.0337
+1219,4.417,40,Psycho,1960,83,3.9787
+2324,4.267,40,Life Is Beautiful (La Vita è bella),1997,88,4.0818
+74458,4.247,40,Shutter Island,2010,67,3.9547
+1287,4.232,40,Ben-Hur,1959,34,3.8413
+1230,4.197,40,Annie Hall,1977,58,3.8164
+1244,4.159,40,Manhattan,1979,33,3.9655
+1203,4.154,40,12 Angry Men,1957,57,4.0525
+3681,4.138,40,For a Few Dollars More (Per qualche dollaro in più),1965,33,4.0004
+110102,4.09,40,Captain America: The Winter Soldier,2014,31,3.6833

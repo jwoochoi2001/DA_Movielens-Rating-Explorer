@@ -41,6 +41,41 @@ MOVIES_CSV = "data/processed/movies_with_ratings.csv"
 OUT_DIR = Path("outputs/tables")
 
 
+def predict_ratings(ratings: pd.DataFrame, target_user: int, neighbors: pd.DataFrame,
+                     candidate_movie_ids=None) -> pd.DataFrame:
+    """이웃(neighbors: neighbor_userId, cosine_sim)의 유사도 가중 평균으로 target_user 의
+    영화 평점을 예측한다 (다른 스크립트에서도 재사용 — cf_holdout_eval.py 가 평점 은닉 검증에 쓴다).
+    candidate_movie_ids 를 주면 그 영화들만 계산하고(이미 평가했는지는 호출부 책임), 안 주면
+    target_user 가 아직 평가하지 않은 영화 전부를 계산한다.
+    반환: DataFrame[movieId, predicted_rating, n_neighbor_votes]."""
+    if neighbors.empty:
+        return pd.DataFrame(columns=["movieId", "predicted_rating", "n_neighbor_votes"])
+
+    target_seen = set(ratings.loc[ratings.userId == target_user, "movieId"])
+    nb_ratings = ratings[ratings.userId.isin(neighbors["neighbor_userId"])]
+    nb_ratings = nb_ratings.merge(
+        neighbors, left_on="userId", right_on="neighbor_userId", how="left"
+    )
+    if candidate_movie_ids is not None:
+        nb_ratings = nb_ratings[nb_ratings.movieId.isin(candidate_movie_ids)]
+    else:
+        nb_ratings = nb_ratings[~nb_ratings.movieId.isin(target_seen)]  # 이미 본 영화는 후보 제외
+
+    def weighted_pred(g: pd.DataFrame) -> pd.Series:
+        w = g["cosine_sim"].to_numpy()
+        r = g["rating"].to_numpy()
+        return pd.Series({
+            "predicted_rating": float(np.dot(w, r) / np.abs(w).sum()),
+            "n_neighbor_votes": len(g),
+        })
+
+    pred = (nb_ratings.groupby("movieId", group_keys=True)
+            .apply(weighted_pred, include_groups=False)
+            .reset_index())
+    pred["predicted_rating"] = pred["predicted_rating"].round(3)
+    return pred
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--user", type=int, default=414)
@@ -65,31 +100,12 @@ def main() -> None:
 
     target_seen = set(ratings.loc[ratings.userId == args.user, "movieId"])
 
-    # 이웃들의 평점을 movieId 기준으로 모은다: movieId -> [(sim, rating), ...]
-    nb_ratings = ratings[ratings.userId.isin(neighbors["neighbor_userId"])]
-    nb_ratings = nb_ratings.merge(
-        neighbors, left_on="userId", right_on="neighbor_userId", how="left"
-    )
-    nb_ratings = nb_ratings[~nb_ratings.movieId.isin(target_seen)]  # 이미 본 영화는 후보 제외
-
-    def weighted_pred(g: pd.DataFrame) -> pd.Series:
-        w = g["cosine_sim"].to_numpy()
-        r = g["rating"].to_numpy()
-        return pd.Series({
-            "predicted_rating": float(np.dot(w, r) / np.abs(w).sum()),
-            "n_neighbor_votes": len(g),
-        })
-
-    pred = (nb_ratings.groupby("movieId", group_keys=True)
-            .apply(weighted_pred, include_groups=False)
-            .reset_index())
-
+    pred = predict_ratings(ratings, args.user, neighbors)
     pred = pred.merge(
         movies[["movieId", "title", "genres", "release_year",
                 "mean_rating", "rating_count", "bayesian_rating"]],
         on="movieId", how="left",
     )
-    pred["predicted_rating"] = pred["predicted_rating"].round(3)
 
     suffix = ""
     if args.genre:

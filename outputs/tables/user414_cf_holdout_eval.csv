@@ -1,0 +1,16 @@
+movieId,title,actual_rating,user_cf_pred,user_cf_votes,item_cf_pred,item_cf_votes,user_cf_abs_err,item_cf_abs_err
+151,Rob Roy,5.0,3.458,8.0,4.669,6.0,1.542,0.331
+236,French Kiss,3.0,3.162,10.0,3.78,14.0,0.162,0.78
+247,Heavenly Creatures,4.0,3.709,6.0,,,0.291,
+762,Striptease,2.0,2.148,13.0,,,0.148,
+780,Independence Day (a.k.a. ID4),4.0,3.204,47.0,4.058,50.0,0.796,0.058
+849,Escape from L.A.,2.0,2.641,13.0,5.0,3.0,0.641,3.0
+1376,Star Trek IV: The Voyage Home,3.0,3.5,12.0,4.051,17.0,0.5,1.051
+1562,Batman & Robin,2.0,2.001,20.0,4.258,24.0,0.001,2.258
+1747,Wag the Dog,4.0,3.075,14.0,,,0.925,
+2692,Run Lola Run (Lola rennt),5.0,3.878,24.0,4.652,50.0,1.122,0.348
+8970,Finding Neverland,4.0,3.737,17.0,,,0.263,
+53121,Shrek the Third,3.0,2.885,8.0,,,0.115,
+63082,Slumdog Millionaire,4.0,3.985,19.0,4.175,50.0,0.015,0.175
+84152,Limitless,4.0,3.49,6.0,,,0.51,
+97304,Argo,4.0,4.175,8.0,,,0.175,
