@@ -141,6 +141,17 @@ def main() -> None:
             page.screenshot(path=OUT / "app_12_item_cf.png")
             print("  ", OUT / "app_12_item_cf.png")
 
+            # 🔸 개인화: 내가 평가한 영화 패턴으로 추천하는 영화 (행렬분해 CF, 같은 userId 414)
+            # 기본값(k=2, 10에포크)으로 학습 버튼을 눌러야 결과가 뜬다 — SGD 학습이라 다소 걸린다.
+            page.get_by_text("내가 평가한 영화 패턴으로 추천하는 영화", exact=True).scroll_into_view_if_needed()
+            wait_idle(page, 500)
+            page.get_by_role("button", name="학습 실행", exact=False).click()
+            wait_idle(page, 20000)
+            page.get_by_text("내가 평가한 영화 패턴으로 추천하는 영화", exact=True).scroll_into_view_if_needed()
+            wait_idle(page, 1000)
+            page.screenshot(path=OUT / "app_13_mf_cf.png")
+            print("  ", OUT / "app_13_mf_cf.png")
+
             browser.close()
     finally:
         srv.terminate()

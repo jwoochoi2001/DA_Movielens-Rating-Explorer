@@ -1,0 +1,11 @@
+movieId,predicted_rating_raw,predicted_rating,title,genres,release_year,bayesian_rating,rating_count
+7387,5.006,5.0,Dawn of the Dead,Action|Drama|Horror,1978,3.8172,20
+2288,4.7,4.7,"Thing, The",Action|Horror|Sci-Fi|Thriller,1982,3.8548,45
+1209,4.493,4.493,Once Upon a Time in the West (C'era una volta il West),Action|Drama|Western,1968,4.0184,18
+85342,4.476,4.476,Elite Squad: The Enemy Within (Tropa de Elite 2 - O Inimigo Agora É Outro),Action|Crime|Drama,2010,3.8539,7
+134170,4.466,4.466,Kung Fury,Action|Comedy|Fantasy|Sci-Fi,2015,3.5892,7
+3681,4.434,4.434,For a Few Dollars More (Per qualche dollaro in più),Action|Drama|Thriller|Western,1965,4.0004,33
+5833,4.293,4.293,Dog Soldiers,Action|Horror,2002,3.7704,3
+7925,4.286,4.286,"Hidden Fortress, The (Kakushi-toride no san-akunin)",Action|Adventure,1958,3.6263,2
+110102,4.283,4.283,Captain America: The Winter Soldier,Action|Adventure|Sci-Fi|IMAX,2014,3.6833,31
+6893,4.271,4.271,"Italian Job, The",Action|Comedy|Crime,1969,3.6758,10

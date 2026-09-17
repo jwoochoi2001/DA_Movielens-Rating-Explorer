@@ -16,6 +16,10 @@ data/processed/ 산출물을 바탕으로 화면을 **개인화 / 비개인화 �
       평가한 영화들 중 평점 패턴이 비슷한 상위 k편을, 본인의 과거 평점으로 가중 평균해 미평가
       영화의 평점을 예측 — 평점 편향 보정(사용자 평균을 뺀 편차 기준, adjusted cosine
       similarity) 옵션 포함
+    - 내가 평가한 영화 패턴으로 추천하는 영화 (행렬분해 협업 필터링): 같은 사용자 ID의 학습용
+      평점만으로 사용자·영화 잠재요인(P, Q)과 전역평균+사용자편향+영화편향을 경사하강법(SGD)으로
+      학습해 pred = μ+b_u+b_i+P·Q 로 미평가 영화의 평점을 예측 — k(잠재요인 수)·에포크 수를
+      골라 버튼으로 학습을 실행(무거운 연산이라 캐시되고, 같은 설정은 재학습하지 않음)
 
   🔹 비개인화 추천 영역 (영화를 선택했을 때만, 그 영화를 기준으로 — 누가 봐도 같은 결과)
     - 이 영화와 같은 장르에서 추천할 만한 영화: 장르 겹침 + 보정 평점(bayesian_rating) 순
@@ -64,6 +68,7 @@ MOVIES_CSV = PROC / "movies_with_ratings.csv"
 GENRE_ONEHOT_CSV = PROC / "movies_genre_onehot.csv"
 RATINGS_CSV = PROC / "ratings.csv"
 RAW_RATINGS_CSV = ROOT / "data" / "raw" / "ratings.csv"
+MF_SPLIT_CSV = PROC / "ratings_split.csv"  # analysis/mf_data_split.py 산출물(행렬분해 CF용)
 LABEL_TXT = PROC / "label_text.txt"
 FAVORITES_JSON = PROC / "favorites.json"
 CREDITS_CSV = ROOT / "data" / "raw" / "movie_text_metadata.csv"  # TMDB 감독/출연진(directors, cast)
@@ -376,6 +381,62 @@ def item_cf_predict(ratings_df: pd.DataFrame, target_user: int, k: int, center: 
             "n_compared": int(s_top.size),
         })
     return pd.DataFrame(rows_out)
+
+
+@st.cache_data
+def load_mf_split() -> pd.DataFrame:
+    """행렬분해 협업 필터링용 train/val/test 분할 평점(analysis/mf_data_split.py 산출물).
+    `python run_all.py` 파이프라인이 만들며, 단일 묶음(train/val/test 중 하나)에서만 관측되는
+    영화는 이미 제외되어 있다."""
+    return pd.read_csv(MF_SPLIT_CSV, usecols=["userId", "movieId", "rating", "split"])
+
+
+@st.cache_data
+def train_mf(train_df: pd.DataFrame, all_user_ids: np.ndarray, all_movie_ids: np.ndarray,
+             k: int, epochs: int, lr: float, seed: int):
+    """행렬분해(편향 보정) — analysis/mf_train.py 의 train_mf() 와 완전히 같은 SGD 학습을
+    그대로 재현한다. 실제로 평가가 관측된 (u,i,r) 쌍에서만 학습하고(평가 안 한 항목은 루프에서
+    아예 제외), 예측은 pred(u,i) = μ(전역평균) + b_u[u](사용자 편향) + b_i[i](영화 편향) +
+    P[u]·Q[i](잠재요인 내적) 네 조각의 합이다.
+    반환: (P, Q, b_u, b_i, mu, final_train_rmse)."""
+    rng = np.random.default_rng(seed)
+    n_users = len(all_user_ids)
+    n_movies = len(all_movie_ids)
+    user_idx = {u: i for i, u in enumerate(all_user_ids)}
+    movie_idx = {m: i for i, m in enumerate(all_movie_ids)}
+
+    P = rng.normal(0.0, 0.1, size=(n_users, k))
+    Q = rng.normal(0.0, 0.1, size=(n_movies, k))
+    b_u = np.zeros(n_users)
+    b_i = np.zeros(n_movies)
+    mu = float(train_df["rating"].mean())
+
+    u_arr = train_df["userId"].map(user_idx).to_numpy()
+    i_arr = train_df["movieId"].map(movie_idx).to_numpy()
+    r_arr = train_df["rating"].to_numpy(dtype=float)
+    n = len(train_df)
+
+    final_rmse = 0.0
+    for _ in range(epochs):
+        order = rng.permutation(n)
+        sq_err_sum = 0.0
+        for idx in order:
+            u = u_arr[idx]
+            i = i_arr[idx]
+            r = r_arr[idx]
+            Pu = P[u]
+            Qi = Q[i]
+            pred = mu + b_u[u] + b_i[i] + float(Pu @ Qi)
+            err = r - pred
+            sq_err_sum += err * err
+            b_u[u] += lr * err
+            b_i[i] += lr * err
+            Pu_old = Pu.copy()
+            Pu += lr * err * Qi
+            Qi += lr * err * Pu_old
+        final_rmse = float(np.sqrt(sq_err_sum / n))
+
+    return P, Q, b_u, b_i, mu, final_rmse
 
 
 @st.cache_data
@@ -729,6 +790,90 @@ def render_item_cf_section() -> None:
         render_movie_row(row, "itemcf")
 
 
+def render_mf_section() -> None:
+    """[개인화 — 행렬분해(matrix factorization) 협업 필터링] 위 두 CF 섹션과 같은 MovieLens
+    사용자 ID를 공유한다. analysis/mf_data_split.py 로 만든 학습(train) 데이터만으로 사용자
+    잠재요인 P·영화 잠재요인 Q·전역평균 μ·사용자 편향 b_u·영화 편향 b_i 를 경사하강법(SGD)으로
+    학습하고, pred(u,i) = μ + b_u[u] + b_i[i] + P[u]·Q[i] 로 아직 평가하지 않은 영화의 평점을
+    예측해 추천한다. 학습 자체가 무거운 연산이라(수백만 번의 SGD 스텝) 버튼을 눌러야 실행되고,
+    같은 k·에포크 조합은 @st.cache_data 로 재학습 없이 재사용된다."""
+    st.subheader("내가 평가한 영화 패턴으로 추천하는 영화")
+    st.caption(
+        "위 'MovieLens 사용자 ID'의 학습용 평점만으로 사용자·영화 잠재요인(행렬분해)과 "
+        "전역평균+개인 편향+영화 편향을 SGD로 학습해, 아직 평가하지 않은 영화의 평점을 "
+        "예측합니다 (행렬분해 협업 필터링)."
+    )
+
+    uid = st.session_state.get("cf_user_id", 0)
+    if not uid:
+        st.caption("위 '나랑 비슷한 사람들이 좋아하는 영화'에서 MovieLens 사용자 ID를 입력하면 결과가 나타납니다.")
+        return
+
+    if not MF_SPLIT_CSV.exists():
+        st.info(f"`{MF_SPLIT_CSV.relative_to(ROOT)}` 가 없습니다. `python run_all.py` 로 생성하세요.")
+        return
+
+    c1, c2, c3 = st.columns(3)
+    k = c1.select_slider("잠재요인 수 (k)", options=[2, 5, 10, 15, 20], value=2, key="mf_k")
+    epochs = c2.select_slider("에포크 수", options=[10, 20, 30, 40, 50], value=10, key="mf_epochs")
+    c3.markdown("&nbsp;")
+    c3.caption("학습률 0.005 · 시드 42 고정 (analysis/mf_train.py 기본값과 동일)")
+
+    split = load_mf_split()
+    if uid not in set(split["userId"]):
+        st.info(f"사용자 {uid} 는 데이터에 없습니다.")
+        return
+
+    run_key = f"mf_ran_{k}_{epochs}"
+    if st.button(f"🔄 k={k}, {epochs}에포크로 학습 실행", key="mf_train_button"):
+        st.session_state[run_key] = True
+
+    if not st.session_state.get(run_key):
+        st.caption("k·에포크가 클수록 학습이 오래 걸립니다(처음 실행 시 수 초~수십 초) — "
+                   "버튼을 누르면 그 설정으로 학습을 시작합니다. 같은 설정은 한 번만 학습하고 "
+                   "이후에는 즉시 재사용됩니다.")
+        return
+
+    all_user_ids = np.sort(split["userId"].unique())
+    all_movie_ids = np.sort(split["movieId"].unique())
+    train_df = split[split["split"] == "train"][["userId", "movieId", "rating"]]
+
+    with st.spinner(f"행렬분해 모델 학습 중 (k={k}, {epochs}에포크)..."):
+        P, Q, b_u, b_i, mu, final_rmse = train_mf(train_df, all_user_ids, all_movie_ids,
+                                                    k, epochs, 0.005, 42)
+    st.caption(f"학습 완료 — 학습 데이터 RMSE {final_rmse:.3f} "
+               f"(μ={mu:.2f}, 사용자 {len(all_user_ids)}명 × 영화 {len(all_movie_ids)}편, "
+               f"평점 {len(train_df)}건으로 학습)")
+
+    user_idx = {u: i for i, u in enumerate(all_user_ids)}
+    movie_idx = {m: i for i, m in enumerate(all_movie_ids)}
+    u_i = user_idx[int(uid)]
+
+    train_movie_ids = np.array(sorted(train_df["movieId"].unique()))
+    seen_ids = set(split.loc[split["userId"] == uid, "movieId"])
+    cand_mask = ~np.isin(train_movie_ids, np.fromiter(seen_ids, dtype=int, count=len(seen_ids)))
+    cand_ids = train_movie_ids[cand_mask]
+    if cand_ids.size == 0:
+        st.info("추천할 미평가 영화가 없습니다.")
+        return
+    cand_cols = np.array([movie_idx[m] for m in cand_ids])
+
+    interaction = Q[cand_cols] @ P[u_i]
+    pred_raw = mu + b_u[u_i] + b_i[cand_cols] + interaction
+    pred_clipped = np.clip(pred_raw, 0.5, 5.0)
+
+    pred_df = pd.DataFrame({"movieId": cand_ids, "predicted_rating": np.round(pred_clipped, 3)})
+    pred_df = pred_df.merge(movies, on="movieId", how="left")
+    pred_df = pred_df.sort_values("predicted_rating", ascending=False)
+
+    topn = st.slider("표시 개수", 5, 30, 10, key="mf_topn")
+    st.caption(f"학습에 쓰인 영화 {len(train_movie_ids)}편 중 미평가 {len(pred_df)}편의 예측 평점 상위 "
+               f"{min(topn, len(pred_df))}편")
+
+    for _, row in pred_df.head(topn).iterrows():
+        render_movie_row(row, "mf")
+
+
 def render_same_director_section(mid: int) -> None:
     """[감독·출연진 — 다른 추천 영역과 무관] 감독이 한 명이라도 겹치는 다른 영화."""
     st.subheader("같은 감독의 다른 영화")
@@ -900,6 +1045,7 @@ render_genre_profile_recs()
 render_plot_profile_recs()
 render_cf_section()
 render_item_cf_section()
+render_mf_section()
 
 st.markdown("---")
 

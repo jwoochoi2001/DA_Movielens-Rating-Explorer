@@ -32,6 +32,10 @@ data/raw/{movies,ratings}.csv 를 입력으로 다음 순서를 실행한다.
         (평점 1건 = 1행 최종 분석 테이블 + 시간/장르 파생)
   8) analysis/eda_figures.py
         analysis_table.csv + movie_scores.csv -> outputs/figures/*.png, outputs/tables/*.csv
+  9) analysis/mf_data_split.py
+        processed/ratings.csv -> data/processed/ratings_split.csv
+        (행렬분해 협업 필터링용 train/val/test 분할, 시드 42, 단일 묶음 전용 영화 제외 —
+         대시보드의 "행렬분해 기반 추천" 섹션이 이 파일을 그대로 읽는다)
 
 필요 패키지: requirements.txt 참조 (pandas, numpy, matplotlib)
 """
@@ -50,6 +54,7 @@ STEPS = [
     "analysis/bayesian_rating.py",
     "analysis/build_analysis_table.py",
     "analysis/eda_figures.py",
+    "analysis/mf_data_split.py",
 ]
 REQUIRED_INPUTS = ["data/raw/movies.csv", "data/raw/ratings.csv"]
 

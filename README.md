@@ -98,6 +98,7 @@ flowchart TD
     S6["6. bayesian_rating.py<br/>n_ratings · mean_rating · rating_std · bayesian_rating"]
     S7["7. build_analysis_table.py<br/>평점 1건 = 1행 최종 테이블 + 시간/장르 파생"]
     S8["8. eda_figures.py<br/>그림 9 + 표 5"]
+    S9["9. mf_data_split.py<br/>행렬분해 CF용 train/val/test 분할"]
     APP["streamlit_app.py<br/>검색 · 추천 · 상세 대시보드"]
 
     RAW --> S1 --> P1["processed/movies.csv<br/>processed/ratings.csv"]
@@ -113,8 +114,10 @@ flowchart TD
     P6 --> S7 --> P7["processed/analysis_table.csv"]
     P7 --> S8 --> OUT["outputs/figures/*.png<br/>outputs/tables/*.csv"]
     P6 --> S8
+    P1 --> S9 --> P9["processed/ratings_split.csv"]
     P3 --> APP
     P4 --> APP
+    P9 --> APP
 ```
 
 | 단계 | 스크립트 | 입력 → 출력 |
@@ -127,7 +130,8 @@ flowchart TD
 | 6 | `bayesian_rating.py` | `ratings.csv` + `movies_enriched.csv` → `movie_scores.csv` |
 | 7 | `build_analysis_table.py` | `ratings.csv` + `movie_scores.csv` → `analysis_table.csv` |
 | 8 | `eda_figures.py` | `analysis_table.csv` + `movie_scores.csv` → `outputs/` |
-| 앱 | `streamlit_app.py` | `movies_with_ratings.csv` + `movies_genre_onehot.csv` + `ratings.csv` + `label_text.txt` |
+| 9 | `mf_data_split.py` | `ratings.csv` → `ratings_split.csv`(행렬분해 CF용 train/val/test) |
+| 앱 | `streamlit_app.py` | `movies_with_ratings.csv` + `movies_genre_onehot.csv` + `ratings.csv` + `label_text.txt` + `ratings_split.csv` |
 
 ---
 
@@ -159,17 +163,23 @@ DA_Movielens-Rating-Explorer/
 │   ├── item_based_cf.py             # 아이템 기반 협업 필터링 — 일반 추천 CLI
 │   ├── item_cf_unrated_predict.py   # 아이템 기반 CF — 미평가 영화 예측(+편향 보정) CLI — 대시보드가 쓰는 로직
 │   ├── cf_holdout_eval.py           # CF 정확도 검증 — 실제 평점 일부를 가려 예측과 비교(MAE)
+│   ├── mf_data_split.py             # 행렬분해 CF용 train/val/test 분할(+단일 묶음 전용 영화 제외)
+│   ├── mf_train.py                  # 행렬분해 CF — SGD로 P·Q·편향 학습 CLI — 대시보드가 쓰는 로직
+│   ├── mf_grid_compare.py           # 행렬분해 — 잠재요인 수 x 에포크 그리드 비교
+│   ├── mf_recommend.py              # 행렬분해 CF — 특정 사용자 추천(+장르 필터) CLI
+│   ├── mf_eval_recall.py            # 행렬분해 CF 정확도 검증 — Recall@N(4점↑ 영화 재현율)
 │   └── capture_dashboard.py         # 대시보드 스크린샷 (playwright)
 ├── data/
 │   ├── raw/                         # 원본 (수정 금지)
 │   │   ├── movies.csv, ratings.csv, README.txt        (MovieLens ml-latest-small)
 │   │   └── movie_text_metadata.csv, SOURCES.txt, …    (TMDB 줄거리/출연진, 강의 추가자료)
 │   └── processed/                   # 가공본 (run_all.py 로 재생성, git 미포함)
-│       └── favorites.json                              (개인 선호 목록, git 미포함)
+│       ├── favorites.json                              (개인 선호 목록, git 미포함)
+│       └── ratings_split.csv                            (행렬분해 CF용 train/val/test 분할)
 └── outputs/
     ├── figures/                     # EDA 그림 9종
-    ├── tables/                      # 표 5종 + 사용자 414번 CF 분석 출력(user_cf_*.py, item*cf*.py 결과)
-    └── screenshots/                 # 대시보드 캡처 12종
+    ├── tables/                      # 표 5종 + 사용자 414번 CF 분석 출력(user_cf_*.py, item*cf*.py, mf_*.py 결과)
+    └── screenshots/                 # 대시보드 캡처 13종
 ```
 
 ---
@@ -373,7 +383,7 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 | 위치 | 페이지 맨 위, 항상 표시 | 영화 선택 시, 상세 바로 아래 | 영화 선택 시, 🎬 영역 아래 |
 | 기준 | 내가 담은 선호 영화 목록 | 지금 보고 있는 영화의 감독·출연진(TMDB) | 지금 보고 있는 영화 하나 |
 | 특징 | 사람마다 결과가 다름 | 같은 영화면 누구에게나 같음 | 같은 영화면 누구에게나 같음 |
-| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천, 나랑 비슷한 사람들이 좋아하는 영화(사용자 기반 CF), 내가 좋아했던 영화와 비슷한 영화(아이템 기반 CF) | 같은 감독의 다른 영화, 배우 클릭 시 그 배우 출연작, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
+| 포함 | 선호 장르 프로필(10점), 장르 벡터 기반 추천, 줄거리 기반(TF-IDF) 추천, 나랑 비슷한 사람들이 좋아하는 영화(사용자 기반 CF), 내가 좋아했던 영화와 비슷한 영화(아이템 기반 CF), 내가 평가한 영화 패턴으로 추천하는 영화(행렬분해 CF) | 같은 감독의 다른 영화, 배우 클릭 시 그 배우 출연작, 출연진이 겹치는 영화 | 같은 장르 추천(평점·인기도·보정평점), 비슷한 장르의 영화(코사인 유사도) |
 
 ### 8-1. 제목·장르 검색
 ![대시보드 검색](outputs/screenshots/app_01_search.png)
@@ -575,6 +585,35 @@ pred(u, m) = Σ sim(u, v)·rating(v, m) / Σ|sim(u, v)|     (v = 영화 m을 평
 - CLI로 재현: `python analysis/item_cf_unrated_predict.py --user 414 --center`(편향 보정),
   `python analysis/rating_pattern_similarity.py --title "Matrix, The"`(영화 하나와 비슷한 영화 조회) —
   결과는 `outputs/tables/user414_itemcf_*.csv` 에 저장된다.
+
+### 8-12. 🔸 개인화: 내가 평가한 영화 패턴으로 추천하는 영화 (행렬분해 협업 필터링)
+![대시보드 행렬분해 협업 필터링](outputs/screenshots/app_13_mf_cf.png)
+위 두 CF 섹션과 **같은 MovieLens 사용자 ID**를 공유한다. 이웃이나 유사 영화를 찾는 대신,
+**행렬분해(matrix factorization)** 로 사용자·영화 각각을 몇 개의 숫자(잠재요인)로 압축해
+그 둘을 곱하는 방식으로 평점을 예측한다.
+
+- **데이터 분할**: `analysis/mf_data_split.py`(`python run_all.py` 파이프라인 9단계)가 사용자마다
+  평점을 무작위로 학습 80% · 검증 10% · 평가 10%로 나누고(시드 42), **한 묶음에서만 관측되는
+  영화는 세 묶음 전부에서 제외**한다(val·test에만 있으면 학습이 안 되고, train에만 있으면
+  검증·평가로 못 쓰이기 때문 — 원본 9,719편 중 4,432편만 남음). 이 섹션은 그중 **학습(train)
+  데이터만** 사용한다.
+- **예측식**: `pred(u,i) = μ(전역평균) + b_u[u](사용자 편향) + b_i[i](영화 편향) + P[u]·Q[i](잠재요인 내적)`
+  — 평점을 "전체 기준선 + 이 사람 성향 + 이 영화 평판 + 이 사람과 이 영화의 궁합" 네 조각의 합으로 본다.
+- **학습**: 확률적 경사하강법(SGD)으로 **실제로 평가가 관측된 (u,i,r) 쌍에서만** 오차를 계산해
+  `P`, `Q`, `b_u`, `b_i`를 갱신한다(`μ`는 학습 데이터 평점의 평균으로 고정). 평가하지 않은 항목은
+  밀집 행렬의 0이 아니라 애초에 학습 루프에 들어가지 않는다.
+- **조절 가능한 값**: 잠재요인 수 k(2/5/10/15/20), 에포크 수(10/20/30/40/50) — 학습률 0.005·시드
+  42는 고정. SGD 학습이 무거운 연산이라(수만~수십만 스텝) **버튼을 눌러야 실행**되고, 같은
+  (사용자, k, 에포크) 조합은 `@st.cache_data` 로 캐시되어 다시 누르면 즉시 재사용된다.
+- **평점 범위 조정**: `μ+b_u+b_i+P·Q` 합은 범위 제약이 없어 0.5~5.0을 벗어날 수 있어, 화면에
+  보여주는 예측값만 `clip`으로 잘라낸다.
+- 예: userId `414`, k=2·10에포크 기준 학습 데이터 RMSE 0.840(편향 없이 순수 내적만 쓰면 0.961 —
+  편향 추가만으로 오차가 크게 줄어든다), 추천 1위는 `Life Is Beautiful`(예상 평점 4.12).
+- CLI로 재현: `python analysis/mf_train.py --k 2 --epochs 10`(학습 + 전체 통계),
+  `python analysis/mf_recommend.py --user 414 --k 2 --epochs 30 --genre Action`(장르 필터 추천),
+  `python analysis/mf_eval_recall.py --n-users 20 --top 10`(무작위 사용자 표본으로 Recall@N 평가) —
+  결과는 `data/processed/mf_user_factors.csv`/`mf_item_factors.csv`, `outputs/tables/mf_*.csv`,
+  `outputs/tables/user414_mf_recommendations*.csv` 에 저장된다.
 
 ---
 
