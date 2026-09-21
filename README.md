@@ -10,8 +10,6 @@
 
 **저장소**: <https://github.com/jwoochoi2001/DA_Movielens-Rating-Explorer>
 
----
-
 ## 개요
 
 MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610명 · 영화 9,742편)로
@@ -30,8 +28,6 @@ MovieLens 평점 데이터(`ml-latest-small`, 평점 10만 건 · 사용자 610�
   — 평점·인기도·보정평점)로 나눠 보여준다.
 
 > 이 데이터셋은 GroupLens의 *development* 데이터셋으로 공유 연구 결과용이 아니다(`data/raw/README.txt`).
-
----
 
 ## 1. 실행 방법
 
@@ -83,8 +79,6 @@ python analysis/capture_dashboard.py   # (선택) 대시보드 스크린샷, pla
 필요 패키지: `pandas`, `numpy`, `matplotlib`, `scikit-learn`, `streamlit` (`requirements.txt`). Python 3.9 이상이면 OS 무관하게 동작한다.
 대시보드 스크린샷 재생성은 `playwright` + `playwright install chromium` 필요(선택).
 
----
-
 ## 2. 파이프라인
 
 ```mermaid
@@ -133,8 +127,6 @@ flowchart TD
 | 9 | `mf_data_split.py` | `ratings.csv` → `ratings_split.csv`(행렬분해 CF용 train/val/test) |
 | 앱 | `streamlit_app.py` | `movies_with_ratings.csv` + `movies_genre_onehot.csv` + `ratings.csv` + `label_text.txt` + `ratings_split.csv` |
 
----
-
 ## 3. 프로젝트 구조
 
 ```
@@ -181,8 +173,6 @@ DA_Movielens-Rating-Explorer/
     ├── tables/                      # 표 5종 + 사용자 414번 CF 분석 출력(user_cf_*.py, item*cf*.py, mf_*.py 결과)
     └── screenshots/                 # 대시보드 캡처 13종
 ```
-
----
 
 ## 4. 데이터 정제
 
@@ -232,8 +222,6 @@ ratings: 100836 -> 100832
 
 메타데이터 자체를 제목 기준으로 전수조사해도 이 한 쌍 외 추가 중복은 없다. 즉 **새로운 병합 작업은
 필요 없고**, `movieId` 기준 LEFT JOIN만으로 안전하게 붙일 수 있다.
-
----
 
 ## 5. 파생변수
 
@@ -287,8 +275,6 @@ $$
 ### 5-3. `analysis_table.csv` 추가 파생 열
 `rating_dt`(timestamp→datetime), `rating_year`, `movie_age`(= `rating_year - release_year`), `n_genres`, `primary_genre`.
 
----
-
 ## 6. 결과 데이터 (`data/processed/`, `run_all.py` 로 재생성)
 
 | 파일 | 행 × 열 | 크기 | 핵심 컬럼 |
@@ -325,8 +311,6 @@ $$
 | mean_rating | 3.502 | 0.565 | 0.5 | 3.185 | 3.576 | 3.917 | 5.0 |
 | rating_std | 0.896 | 0.216 | 0.0 | 0.791 | 0.898 | 1.011 | 3.182 |
 | bayesian_rating | 3.550 | 0.345 | 2.259 | 3.334 | 3.546 | 3.805 | 4.401 |
-
----
 
 ## 7. EDA 그림 (`outputs/figures/`)
 
@@ -368,8 +352,6 @@ Drama·Comedy·Action은 물량이 많지만 평균 보정평점은 중간, Film
 ### 09. 추천 후보 (보정평점 높음 + 표준편차 낮음)
 ![추천 후보](outputs/figures/09_recommendation_picks.png)
 `n_ratings ≥ 50` 영화 중 복합점수 `z(bayesian_rating) - z(rating_std)` 상위 10편을 빨강으로 표시. 전부 오른쪽 아래(고평점·저편차)에 위치하며 Crime|Drama 계열이 많다.
-
----
 
 ## 8. 대시보드 — 영화 추천 탐색기 (`streamlit_app.py`)
 
@@ -615,8 +597,6 @@ pred(u, m) = Σ sim(u, v)·rating(v, m) / Σ|sim(u, v)|     (v = 영화 m을 평
   결과는 `data/processed/mf_user_factors.csv`/`mf_item_factors.csv`, `outputs/tables/mf_*.csv`,
   `outputs/tables/user414_mf_recommendations*.csv` 에 저장된다.
 
----
-
 ## 9. 표 (`outputs/tables/`)
 
 ### 9-1. `top20_by_bayesian.csv` — 보정 평점 상위
@@ -711,8 +691,6 @@ Crime|Drama 계열에 강하게 쏠린다 — 진지한 범죄/인간 드라마�
 | Documentary | 444 | 1225 | 3.772 | 3.552 | 0.637 |
 | Film-Noir | 85 | 870 | 3.670 | 3.610 | 0.742 |
 
----
-
 ## 10. 추천 리스트 (요약 산출물)
 
 ### ① 많이 본 영화 (인기)
@@ -737,8 +715,6 @@ Crime|Drama 계열에 강하게 쏠린다 — 진지한 범죄/인간 드라마�
 ### ③ 대시보드
 장르 기반 실시간 추천 — 8장 참고.
 
----
-
 ## 11. 한계
 
 - **장르 보강 34건 · 연도 추정 12건은 단일 출처(IMDb/Wikipedia) 판단**이다. 2차 검증이 없고,
@@ -750,8 +726,6 @@ Crime|Drama 계열에 강하게 쏠린다 — 진지한 범죄/인간 드라마�
 - 추천은 **장르 겹침 + 보정 평점 랭킹**까지다. 협업 필터링·콘텐츠 임베딩은 포함하지 않았다.
 - `tags.csv` · `links.csv`는 이 실습 데이터에 없어 사용하지 않았다.
 - `data/processed/` 는 `.gitignore` 대상이라 대시보드 배포 시 `python run_all.py` 를 먼저 실행해야 한다.
-
----
 
 ## 12. 데이터 출처 · 라이선스
 
