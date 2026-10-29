@@ -65,6 +65,9 @@ def main() -> int:
             print(f"[중단] 입력 파일 없음: {rel}")
             return 1
 
+    # data/processed/ 는 .gitignore 대상이라 git clone 직후에는 폴더 자체가 없다.
+    (ROOT / "data" / "processed").mkdir(parents=True, exist_ok=True)
+
     for i, step in enumerate(STEPS, 1):
         print(f"\n{'=' * 70}\n[{i}/{len(STEPS)}] {step}\n{'=' * 70}")
         t0 = time.time()
